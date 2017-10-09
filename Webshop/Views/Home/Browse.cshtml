@@ -1,0 +1,12 @@
+@model IEnumerable<Webshop.Models.Product>
+@{
+ ViewBag.Title = "Browse";
+}
+<ul>
+ @foreach (var product in Model)
+ {
+ <li>
+ @product.Title
+ </li>
+ }
+</ul>

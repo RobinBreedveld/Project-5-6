@@ -1,0 +1,10 @@
+C:\Users\Jonah Kalkman\Desktop\Webshop\bin\Debug\netcoreapp2.0\Webshop.deps.json
+C:\Users\Jonah Kalkman\Desktop\Webshop\bin\Debug\netcoreapp2.0\Webshop.runtimeconfig.json
+C:\Users\Jonah Kalkman\Desktop\Webshop\bin\Debug\netcoreapp2.0\Webshop.runtimeconfig.dev.json
+C:\Users\Jonah Kalkman\Desktop\Webshop\bin\Debug\netcoreapp2.0\Webshop.dll
+C:\Users\Jonah Kalkman\Desktop\Webshop\bin\Debug\netcoreapp2.0\Webshop.pdb
+C:\Users\Jonah Kalkman\Desktop\Webshop\obj\Debug\netcoreapp2.0\Webshop.csproj.CoreCompileInputs.cache
+C:\Users\Jonah Kalkman\Desktop\Webshop\obj\Debug\netcoreapp2.0\Webshop.AssemblyInfoInputs.cache
+C:\Users\Jonah Kalkman\Desktop\Webshop\obj\Debug\netcoreapp2.0\Webshop.AssemblyInfo.cs
+C:\Users\Jonah Kalkman\Desktop\Webshop\obj\Debug\netcoreapp2.0\Webshop.dll
+C:\Users\Jonah Kalkman\Desktop\Webshop\obj\Debug\netcoreapp2.0\Webshop.pdb
