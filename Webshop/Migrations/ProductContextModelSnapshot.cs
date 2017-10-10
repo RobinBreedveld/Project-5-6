@@ -39,6 +39,8 @@ namespace Webshop.Migrations
 
                     b.Property<int>("CategorieId");
 
+                    b.Property<string>("Image");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");

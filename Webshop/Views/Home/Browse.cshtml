@@ -2,11 +2,13 @@
 @{
  ViewBag.Title = "Browse";
 }
-<ul>
+
  @foreach (var product in Model)
  {
- <li>
+ <h1>
  @product.Title
- </li>
+ </h1>
+
+ <img src="@Url.Content(product.Image )"/>
+
  }
-</ul>

@@ -29,6 +29,7 @@ namespace Webshop.Migrations
                     Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     CategorieId = table.Column<int>(type: "int4", nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: true),
                     Title = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

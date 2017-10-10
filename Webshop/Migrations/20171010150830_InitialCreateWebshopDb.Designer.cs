@@ -11,7 +11,7 @@ using Webshop.Models;
 namespace Webshop.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20171009200017_InitialCreateWebshopDb")]
+    [Migration("20171010150830_InitialCreateWebshopDb")]
     partial class InitialCreateWebshopDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,8 @@ namespace Webshop.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("CategorieId");
+
+                    b.Property<string>("Image");
 
                     b.Property<string>("Title");
 

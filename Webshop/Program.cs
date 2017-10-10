@@ -14,24 +14,25 @@ namespace Webshop
     public class Program
     {
         public static void Main(string[] args){
-//         {
+        {
 //             using (var db = new ProductContext())
 // {
 
 //   Categorie c = new Categorie
 //   {
-//     Name = "Cables",
+//     Name = "Drones",
 //     Products = new System.Collections.Generic.List<Product> {
-//       new Product{Title = "USB", CategorieId = 1},
-//       new Product{Title = "Hdmi", CategorieId = 1}
+//       new Product{Title = "DJI Phantom", CategorieId = 1, Image = "~/images/djiphantom.jpg"},
+//       new Product{Title = "DJI Spark", CategorieId = 1}
 //     }
 //   };
 //   db.Categories.Add(c);
 //   db.SaveChanges();
-  //}
+// }
 
             BuildWebHost(args).Run();
         }
+        } 
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
@@ -39,3 +40,4 @@ namespace Webshop
                 .Build();
     }
 }
+
