@@ -17,13 +17,21 @@ namespace Webshop.Controllers
             var categories = storeDB.Categories.ToList();
             return View(categories);
         }
-        public IActionResult Browse(int categorieId)
+        public IActionResult Browse(int categorieId, int Id)
         {
             ViewData["Message"] = "Your Browse page.";
             // Retrieve Genre and its Associated Albums from database
             var categorieModel = from a in storeDB.Products where a.CategorieId == categorieId select a;
 
             return View(categorieModel);
+        }
+        public IActionResult Item(int productId)
+        {
+            ViewData["Message"] = "Your Item page.";
+            // Retrieve Genre and its Associated Albums from database
+            var productModel = from a in storeDB.Products where a.Id == productId select a;
+
+            return View(productModel);
         }
         public IActionResult Categorie()
         {

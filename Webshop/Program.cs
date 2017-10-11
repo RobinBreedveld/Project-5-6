@@ -22,8 +22,8 @@ namespace Webshop
 //   {
 //     Name = "Cables",
 //     Products = new System.Collections.Generic.List<Product> {
-//       new Product{Title = "Usb Cable", CategorieId = 2, Image = "~/images/usbcable.jpg"},
-//       new Product{Title = "Hdmi cable", CategorieId = 2,Image = "~/images/hdmicable.jpg"}
+//       new Product{Title = "USB Cable", CategorieId = 2, Image = "~/images/usbcable.jpg"},
+//       new Product{Title = "Hdmi Cable", CategorieId = 2,Image = "~/images/hdmicable.jpg"}
 //     }
 //   };
 //   db.Categories.Add(c);

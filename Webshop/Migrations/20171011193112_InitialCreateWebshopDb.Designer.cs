@@ -11,7 +11,7 @@ using Webshop.Models;
 namespace Webshop.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20171010150830_InitialCreateWebshopDb")]
+    [Migration("20171011193112_InitialCreateWebshopDb")]
     partial class InitialCreateWebshopDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
