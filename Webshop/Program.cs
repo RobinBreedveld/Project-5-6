@@ -20,10 +20,10 @@ namespace Webshop
 
 //   Categorie c = new Categorie
 //   {
-//     Name = "Drones",
+//     Name = "Cables",
 //     Products = new System.Collections.Generic.List<Product> {
-//       new Product{Title = "DJI Phantom", CategorieId = 1, Image = "~/images/djiphantom.jpg"},
-//       new Product{Title = "DJI Spark", CategorieId = 1}
+//       new Product{Title = "Usb Cable", CategorieId = 2, Image = "~/images/usbcable.jpg"},
+//       new Product{Title = "Hdmi cable", CategorieId = 2,Image = "~/images/hdmicable.jpg"}
 //     }
 //   };
 //   db.Categories.Add(c);

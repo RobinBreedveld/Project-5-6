@@ -25,6 +25,12 @@ namespace Webshop.Controllers
 
             return View(categorieModel);
         }
+        public IActionResult Categorie()
+        {
+            ViewData["Message"] = "Your categorie page.";
+            var categories = storeDB.Categories.ToList();
+            return View(categories);
+        }
 
         public IActionResult About()
         {

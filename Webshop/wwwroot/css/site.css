@@ -1,3 +1,78 @@
-﻿h1 {
-    background-color: red ;
+﻿#filter {
+	float: left;
+	background: #f1f1f1;
+    width: 13%;
+    height: 500px ;
 }
+h1 {
+    width: 100% ;
+}
+a {
+    text-decoration: underline ;
+    color: black ;
+}
+img.logo {
+    width: 100px ;
+    height: 100px ;
+    text-align: left ;
+    }
+    img.like {
+        width: 50px ;
+        height: 50px ;
+        margin-right: 30px ;
+    }
+    #header {
+        background-color: #f1f1f1;
+        display: flex ;
+        width: 100% ;
+        justify-content: center;
+        align-items: center; 
+        text-align: center ;
+    }
+    form {
+        width: 80%;
+        margin:0 auto;
+        display: inline-block;
+        
+    }
+    input {
+        width: 50%;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f1f1f1;
+        color: black ;
+    }
+    
+    li {
+        color: black ;
+        float: left;
+    }
+    
+    li a {
+        color: black ;
+        display: block;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    
+    li a:hover {
+        color: white ;
+        background-color: black;
+    }
+    #banner {
+        text-align:  center ;
+        width: 100% ;
+        background-color: #f1f1f1;
+        padding: 0;
+        margin: 0;
+    }
+    div.body-content {
+        padding: 1% ;
+        margin: 0;
+        background-color: #f1f1f1;
+    }

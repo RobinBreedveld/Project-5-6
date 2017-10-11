@@ -9,10 +9,26 @@
 </head>
 <body>    
     <div class="container body-content">
+        <div id="banner">
+            <h1> Shipped.NL - From China to the netherlands </h1>
+        </div>
+        <div id="header">
+	<img class="logo"src="~/images/logo.jpg">
+	<form>
+		<input type="text" name="search" placeholder="Search..">
+	</form>
+	<img class="like"src="~/images/like.png">
+	<img class="like"src="~/images/shoppingcart.png">
+</div>
+<ul>
+  <li><a class="active"<a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+  <li><a asp-area="" asp-controller="Home" asp-action="Categorie">Categorieën</a></li>
+</ul>
         @RenderBody()
-        <hr />
+        
         <footer>
-            <p>&copy; 2017 - Webshop</p>
+            <hr />
+            <p>&copy; 2017 - Shipped.nl</p>
         </footer>
     </div>
 
