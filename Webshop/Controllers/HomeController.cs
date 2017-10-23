@@ -15,17 +15,18 @@ namespace Webshop.Controllers
         ProductContext storeDB = new ProductContext();
         public IActionResult Index()
         {
-
             var categories = storeDB.Categories.ToList();
             return View(categories);
-
-
         }
         public IActionResult Browse(int categorieId, int Id, string searchString)
         {
             ViewData["Message"] = "Your Browse page.";
             // Retrieve Genre and its Associated Albums from database
             var categorieModel = from a in storeDB.Products where a.CategorieId == categorieId select a;
+            if ((categorieId == 0)){
+                return View("fakeError",storeDB.Products);
+            }
+            else {
             if (!String.IsNullOrEmpty(searchString))
             {
                 categorieModel = storeDB.Products.Where(s => s.Title.Contains(searchString));
@@ -35,6 +36,13 @@ namespace Webshop.Controllers
                 categorieModel = from a in storeDB.Products where a.CategorieId == categorieId select a;
             }
             return View(categorieModel);
+            }
+        }
+        
+        public IActionResult fakeError()
+        {
+            ViewData["Message"] = "Your 404 page.";
+            return Content("Hi there!");
         }
         public IActionResult Item(int productId)
         {

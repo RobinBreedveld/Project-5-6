@@ -38,6 +38,9 @@ img.logo {
     input {
         width: 50%;
     }
+    input.search {
+        width: 20%;
+    }
     ul {
         list-style-type: none;
         margin: 0;

@@ -14,12 +14,11 @@
         </div>
         <div id="header">
 	<img class="logo"src="~/images/logo.jpg">
-	<p>
- @using (Html.BeginForm()){    
-         <p> Title: @Html.TextBox("SearchString") <br />   
-         <input type="submit" value="Filter" /></p> 
-        } 
-</p>
+	<form  asp-action="Browse" method="GET">
+        <p> @Html.TextBox("SearchString")
+            <input class="search" type="submit" value="Search" />
+        </p>
+    </form>
 	<img class="like"src="~/images/like.png">
 	<img class="like"src="~/images/shoppingcart.png">
 </div>
