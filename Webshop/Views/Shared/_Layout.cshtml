@@ -14,9 +14,12 @@
         </div>
         <div id="header">
 	<img class="logo"src="~/images/logo.jpg">
-	<form>
-		<input type="text" name="search" placeholder="Search..">
-	</form>
+	<p>
+ @using (Html.BeginForm()){    
+         <p> Title: @Html.TextBox("SearchString") <br />   
+         <input type="submit" value="Filter" /></p> 
+        } 
+</p>
 	<img class="like"src="~/images/like.png">
 	<img class="like"src="~/images/shoppingcart.png">
 </div>

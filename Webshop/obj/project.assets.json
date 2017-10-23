@@ -12596,11 +12596,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documenten\\GitHub\\Project-5-6\\Webshop\\Webshop.csproj",
+      "projectUniqueName": "C:\\Users\\Jonah Kalkman\\Documents\\GitHub\\Project-5-6\\Webshop\\Webshop.csproj",
       "projectName": "Webshop",
-      "projectPath": "D:\\Documenten\\GitHub\\Project-5-6\\Webshop\\Webshop.csproj",
+      "projectPath": "C:\\Users\\Jonah Kalkman\\Documents\\GitHub\\Project-5-6\\Webshop\\Webshop.csproj",
       "packagesPath": "C:\\Users\\Jonah Kalkman\\.nuget\\packages\\",
-      "outputPath": "D:\\Documenten\\GitHub\\Project-5-6\\Webshop\\obj\\",
+      "outputPath": "C:\\Users\\Jonah Kalkman\\Documents\\GitHub\\Project-5-6\\Webshop\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

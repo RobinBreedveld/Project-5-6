@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Webshop.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Dynamic;
 
 namespace Webshop.Controllers
 {
@@ -14,15 +15,25 @@ namespace Webshop.Controllers
         ProductContext storeDB = new ProductContext();
         public IActionResult Index()
         {
+
             var categories = storeDB.Categories.ToList();
             return View(categories);
+
+
         }
-        public IActionResult Browse(int categorieId, int Id)
+        public IActionResult Browse(int categorieId, int Id, string searchString)
         {
             ViewData["Message"] = "Your Browse page.";
             // Retrieve Genre and its Associated Albums from database
             var categorieModel = from a in storeDB.Products where a.CategorieId == categorieId select a;
-
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                categorieModel = storeDB.Products.Where(s => s.Title.Contains(searchString));
+            }
+            else
+            {
+                categorieModel = from a in storeDB.Products where a.CategorieId == categorieId select a;
+            }
             return View(categorieModel);
         }
         public IActionResult Item(int productId)
