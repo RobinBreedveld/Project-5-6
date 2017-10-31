@@ -23,20 +23,19 @@ namespace Webshop.Controllers
             ViewData["Message"] = "Your Browse page.";
             // Retrieve Genre and its Associated Albums from database
             var categorieModel = from a in storeDB.Products where a.CategorieId == categorieId select a;
-            if ((categorieId == 0)){
-                return View("fakeError",storeDB.Products);
-            }
-            else {
+            
+            
             if (!String.IsNullOrEmpty(searchString))
             {
-                categorieModel = storeDB.Products.Where(s => s.Title.Contains(searchString));
+                categorieModel = storeDB.Products.Where(s => s.Title.Contains(searchString.ToUpper()));
             }
             else
             {
                 categorieModel = from a in storeDB.Products where a.CategorieId == categorieId select a;
             }
+            
             return View(categorieModel);
-            }
+            
         }
         
         public IActionResult fakeError()

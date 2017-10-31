@@ -4,9 +4,6 @@
     width: 13%;
     height: 500px ;
 }
-h1 {
-    width: 100% ;
-}
 a {
     text-decoration: underline ;
     color: black ;
@@ -78,4 +75,27 @@ img.logo {
         padding: 1% ;
         margin: 0;
         background-color: #f1f1f1;
+    }
+    a.home {
+        text-decoration: none ;
+        padding: 5px ;
+        border-radius: 2px ;
+    }
+    h1 {
+        width: 200px ;
+        background-color: grey ;
+    }
+    a.browse {
+        width: 100% ;
+        text-decoration: none ;
+        background-color: grey ;
+    }
+    #wrapitem {
+        padding: 1% ;
+        background-color: grey ;
+        width: 80% ;
+        margin-bottom: 10px ;
+    }
+    img {
+        background-color: white ;
     }

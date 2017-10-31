@@ -2,10 +2,10 @@
 @{
     ViewData["Title"] = "Categorie Page";
 }
-<h1> All ours categories</h1>
+<h2> All ours categories</h2>
 
 @foreach (var categorie in Model)
  {
- <h1>@Html.ActionLink(categorie.Name, "Browse", new { categorieId = categorie.Id})</h1>
+ <h1>@Html.ActionLink(categorie.Name, "Browse", new { categorieId = categorie.Id}, new  {@class = "home" })</h1>
  }
  </br>
