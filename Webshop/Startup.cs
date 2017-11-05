@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Webshop.Models;
+using Microsoft.EntityFrameworkCore;
 namespace Webshop
 {
     public class Startup
@@ -19,9 +20,16 @@ namespace Webshop
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddMvc();
+        
+// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices (IServiceCollection services) {
+
+        //Add this line to your method
+     services.AddDbContext<ProductContext> (
+                 opt => opt.UseNpgsql(@"Host=localhost;Database=WebshopDB;Username=postgres;Password=admin"));
+
+     services.AddMvc ();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

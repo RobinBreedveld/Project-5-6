@@ -12,26 +12,30 @@ namespace Webshop.Controllers
 {
     public class HomeController : Controller
     {
-        ProductContext storeDB = new ProductContext();
+        private readonly ProductContext _context;
+        public HomeController(ProductContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
-            var categories = storeDB.Categories.ToList();
+            var categories = _context.Categories.ToList();
             return View(categories);
         }
         public IActionResult Browse(int categorieId, int Id, string searchString)
         {
             ViewData["Message"] = "Your Browse page.";
             // Retrieve Genre and its Associated Albums from database
-            var categorieModel = from a in storeDB.Products where a.CategorieId == categorieId select a;
+            var categorieModel = from a in _context.Products where a.CategorieId == categorieId select a;
             
             
             if (!String.IsNullOrEmpty(searchString))
             {
-                categorieModel = storeDB.Products.Where(s => s.Title.Contains(searchString.ToUpper()));
+                categorieModel = _context.Products.Where(s => s.Name.Contains(searchString.ToUpper()));
             }
             else
             {
-                categorieModel = from a in storeDB.Products where a.CategorieId == categorieId select a;
+                categorieModel = from a in _context.Products where a.CategorieId == categorieId select a;
             }
             
             return View(categorieModel);
@@ -47,14 +51,14 @@ namespace Webshop.Controllers
         {
             ViewData["Message"] = "Your Item page.";
             // Retrieve Genre and its Associated Albums from database
-            var productModel = from a in storeDB.Products where a.Id == productId select a;
+            var productModel = from a in _context.Products where a.Id == productId select a;
 
             return View(productModel);
         }
         public IActionResult Categorie()
         {
             ViewData["Message"] = "Your categorie page.";
-            var categories = storeDB.Categories.ToList();
+            var categories = _context.Categories.ToList();
             return View(categories);
         }
 

@@ -11,8 +11,8 @@ using Webshop.Models;
 namespace Webshop.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20171011193112_InitialCreateWebshopDb")]
-    partial class InitialCreateWebshopDb
+    [Migration("20171102154407_InitialCreateMovieDB")]
+    partial class InitialCreateMovieDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,6 +25,8 @@ namespace Webshop.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Image");
 
                     b.Property<string>("Name");
 
@@ -42,7 +44,7 @@ namespace Webshop.Migrations
 
                     b.Property<string>("Image");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -51,11 +53,39 @@ namespace Webshop.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Webshop.Models.Specs", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<int>("intvalue");
+
+                    b.Property<string>("stringvalue");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Specs");
+                });
+
             modelBuilder.Entity("Webshop.Models.Product", b =>
                 {
                     b.HasOne("Webshop.Models.Categorie")
                         .WithMany("Products")
                         .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Webshop.Models.Specs", b =>
+                {
+                    b.HasOne("Webshop.Models.Product")
+                        .WithMany("Specs")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

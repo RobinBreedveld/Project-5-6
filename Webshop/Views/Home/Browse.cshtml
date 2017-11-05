@@ -6,7 +6,7 @@
  {
 <div id="wrapitem">
  <h1>
-@Html.ActionLink(@product.Title, "Item", new { productId = product.Id}, new  {@class = "browse" })
+@Html.ActionLink(@product.Name, "Item", new { productId = product.Id}, new  {@class = "browse" })
  </h1>
 
  <img src="@Url.Content(product.Image )" width="300px" height= "300px" />
