@@ -1,0 +1,22 @@
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\bin\Debug\netcoreapp2.0\login2.deps.json
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\bin\Debug\netcoreapp2.0\login2.runtimeconfig.json
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\bin\Debug\netcoreapp2.0\login2.runtimeconfig.dev.json
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\bin\Debug\netcoreapp2.0\login2.dll
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\bin\Debug\netcoreapp2.0\login2.pdb
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\obj\Debug\netcoreapp2.0\login2.csproj.CoreCompileInputs.cache
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\obj\Debug\netcoreapp2.0\login2.AssemblyInfoInputs.cache
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\obj\Debug\netcoreapp2.0\login2.AssemblyInfo.cs
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\obj\Debug\netcoreapp2.0\login2.dll
+c:\Users\okell\Documents\Visual Studio 2017\Projects\login2\login2\obj\Debug\netcoreapp2.0\login2.pdb
+C:\Users\okell\Desktop\login2\login2\bin\Debug\netcoreapp2.0\login2.deps.json
+C:\Users\okell\Desktop\login2\login2\bin\Debug\netcoreapp2.0\login2.runtimeconfig.json
+C:\Users\okell\Desktop\login2\login2\bin\Debug\netcoreapp2.0\login2.runtimeconfig.dev.json
+C:\Users\okell\Desktop\login2\login2\bin\Debug\netcoreapp2.0\login2.dll
+C:\Users\okell\Desktop\login2\login2\bin\Debug\netcoreapp2.0\login2.pdb
+C:\Users\okell\Desktop\login2\login2\obj\Debug\netcoreapp2.0\login2.csproj.CoreCompileInputs.cache
+C:\Users\okell\Desktop\login2\login2\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\okell\Desktop\login2\login2\obj\Debug\netcoreapp2.0\login2.AssemblyInfoInputs.cache
+C:\Users\okell\Desktop\login2\login2\obj\Debug\netcoreapp2.0\login2.AssemblyInfo.cs
+C:\Users\okell\Desktop\login2\login2\obj\Debug\netcoreapp2.0\login2.dll
+C:\Users\okell\Desktop\login2\login2\obj\Debug\netcoreapp2.0\login2.pdb
