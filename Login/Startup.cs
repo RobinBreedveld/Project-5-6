@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using login2.Data;
 using login2.Models;
 using login2.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace login2
 {

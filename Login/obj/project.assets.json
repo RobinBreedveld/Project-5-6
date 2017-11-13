@@ -13178,11 +13178,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\okell\\Desktop\\login2\\login2\\login2.csproj",
+      "projectUniqueName": "C:\\Users\\okell\\Documents\\GitHub\\Project-5-6\\Login\\login2.csproj",
       "projectName": "login2",
-      "projectPath": "C:\\Users\\okell\\Desktop\\login2\\login2\\login2.csproj",
+      "projectPath": "C:\\Users\\okell\\Documents\\GitHub\\Project-5-6\\Login\\login2.csproj",
       "packagesPath": "C:\\Users\\okell\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\okell\\Desktop\\login2\\login2\\obj\\",
+      "outputPath": "C:\\Users\\okell\\Documents\\GitHub\\Project-5-6\\Login\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

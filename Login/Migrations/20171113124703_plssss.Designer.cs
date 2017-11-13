@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171110134717_LoginDB")]
-    partial class LoginDB
+    [Migration("20171113124703_plssss")]
+    partial class plssss
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,6 +69,62 @@ namespace login2.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("login2.Models.Categorie", b =>
+                {
+                    b.Property<int>("CategorieId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Image");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("ProductId");
+
+                    b.HasKey("CategorieId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("login2.Models.Product", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CategorieId");
+
+                    b.Property<string>("Image");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("CategorieId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("login2.Models.Spec", b =>
+                {
+                    b.Property<int>("SpecId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Intvalue");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<string>("Stringvalue");
+
+                    b.HasKey("SpecId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Specs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -176,6 +232,29 @@ namespace login2.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("login2.Models.Categorie", b =>
+                {
+                    b.HasOne("login2.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("login2.Models.Product", b =>
+                {
+                    b.HasOne("login2.Models.Categorie")
+                        .WithMany("Products")
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("login2.Models.Spec", b =>
+                {
+                    b.HasOne("login2.Models.Product", "Product")
+                        .WithMany("Spec")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
