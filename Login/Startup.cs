@@ -29,7 +29,7 @@ namespace login2
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(@"Host=localhost;Database=LoginDB;Username=postgres;Password=postgres"));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(x => { x.Password.RequiredLength = 2; x.Password.RequireUppercase = false; x.Password.RequireLowercase = false; x.Password.RequireNonAlphanumeric = false; })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
