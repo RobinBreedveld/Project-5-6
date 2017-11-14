@@ -25,10 +25,9 @@ namespace login2.Controllers
             
 
             
-            var applicationDbContext = _context.Products.Include(p => p.Categorie);
-            ViewData["SpecID"] = new SelectList(_context.Specs, "SpecID", "SpecID", _context.Products.Include(p => p.Spec));
-
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.Products.Include(p => p.Spec);
+            var zxapplicationDbContext = applicationDbContext.Include(p => p.Categorie);
+            return View(await zxapplicationDbContext.ToListAsync());
         }
 
         // GET: Products/Details/5

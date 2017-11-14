@@ -31,3 +31,14 @@ C:\Users\okell\Documents\GitHub\Project-5-6\Login\obj\Debug\netcoreapp2.0\login2
 C:\Users\okell\Documents\GitHub\Project-5-6\Login\obj\Debug\netcoreapp2.0\login2.AssemblyInfo.cs
 C:\Users\okell\Documents\GitHub\Project-5-6\Login\obj\Debug\netcoreapp2.0\login2.dll
 C:\Users\okell\Documents\GitHub\Project-5-6\Login\obj\Debug\netcoreapp2.0\login2.pdb
+D:\Documenten\GitHub\Project-5-6\Login\bin\Debug\netcoreapp2.0\login2.deps.json
+D:\Documenten\GitHub\Project-5-6\Login\bin\Debug\netcoreapp2.0\login2.runtimeconfig.json
+D:\Documenten\GitHub\Project-5-6\Login\bin\Debug\netcoreapp2.0\login2.runtimeconfig.dev.json
+D:\Documenten\GitHub\Project-5-6\Login\bin\Debug\netcoreapp2.0\login2.dll
+D:\Documenten\GitHub\Project-5-6\Login\bin\Debug\netcoreapp2.0\login2.pdb
+D:\Documenten\GitHub\Project-5-6\Login\obj\Debug\netcoreapp2.0\login2.csproj.CoreCompileInputs.cache
+D:\Documenten\GitHub\Project-5-6\Login\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+D:\Documenten\GitHub\Project-5-6\Login\obj\Debug\netcoreapp2.0\login2.AssemblyInfoInputs.cache
+D:\Documenten\GitHub\Project-5-6\Login\obj\Debug\netcoreapp2.0\login2.AssemblyInfo.cs
+D:\Documenten\GitHub\Project-5-6\Login\obj\Debug\netcoreapp2.0\login2.dll
+D:\Documenten\GitHub\Project-5-6\Login\obj\Debug\netcoreapp2.0\login2.pdb

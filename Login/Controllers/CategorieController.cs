@@ -22,7 +22,8 @@ namespace login2.Controllers
         // GET: Categorie
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            var applicationDbContext = _context.Categories.Include(p => p.Products);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Categorie/Details/5
@@ -54,7 +55,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategorieId,Name,Image,ProductId")] Categorie categorie)
+        public async Task<IActionResult> Create([Bind("CategorieId,Name,Image")] Categorie categorie)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +87,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategorieId,Name,Image,ProductId")] Categorie categorie)
+        public async Task<IActionResult> Edit(int id, [Bind("CategorieId,Name,Image")] Categorie categorie)
         {
             if (id != categorie.CategorieId)
             {
