@@ -22,7 +22,12 @@ namespace login2.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
+            
+
+            
             var applicationDbContext = _context.Products.Include(p => p.Categorie);
+            ViewData["SpecID"] = new SelectList(_context.Specs, "SpecID", "SpecID", _context.Products.Include(p => p.Spec));
+
             return View(await applicationDbContext.ToListAsync());
         }
 

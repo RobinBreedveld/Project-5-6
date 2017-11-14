@@ -15,6 +15,7 @@ namespace login2.Models
         public Categorie Categorie {get;set;}
         public List<Spec> Spec { get; set; }
         
+        
     }
 
     //this is the typed representation of an Categorie in our project
@@ -25,8 +26,8 @@ namespace login2.Models
         public string Name { get; set; }
         public string Image { get; set; }
 
+
         public List<Product> Products { get; set; }
-        public int ProductId {get;set;}
         
 
     }
