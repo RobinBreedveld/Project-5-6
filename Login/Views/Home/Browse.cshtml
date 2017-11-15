@@ -1,0 +1,17 @@
+@model IEnumerable<login2.Models.Product>
+
+@{
+ ViewBag.Title = "Browse";
+}
+ @foreach (var product in Model)
+ {
+<div id="wrapitem">
+ <h1>
+@Html.ActionLink(@product.Name, "Item", new { productId = product.ProductId}, new  {@class = "browse" })
+ </h1>
+
+ <img src="@Url.Content(product.Image )" width="300px" height= "300px" />
+ </div>
+ }
+
+

@@ -13178,11 +13178,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documenten\\GitHub\\Project-5-6\\Login\\login2.csproj",
+      "projectUniqueName": "C:\\Users\\Jonah Kalkman\\Documents\\GitHub\\Project-5-6\\Login\\login2.csproj",
       "projectName": "login2",
-      "projectPath": "D:\\Documenten\\GitHub\\Project-5-6\\Login\\login2.csproj",
+      "projectPath": "C:\\Users\\Jonah Kalkman\\Documents\\GitHub\\Project-5-6\\Login\\login2.csproj",
       "packagesPath": "C:\\Users\\Jonah Kalkman\\.nuget\\packages\\",
-      "outputPath": "D:\\Documenten\\GitHub\\Project-5-6\\Login\\obj\\",
+      "outputPath": "C:\\Users\\Jonah Kalkman\\Documents\\GitHub\\Project-5-6\\Login\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

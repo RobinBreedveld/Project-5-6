@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171114200715_testproducts")]
-    partial class testproducts
+    [Migration("20171115125303_dhwhajdhbwj")]
+    partial class dhwhajdhbwj
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,8 +79,6 @@ namespace login2.Migrations
                     b.Property<string>("Image");
 
                     b.Property<string>("Name");
-
-                    b.Property<int>("ProductId");
 
                     b.HasKey("CategorieId");
 

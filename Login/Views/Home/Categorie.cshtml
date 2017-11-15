@@ -1,9 +1,11 @@
-﻿@model IEnumerable<login2.Models.Categorie>
+@model IEnumerable<login2.Models.Categorie>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Categorie Page";
 }
+<h2> All ours categories</h2>
 
 @foreach (var categorie in Model)
  {
  <h1>@Html.ActionLink(categorie.Name, "Browse", new { categorieId = categorie.CategorieId}, new  {@class = "home" })</h1>
  }
+ </br>
