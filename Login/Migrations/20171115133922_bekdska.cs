@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace login2.Migrations
 {
-    public partial class dhwhajdhbwj : Migration
+    public partial class bekdska : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

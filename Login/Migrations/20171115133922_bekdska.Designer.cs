@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171115125303_dhwhajdhbwj")]
-    partial class dhwhajdhbwj
+    [Migration("20171115133922_bekdska")]
+    partial class bekdska
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

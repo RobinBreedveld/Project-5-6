@@ -18,11 +18,12 @@ namespace login2.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var categories = _context.Categories.ToList();
-            return View(categories);
+            var categorieenproduct = _context.Categories.Include(p => p.Products);
+            return View(await categorieenproduct.ToListAsync());
         }
+
         public IActionResult Browse(int categorieId, int Id, string searchString)
         {
             ViewData["Message"] = "Your Browse page.";

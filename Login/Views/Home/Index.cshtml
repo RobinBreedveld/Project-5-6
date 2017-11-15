@@ -6,4 +6,9 @@
 @foreach (var categorie in Model)
  {
  <h1>@Html.ActionLink(categorie.Name, "Browse", new { categorieId = categorie.CategorieId}, new  {@class = "home" })</h1>
+    @foreach (var product in categorie.Products) {
+            <p>
+                @Html.DisplayFor(modelItem => product.Name) 
+            </p>
+            }
  }
