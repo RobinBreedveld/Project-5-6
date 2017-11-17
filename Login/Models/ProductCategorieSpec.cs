@@ -42,4 +42,10 @@ namespace login2.Models
         public int ProductId { get; set; }
         public Product Product { get; set; }
     }
+    public class Shoppingcart {
+        public int ShoppingcartId {get;set;}
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
+        public List<Product> Products { get; set; }
+    }
 }
