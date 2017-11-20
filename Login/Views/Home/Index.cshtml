@@ -2,13 +2,13 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
+<div class="banner">
+  <img class="mySlides" src="~/images/Banner.jpg" style="width:60%">
+</div>
 @foreach (var categorie in Model)
  {
  <h1>@Html.ActionLink(categorie.Name, "Browse", new { categorieId = categorie.CategorieId}, new  {@class = "home" })</h1>
     @foreach (var product in categorie.Products) {
-            <p>
-                @Html.DisplayFor(modelItem => product.Name) 
-            </p>
+            <a href='@Url.Action("Item", "Home", new { productId = product.ProductId})'><img class="test" src="@Url.Content(product.Image )" width="200px" height= "200px" /></a>
             }
  }

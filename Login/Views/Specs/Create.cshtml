@@ -3,7 +3,22 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+<script> 
+        function showMe (box) {
+        
+        var chboxs = document.getElementsByName("c1");
+        var vis = "none";
+        for(var i=0;i<chboxs.length;i++) { 
+            if(chboxs[i].checked){
+             vis = "block";
+                break;
+            }
+        }
+        document.getElementById(box).style.display = vis;
+    
+    
+    }
+</script>
 <h2>Create</h2>
 
 <h4>Spec</h4>
@@ -17,12 +32,16 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <form>
+<input type="checkbox" name="c1" onclick="showMe('int')">A number? 
+<input type="checkbox" name="c1" onclick="showMe('string')">A text? 
+</form>
+            <div id="int" class="form-group" style="display:none">
                 <label asp-for="Intvalue" class="control-label"></label>
                 <input asp-for="Intvalue" class="form-control" />
                 <span asp-validation-for="Intvalue" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div id="string" class="form-group" style="display:none">
                 <label asp-for="Stringvalue" class="control-label"></label>
                 <input asp-for="Stringvalue" class="form-control" />
                 <span asp-validation-for="Stringvalue" class="text-danger"></span>

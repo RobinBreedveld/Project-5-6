@@ -6,12 +6,9 @@
 
  @foreach (var product in Model)
  {
- <h1>
+ <h2>
 @product.Name
- </h1>
- <h1>
-@product.ProductId
- </h1>
+ </h2>
  <img src="@Url.Content(product.Image )" width="300px" height= "300px" />
 
  }

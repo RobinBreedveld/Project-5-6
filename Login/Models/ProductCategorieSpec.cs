@@ -35,10 +35,8 @@ namespace login2.Models
     {
         public int SpecId { get; set; }
         public string Name { get; set; }
-        public int Intvalue { get; set; }
+        public int? Intvalue { get; set; }
         public string Stringvalue { get; set; }
-
-
         public int ProductId { get; set; }
         public Product Product { get; set; }
     }

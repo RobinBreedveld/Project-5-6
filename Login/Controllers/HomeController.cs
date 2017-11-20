@@ -24,23 +24,24 @@ namespace login2.Controllers
             return View(await categorieenproduct.ToListAsync());
         }
 
-        public IActionResult Browse(int categorieId, int Id, string searchString)
+        public async Task<IActionResult> Browse(int categorieId, int Id, string searchString)
         {
             ViewData["Message"] = "Your Browse page.";
+            
             // Retrieve Genre and its Associated Albums from database
-            var categorieModel = from a in _context.Products where a.CategorieId == categorieId select a;
+            var categorieModel = from a in _context.Products.Include(p => p.Spec) where a.CategorieId == categorieId select a;
             
             
             if (!String.IsNullOrEmpty(searchString))
             {
-                categorieModel = _context.Products.Where(s => s.Name.Contains(searchString.ToUpper()));
+                categorieModel = _context.Products.Include(p => p.Spec).Where(s => s.Name.Contains(searchString.ToUpper()));
             }
             else
             {
-                categorieModel = from a in _context.Products where a.CategorieId == categorieId select a;
+                categorieModel = from a in _context.Products.Include(p => p.Spec) where a.CategorieId == categorieId select a;
             }
             
-            return View(categorieModel);
+            return View(await categorieModel.ToListAsync());
             
         }
         
