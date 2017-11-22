@@ -13,7 +13,7 @@
             
         </div>
         <div id="header">
-	<img class="logo"src="~/images/logo.jpg">
+	<a asp-area="" asp-controller="Home" asp-action="Index"><img class="logo"src="~/images/logo.jpg"></a>
 	<form  asp-action="Browse" method="GET">
         <p> @Html.TextBox("SearchString")
             <input class="search" type="submit" value="Search" />
