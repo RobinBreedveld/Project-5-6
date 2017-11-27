@@ -3,6 +3,9 @@
 @{
  ViewBag.Title = "Browse";
 }
+<th>
+            @Html.ActionLink("Length", "Browse", new { sortOrder = "Name" })
+        </th>
  @foreach (var product in Model)
  {
 <div id="wrapitem">

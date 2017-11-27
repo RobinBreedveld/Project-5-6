@@ -19,17 +19,17 @@ namespace login2.Controllers
         {
             _context = context;
 
-            var file = "data.csv";
-            var sr = new StreamReader(file);
-            while (!sr.EndOfStream)
-            {
-                var line = sr.ReadLine();
-                var data = line.Split(new[] { ',' });
-                var categorie = new Categorie() { Name = data[2], Image = data[1] };
-                context.Categories.Add(categorie);
-            }
+            // var file = "data.csv";
+            // var sr = new StreamReader(file);
+            // while (!sr.EndOfStream)
+            // {
+            //     var line = sr.ReadLine();
+            //     var data = line.Split(new[] { ',' });
+            //     var categorie = new Categorie() { Name = data[2], Image = data[1] };
+            //     context.Categories.Add(categorie);
+            // }
 
-            context.SaveChanges();
+            // context.SaveChanges();
 
         }
 
@@ -43,7 +43,7 @@ namespace login2.Controllers
             return View(await categorieenproduct.ToListAsync());
         }
 
-        public async Task<IActionResult> Browse(int categorieId, int Id, string searchString)
+        public async Task<IActionResult> Browse(int categorieId, int Id, string searchString, string sortOrder)
         {
             ViewData["Message"] = "Your Browse page.";
 
@@ -59,7 +59,12 @@ namespace login2.Controllers
             {
                 categorieModel = from a in _context.Products.Include(p => p.Spec) where a.CategorieId == categorieId select a;
             }
-
+           
+            if (sortOrder == "Name")
+            {
+                 categorieModel = _context.Products.Include(p => p.Spec).Where(s => s.Spec.dwad == 1 );
+            }
+            
             return View(await categorieModel.ToListAsync());
 
         }

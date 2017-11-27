@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace login2.Migrations
 {
-    public partial class ndhkjwabhd : Migration
+    public partial class dwd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
