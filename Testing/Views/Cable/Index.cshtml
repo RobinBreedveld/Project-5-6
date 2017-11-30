@@ -1,4 +1,4 @@
-@model IEnumerable<Testing.Models.Cable>
+@model IEnumerable<login2.Models.Cable>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,16 +9,11 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<form  asp-action="Index" method="GET">
-        <p> @Html.TextBox("searchString")
-            <input class="search" type="submit" value="Search" />
-        </p>
-    </form>
 <table class="table">
     <thead>
         <tr>
                 <th>
-                    @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+                   @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
                 </th>
                 <th>
                     @Html.ActionLink("Price", "Index", new { sortOrder = ViewBag.PriceSortParm })
@@ -29,6 +24,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Type)
                 </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategorieId)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -46,6 +44,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategorieId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

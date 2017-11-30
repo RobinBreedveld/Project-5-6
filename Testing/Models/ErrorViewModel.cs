@@ -1,6 +1,6 @@
 using System;
 
-namespace Testing.Models
+namespace login2.Models
 {
     public class ErrorViewModel
     {

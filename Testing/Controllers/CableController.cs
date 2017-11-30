@@ -5,20 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Testing.Models;
+using login2.Data;
+using login2.Models;
 
-namespace Testing.Controllers
+namespace login2.Controllers
 {
     public class CableController : Controller
     {
-        private readonly ModelContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CableController(ModelContext context)
+        public CableController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Cable
+       // GET: Cable
         public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name" : "";
@@ -57,6 +58,7 @@ namespace Testing.Controllers
             return View(await cables.ToListAsync());
         }
 
+
         // GET: Cable/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -66,6 +68,7 @@ namespace Testing.Controllers
             }
 
             var cable = await _context.Cables
+                .Include(c => c.Categorie)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (cable == null)
             {
@@ -78,6 +81,7 @@ namespace Testing.Controllers
         // GET: Cable/Create
         public IActionResult Create()
         {
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
             return View();
         }
 
@@ -86,7 +90,7 @@ namespace Testing.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Length,Type")] Cable cable)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Length,Type,CategorieId")] Cable cable)
         {
             if (ModelState.IsValid)
             {
@@ -94,6 +98,7 @@ namespace Testing.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", cable.CategorieId);
             return View(cable);
         }
 
@@ -110,6 +115,7 @@ namespace Testing.Controllers
             {
                 return NotFound();
             }
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", cable.CategorieId);
             return View(cable);
         }
 
@@ -118,7 +124,7 @@ namespace Testing.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Length,Type")] Cable cable)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Length,Type,CategorieId")] Cable cable)
         {
             if (id != cable.Id)
             {
@@ -145,6 +151,7 @@ namespace Testing.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", cable.CategorieId);
             return View(cable);
         }
 
@@ -157,6 +164,7 @@ namespace Testing.Controllers
             }
 
             var cable = await _context.Cables
+                .Include(c => c.Categorie)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (cable == null)
             {

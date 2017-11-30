@@ -1,4 +1,4 @@
-@model Testing.Models.Cable
+@model login2.Models.Cable
 
 @{
     ViewData["Title"] = "Delete";
@@ -34,6 +34,12 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Categorie)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Categorie.Id)
         </dd>
     </dl>
     
