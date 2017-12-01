@@ -1,35 +1,24 @@
 @model IEnumerable<login2.Models.Categorie>
-
 @{
     ViewData["Title"] = "Index";
     var i = 0;
     var w = 0;
 }
 @foreach (var item in Model) {
-
-   <a asp-controller="Gadget" asp-action="Index" ><h2>Gadgets:</h2></a>
-
-            
-        
-     @foreach (var gadget in item.Gadgets){
-            @if(w < 3)
-    {
-         w = w + 1;
-    <a asp-controller="Gadget" asp-action="Details" asp-route-id="@gadget.Id"><h1>@gadget.Name</h1></a>
+    <div id="banner_categorie">
+       <a asp-controller="Gadget" asp-action="Index"><h5>Gadgets</h5></a> 
+    </div>
+    <div id="banner_cables">
+       <a asp-controller="Cable" asp-action="Index"><h5>Cables</h5></a> 
+    </div>
+    @foreach (var gadget in item.Gadgets){
+        @if(w < 3){ w = w + 1;
+            <a asp-controller="Gadget" asp-action="Details" asp-route-id="@gadget.Id"><h1>@gadget.Name</h1></a>
+        }
+    }
+    @foreach (var cable in item.Cables){
+        @if(i < 1){ i = i + 1;
+            <a asp-controller="Cable" asp-action="Details" asp-route-id="@cable.Id"><h1>@cable.Name</h1></a> 
+        }
     }
 }
-        
-<a asp-controller="Cable" asp-action="Index" ><h2>Cables</h2></a>
-
-        @foreach (var cable in item.Cables){
-         @if(i < 1)
-    {
-        i = i + 1;
-        <a asp-controller="Cable" asp-action="Details" asp-route-id="@cable.Id"><h1>@cable.Name</h1></a> 
-    }
-}
-}
-
-
-    </tbody>
-</table>

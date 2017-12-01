@@ -7,9 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using login2.Data;
 using login2.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using login2.Models.AccountViewModels;
+using login2.Services;
 
 namespace login2.Controllers
 {
+    
     public class CableController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -79,6 +88,7 @@ namespace login2.Controllers
         }
 
         // GET: Cable/Create
+        [Authorize(Roles="Admin")]
         public IActionResult Create()
         {
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -90,6 +100,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,Length,Type,CategorieId")] Cable cable)
         {
             if (ModelState.IsValid)
@@ -103,6 +114,7 @@ namespace login2.Controllers
         }
 
         // GET: Cable/Edit/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -124,6 +136,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Length,Type,CategorieId")] Cable cable)
         {
             if (id != cable.Id)
@@ -156,6 +169,7 @@ namespace login2.Controllers
         }
 
         // GET: Cable/Delete/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -177,6 +191,7 @@ namespace login2.Controllers
         // POST: Cable/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var cable = await _context.Cables.SingleOrDefaultAsync(m => m.Id == id);

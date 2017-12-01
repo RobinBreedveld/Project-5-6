@@ -4,7 +4,11 @@
     width: 13%;
     height: 500px ;
 }
+p {
+    font-family: Arial, Helvetica, sans-serif;
+}
 a {
+    font-family: Arial, Helvetica, sans-serif;
     text-decoration: underline ;
     color: black ;
 }
@@ -19,7 +23,7 @@ img.logo {
         margin-right: 30px ;
     }
     #header {
-        background-color: #f1f1f1;
+        background-color: #27AFF2;
         display: flex ;
         width: 100% ;
         justify-content: center;
@@ -39,20 +43,23 @@ img.logo {
         width: 20%;
     }
     ul {
+        font-family: Arial, Helvetica, sans-serif;
         list-style-type: none;
         margin: 0;
         padding: 0;
         overflow: hidden;
-        background-color: #f1f1f1;
+        background-color: #27AFF2;
         color: black ;
     }
     
     li {
+        font-family: Arial, Helvetica, sans-serif;
         color: black ;
         float: left;
     }
     
     li a {
+        font-family: Arial, Helvetica, sans-serif;
         color: black ;
         display: block;
         text-align: center;
@@ -74,7 +81,7 @@ img.logo {
     div.body-content {
         padding: 1% ;
         margin: 0;
-        background-color: #f1f1f1;
+        background-color: white;
     }
     a.home {
         text-decoration: none ;
@@ -82,6 +89,7 @@ img.logo {
         border-radius: 2px ;
     }
     h1 {
+        font-family: Arial, Helvetica, sans-serif;
         width: 200px ;
         border-radius: 5px ;
         background-color: rgba(0, 0, 0, 0.2);
@@ -99,7 +107,7 @@ img.logo {
         overflow: hidden;
     }
     img {
-        background-color: white ;
+        background-color: none ;
     }
     .banner {
         text-align: center ;
@@ -118,7 +126,13 @@ img.logo {
         
     }
     h2 {
+        background-color: #27AFF2;
         width: 100% ;
+        border-radius: 5px ;
+        padding: 5px ;
+        color: white ;
+        text-decoration: none ;
+        font-family: Arial, Helvetica, sans-serif;
     }
     img.test {
         display: inline ;
@@ -134,4 +148,43 @@ img.logo {
     table.table thead {
         background-color: grey ;
        
+    }
+    .form-group {
+        margin: 10px ;
+        
+    }
+    label {
+        display: inline-block;
+        width: 140px;
+        text-align: right;
+    }
+    a {
+        text-decoration: none ;
+    }
+    #banner_categorie {
+        background-image: url("/images/Gadgets-banner.jpg");
+        width: 50% ;
+        height: 200px ;
+        border-radius: 5px ;
+        text-align: center ;
+        display: flex;
+        align-items: center;
+        float: left ;
+        margin: 10px ;
+        justify-content: center;
+    }
+    #banner_cables {
+        background-image: url("/images/Cables-banner.jpg");
+        height: 200px ;
+        border-radius: 5px ;
+        text-align: center ;
+        display: flex;
+        align-items: center;
+        margin: 10px ;
+        justify-content: center;
+    }
+    h5 {
+        font-size: 300% ;
+        color: white ;
+        font-family: Arial, Helvetica, sans-serif;
     }
