@@ -11,9 +11,14 @@ namespace login2.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
        public DbSet<Categorie> Categories { get; set; }
-    public DbSet<Cable> Cables { get; set; }
+    public DbSet<Kabel> Kabels { get; set; }
     //this is actual entity object linked to the actors in our DB
-    public DbSet<Gadget> Gadgets { get; set; }
+    public DbSet<Drone> Drones { get; set; }
+    public DbSet<Spelcomputer> Spelcomputers { get; set; }
+    public DbSet<Horloge> Horloges { get; set; }
+    public DbSet<Fotocamera> Fotocameras { get; set; }
+    public DbSet<Schoen> Schoenen { get; set; }
+
         
         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

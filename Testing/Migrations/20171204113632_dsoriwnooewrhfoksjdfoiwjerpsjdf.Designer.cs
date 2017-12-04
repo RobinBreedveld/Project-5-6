@@ -11,9 +11,10 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171204113632_dsoriwnooewrhfoksjdfoiwjerpsjdf")]
+    partial class dsoriwnooewrhfoksjdfoiwjerpsjdf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,6 +79,40 @@ namespace login2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("login2.Models.Console", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<int>("Aantal_gekocht");
+
+                    b.Property<string>("Afbeelding");
+
+                    b.Property<int>("CategorieId");
+
+                    b.Property<string>("Kleur");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Naam");
+
+                    b.Property<string>("Opties");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<string>("Type");
+
+                    b.Property<int>("opslagcapaciteit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.ToTable("Consoles");
                 });
 
             modelBuilder.Entity("login2.Models.Drone", b =>
@@ -256,40 +291,6 @@ namespace login2.Migrations
                     b.ToTable("Schoenen");
                 });
 
-            modelBuilder.Entity("login2.Models.Spelcomputer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Aantal");
-
-                    b.Property<int>("Aantal_gekocht");
-
-                    b.Property<string>("Afbeelding");
-
-                    b.Property<int>("CategorieId");
-
-                    b.Property<string>("Kleur");
-
-                    b.Property<string>("Merk");
-
-                    b.Property<string>("Naam");
-
-                    b.Property<string>("Opties");
-
-                    b.Property<int>("Prijs");
-
-                    b.Property<string>("Type");
-
-                    b.Property<int>("opslagcapaciteit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategorieId");
-
-                    b.ToTable("Spelcomputers");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -397,6 +398,14 @@ namespace login2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("login2.Models.Console", b =>
+                {
+                    b.HasOne("login2.Models.Categorie", "Categorie")
+                        .WithMany("Consoles")
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("login2.Models.Drone", b =>
                 {
                     b.HasOne("login2.Models.Categorie", "Categorie")
@@ -433,14 +442,6 @@ namespace login2.Migrations
                 {
                     b.HasOne("login2.Models.Categorie", "Categorie")
                         .WithMany("Schoenen")
-                        .HasForeignKey("CategorieId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("login2.Models.Spelcomputer", b =>
-                {
-                    b.HasOne("login2.Models.Categorie", "Categorie")
-                        .WithMany("Spelcomputers")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

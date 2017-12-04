@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171130134235_new")]
-    partial class @new
+    [Migration("20171204122916_woidc")]
+    partial class woidc
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,28 +71,6 @@ namespace login2.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("login2.Models.Cable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CategorieId");
-
-                    b.Property<int>("Length");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("Price");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategorieId");
-
-                    b.ToTable("Cables");
-                });
-
             modelBuilder.Entity("login2.Models.Categorie", b =>
                 {
                     b.Property<int>("Id")
@@ -103,16 +81,30 @@ namespace login2.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("login2.Models.Gadget", b =>
+            modelBuilder.Entity("login2.Models.Drone", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("Aantal");
+
+                    b.Property<int>("Aantal_gekocht");
+
+                    b.Property<int>("Aantal_rotors");
+
+                    b.Property<string>("Afbeelding");
+
                     b.Property<int>("CategorieId");
 
-                    b.Property<string>("Name");
+                    b.Property<int>("Grootte");
 
-                    b.Property<int>("Price");
+                    b.Property<string>("Kleur");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Naam");
+
+                    b.Property<int>("Prijs");
 
                     b.Property<string>("Type");
 
@@ -120,7 +112,183 @@ namespace login2.Migrations
 
                     b.HasIndex("CategorieId");
 
-                    b.ToTable("Gadgets");
+                    b.ToTable("Drones");
+                });
+
+            modelBuilder.Entity("login2.Models.Fotocamera", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<int>("Aantal_gekocht");
+
+                    b.Property<string>("Afbeelding");
+
+                    b.Property<int>("CategorieId");
+
+                    b.Property<string>("Flits");
+
+                    b.Property<string>("Kleur");
+
+                    b.Property<int>("Max_Bereik");
+
+                    b.Property<int>("MegaPixels");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<int>("Min_Bereik");
+
+                    b.Property<string>("Naam");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.ToTable("Fotocameras");
+                });
+
+            modelBuilder.Entity("login2.Models.Horloge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<int>("Aantal_gekocht");
+
+                    b.Property<string>("Afbeelding");
+
+                    b.Property<int>("CategorieId");
+
+                    b.Property<string>("Geslacht");
+
+                    b.Property<int>("Grootte");
+
+                    b.Property<string>("Kleur");
+
+                    b.Property<string>("Materiaal");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Naam");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.ToTable("Horloges");
+                });
+
+            modelBuilder.Entity("login2.Models.Kabel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<int>("Aantal_gekocht");
+
+                    b.Property<string>("Afbeelding");
+
+                    b.Property<int>("CategorieId");
+
+                    b.Property<string>("Kleur");
+
+                    b.Property<int>("Lengte");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Naam");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.ToTable("Kabels");
+                });
+
+            modelBuilder.Entity("login2.Models.Schoen", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<int>("Aantal_gekocht");
+
+                    b.Property<string>("Afbeelding");
+
+                    b.Property<int>("CategorieId");
+
+                    b.Property<string>("Geslacht");
+
+                    b.Property<string>("Kleur");
+
+                    b.Property<int>("Maat");
+
+                    b.Property<string>("Materiaal");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Naam");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.ToTable("Schoenen");
+                });
+
+            modelBuilder.Entity("login2.Models.Spelcomputer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<int>("Aantal_gekocht");
+
+                    b.Property<string>("Afbeelding");
+
+                    b.Property<int>("CategorieId");
+
+                    b.Property<string>("Kleur");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Naam");
+
+                    b.Property<string>("Opties");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<string>("Type");
+
+                    b.Property<int>("opslagcapaciteit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.ToTable("Spelcomputers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -230,18 +398,50 @@ namespace login2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("login2.Models.Cable", b =>
+            modelBuilder.Entity("login2.Models.Drone", b =>
                 {
                     b.HasOne("login2.Models.Categorie", "Categorie")
-                        .WithMany("Cables")
+                        .WithMany("Drones")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("login2.Models.Gadget", b =>
+            modelBuilder.Entity("login2.Models.Fotocamera", b =>
                 {
                     b.HasOne("login2.Models.Categorie", "Categorie")
-                        .WithMany("Gadgets")
+                        .WithMany("Fotocameras")
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("login2.Models.Horloge", b =>
+                {
+                    b.HasOne("login2.Models.Categorie", "Categorie")
+                        .WithMany("Horloges")
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("login2.Models.Kabel", b =>
+                {
+                    b.HasOne("login2.Models.Categorie", "Categorie")
+                        .WithMany("Kabels")
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("login2.Models.Schoen", b =>
+                {
+                    b.HasOne("login2.Models.Categorie", "Categorie")
+                        .WithMany("Schoenen")
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("login2.Models.Spelcomputer", b =>
+                {
+                    b.HasOne("login2.Models.Categorie", "Categorie")
+                        .WithMany("Spelcomputers")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

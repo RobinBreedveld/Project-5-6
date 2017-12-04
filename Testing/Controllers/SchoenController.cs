@@ -10,22 +10,23 @@ using login2.Models;
 
 namespace login2.Controllers
 {
-    public class CategorieController : Controller
+    public class SchoenController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CategorieController(ApplicationDbContext context)
+        public SchoenController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Categorie
+        // GET: Schoen
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            var applicationDbContext = _context.Schoenen.Include(s => s.Categorie);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Categorie/Details/5
+        // GET: Schoen/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,42 @@ namespace login2.Controllers
                 return NotFound();
             }
 
-            var categorie = await _context.Categories
+            var schoen = await _context.Schoenen
+                .Include(s => s.Categorie)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (categorie == null)
+            if (schoen == null)
             {
                 return NotFound();
             }
 
-            return View(categorie);
+            return View(schoen);
         }
 
-        // GET: Categorie/Create
+        // GET: Schoen/Create
         public IActionResult Create()
         {
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
             return View();
         }
 
-        // POST: Categorie/Create
+        // POST: Schoen/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Categorie categorie)
+        public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Maat,Materiaal,Geslacht")] Schoen schoen)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(categorie);
+                _context.Add(schoen);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(categorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", schoen.CategorieId);
+            return View(schoen);
         }
 
-        // GET: Categorie/Edit/5
+        // GET: Schoen/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +77,23 @@ namespace login2.Controllers
                 return NotFound();
             }
 
-            var categorie = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);
-            if (categorie == null)
+            var schoen = await _context.Schoenen.SingleOrDefaultAsync(m => m.Id == id);
+            if (schoen == null)
             {
                 return NotFound();
             }
-            return View(categorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", schoen.CategorieId);
+            return View(schoen);
         }
 
-        // POST: Categorie/Edit/5
+        // POST: Schoen/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Categorie categorie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Maat,Materiaal,Geslacht")] Schoen schoen)
         {
-            if (id != categorie.Id)
+            if (id != schoen.Id)
             {
                 return NotFound();
             }
@@ -97,12 +102,12 @@ namespace login2.Controllers
             {
                 try
                 {
-                    _context.Update(categorie);
+                    _context.Update(schoen);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategorieExists(categorie.Id))
+                    if (!SchoenExists(schoen.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +118,11 @@ namespace login2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(categorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", schoen.CategorieId);
+            return View(schoen);
         }
 
-        // GET: Categorie/Delete/5
+        // GET: Schoen/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +130,31 @@ namespace login2.Controllers
                 return NotFound();
             }
 
-            var categorie = await _context.Categories
+            var schoen = await _context.Schoenen
+                .Include(s => s.Categorie)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (categorie == null)
+            if (schoen == null)
             {
                 return NotFound();
             }
 
-            return View(categorie);
+            return View(schoen);
         }
 
-        // POST: Categorie/Delete/5
+        // POST: Schoen/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categorie = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Categories.Remove(categorie);
+            var schoen = await _context.Schoenen.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Schoenen.Remove(schoen);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategorieExists(int id)
+        private bool SchoenExists(int id)
         {
-            return _context.Categories.Any(e => e.Id == id);
+            return _context.Schoenen.Any(e => e.Id == id);
         }
     }
 }

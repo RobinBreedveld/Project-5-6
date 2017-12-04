@@ -103,3 +103,14 @@ C:\Users\Jonah Kalkman\Documents\GitHub\Project-5-6\Testing\obj\Debug\netcoreapp
 C:\Users\Jonah Kalkman\Documents\GitHub\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.AssemblyInfo.cs
 C:\Users\Jonah Kalkman\Documents\GitHub\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.dll
 C:\Users\Jonah Kalkman\Documents\GitHub\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.pdb
+D:\School\Project 5-6\Code\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.csproj.CoreCompileInputs.cache
+D:\School\Project 5-6\Code\Project-5-6\Testing\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+D:\School\Project 5-6\Code\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.AssemblyInfoInputs.cache
+D:\School\Project 5-6\Code\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.AssemblyInfo.cs
+D:\School\Project 5-6\Code\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.dll
+D:\School\Project 5-6\Code\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.pdb
+D:\School\Project 5-6\Code\Project-5-6\Testing\bin\Debug\netcoreapp2.0\login2.deps.json
+D:\School\Project 5-6\Code\Project-5-6\Testing\bin\Debug\netcoreapp2.0\login2.runtimeconfig.json
+D:\School\Project 5-6\Code\Project-5-6\Testing\bin\Debug\netcoreapp2.0\login2.runtimeconfig.dev.json
+D:\School\Project 5-6\Code\Project-5-6\Testing\bin\Debug\netcoreapp2.0\login2.dll
+D:\School\Project 5-6\Code\Project-5-6\Testing\bin\Debug\netcoreapp2.0\login2.pdb

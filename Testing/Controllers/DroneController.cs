@@ -10,22 +10,33 @@ using login2.Models;
 
 namespace login2.Controllers
 {
-    public class CategorieController : Controller
+    public class DroneController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CategorieController(ApplicationDbContext context)
+        public DroneController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Categorie
-        public async Task<IActionResult> Index()
+        // GET: Drone
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            return View(await _context.Categories.ToListAsync());
+            var drones = from a in _context.Drones select a;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                drones = _context.Drones.Where(s => s.Naam.StartsWith(searchString.ToUpper()));
+            }
+            else
+            {
+                drones = from a in _context.Drones select a;
+            }
+
+            var applicationDbContext = _context.Drones.Include(d => d.Categorie);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Categorie/Details/5
+        // GET: Drone/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +44,42 @@ namespace login2.Controllers
                 return NotFound();
             }
 
-            var categorie = await _context.Categories
+            var drone = await _context.Drones
+                .Include(d => d.Categorie)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (categorie == null)
+            if (drone == null)
             {
                 return NotFound();
             }
 
-            return View(categorie);
+            return View(drone);
         }
 
-        // GET: Categorie/Create
+        // GET: Drone/Create
         public IActionResult Create()
         {
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
             return View();
         }
 
-        // POST: Categorie/Create
+        // POST: Drone/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Categorie categorie)
+        public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Aantal_rotors,Grootte")] Drone drone)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(categorie);
+                _context.Add(drone);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(categorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", drone.CategorieId);
+            return View(drone);
         }
 
-        // GET: Categorie/Edit/5
+        // GET: Drone/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +87,23 @@ namespace login2.Controllers
                 return NotFound();
             }
 
-            var categorie = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);
-            if (categorie == null)
+            var drone = await _context.Drones.SingleOrDefaultAsync(m => m.Id == id);
+            if (drone == null)
             {
                 return NotFound();
             }
-            return View(categorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", drone.CategorieId);
+            return View(drone);
         }
 
-        // POST: Categorie/Edit/5
+        // POST: Drone/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Categorie categorie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Aantal_rotors,Grootte")] Drone drone)
         {
-            if (id != categorie.Id)
+            if (id != drone.Id)
             {
                 return NotFound();
             }
@@ -97,12 +112,12 @@ namespace login2.Controllers
             {
                 try
                 {
-                    _context.Update(categorie);
+                    _context.Update(drone);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategorieExists(categorie.Id))
+                    if (!DroneExists(drone.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +128,11 @@ namespace login2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(categorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", drone.CategorieId);
+            return View(drone);
         }
 
-        // GET: Categorie/Delete/5
+        // GET: Drone/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +140,31 @@ namespace login2.Controllers
                 return NotFound();
             }
 
-            var categorie = await _context.Categories
+            var drone = await _context.Drones
+                .Include(d => d.Categorie)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (categorie == null)
+            if (drone == null)
             {
                 return NotFound();
             }
 
-            return View(categorie);
+            return View(drone);
         }
 
-        // POST: Categorie/Delete/5
+        // POST: Drone/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categorie = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Categories.Remove(categorie);
+            var drone = await _context.Drones.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Drones.Remove(drone);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategorieExists(int id)
+        private bool DroneExists(int id)
         {
-            return _context.Categories.Any(e => e.Id == id);
+            return _context.Drones.Any(e => e.Id == id);
         }
     }
 }

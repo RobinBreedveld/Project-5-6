@@ -10,22 +10,23 @@ using login2.Models;
 
 namespace login2.Controllers
 {
-    public class CategorieController : Controller
+    public class SpelcomputerController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CategorieController(ApplicationDbContext context)
+        public SpelcomputerController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Categorie
+        // GET: Spelcomputer
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            var applicationDbContext = _context.Spelcomputers.Include(s => s.Categorie);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Categorie/Details/5
+        // GET: Spelcomputer/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,42 @@ namespace login2.Controllers
                 return NotFound();
             }
 
-            var categorie = await _context.Categories
+            var spelcomputer = await _context.Spelcomputers
+                .Include(s => s.Categorie)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (categorie == null)
+            if (spelcomputer == null)
             {
                 return NotFound();
             }
 
-            return View(categorie);
+            return View(spelcomputer);
         }
 
-        // GET: Categorie/Create
+        // GET: Spelcomputer/Create
         public IActionResult Create()
         {
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
             return View();
         }
 
-        // POST: Categorie/Create
+        // POST: Spelcomputer/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Categorie categorie)
+        public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,opslagcapaciteit,Opties")] Spelcomputer spelcomputer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(categorie);
+                _context.Add(spelcomputer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(categorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", spelcomputer.CategorieId);
+            return View(spelcomputer);
         }
 
-        // GET: Categorie/Edit/5
+        // GET: Spelcomputer/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +77,23 @@ namespace login2.Controllers
                 return NotFound();
             }
 
-            var categorie = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);
-            if (categorie == null)
+            var spelcomputer = await _context.Spelcomputers.SingleOrDefaultAsync(m => m.Id == id);
+            if (spelcomputer == null)
             {
                 return NotFound();
             }
-            return View(categorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", spelcomputer.CategorieId);
+            return View(spelcomputer);
         }
 
-        // POST: Categorie/Edit/5
+        // POST: Spelcomputer/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Categorie categorie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,opslagcapaciteit,Opties")] Spelcomputer spelcomputer)
         {
-            if (id != categorie.Id)
+            if (id != spelcomputer.Id)
             {
                 return NotFound();
             }
@@ -97,12 +102,12 @@ namespace login2.Controllers
             {
                 try
                 {
-                    _context.Update(categorie);
+                    _context.Update(spelcomputer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategorieExists(categorie.Id))
+                    if (!SpelcomputerExists(spelcomputer.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +118,11 @@ namespace login2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(categorie);
+            ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", spelcomputer.CategorieId);
+            return View(spelcomputer);
         }
 
-        // GET: Categorie/Delete/5
+        // GET: Spelcomputer/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +130,31 @@ namespace login2.Controllers
                 return NotFound();
             }
 
-            var categorie = await _context.Categories
+            var spelcomputer = await _context.Spelcomputers
+                .Include(s => s.Categorie)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (categorie == null)
+            if (spelcomputer == null)
             {
                 return NotFound();
             }
 
-            return View(categorie);
+            return View(spelcomputer);
         }
 
-        // POST: Categorie/Delete/5
+        // POST: Spelcomputer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categorie = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Categories.Remove(categorie);
+            var spelcomputer = await _context.Spelcomputers.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Spelcomputers.Remove(spelcomputer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategorieExists(int id)
+        private bool SpelcomputerExists(int id)
         {
-            return _context.Categories.Any(e => e.Id == id);
+            return _context.Spelcomputers.Any(e => e.Id == id);
         }
     }
 }

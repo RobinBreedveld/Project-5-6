@@ -86,10 +86,10 @@ namespace login2.Controllers
       public async Task<IActionResult> Categorie()
         {
             ViewData["Message"] = "Your categorie page.";
-            var categories = _context.Categories.Include(p => p.Cables).Include(p => p.Gadgets);
+            //var categories = _context.Categories.Include(p => p.Cables).Include(p => p.Gadgets);
             
             //await categorieenproduct.ToListAsync()
-            return View(await categories.ToListAsync());
+            return View();
         }
 
         public IActionResult About()
