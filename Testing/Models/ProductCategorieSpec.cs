@@ -15,6 +15,19 @@ namespace login2.Models
     public List<Fotocamera> Fotocameras { get; set;}
     public List<Schoen> Schoenen { get; set;}
   }
+  public class Cart
+    {
+        public int Id { get; set; }
+        public int Order_nummer { get; set; }
+        public string User_Id { get; set; }
+        public int Product_Id { get; set; }
+        public string Merk { get; set; }
+        public string Model_naam { get; set; }
+        public string Beschrijving { get; set; }
+        public int Aantal { get; set; }
+        public int Prijs { get; set; }
+
+    }
 
   //this is the typed representation of a Kabel in our project
   public class Kabel

@@ -7,7 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using login2.Data;
 using login2.Models;
-using System.IO;
+using Microsoft.AspNetCore.Identity;
+using System.Web;
+using System.Security.Principal;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using login2.Models.ManageViewModels;
+using login2.Services;
 
 
 namespace login2.Controllers
@@ -44,54 +55,104 @@ namespace login2.Controllers
             return View();
         }
 //  public async Task<IActionResult> Browse(int categorieId, int Id, string searchString, string sortOrder)
-        public IActionResult Browse(int categorieId, int Id, string searchString, string sortOrder)
+        public IActionResult Browse(string searchString)
         {
             ViewData["Message"] = "Your Browse page.";
-
-            // Retrieve Genre and its Associated Albums from database
-            //var categorieModel = from a in _context.Products.Include(p => p.Spec) where a.CategorieId == categorieId select a;
-
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                //categorieModel = _context.Products.Include(p => p.Spec).Where(s => s.Name.Contains(searchString.ToUpper()));
+            if( searchString == null ) {
+                return View("Index");
             }
-            else
+            else 
             {
-               // categorieModel = from a in _context.Products.Include(p => p.Spec) where a.CategorieId == categorieId select a;
-            }
-           
-            if (sortOrder == "Name")
-            {
-                 //categorieModel = _context.Products.Include(p => p.Spec).Where(s => s.Spec.dwad == 1 );
-            }
-            //await categorieModel.ToListAsync()
-            return View();
-
-        }
-
-        public IActionResult fakeError()
-        {
-            ViewData["Message"] = "Your 404 page.";
-            return Content("Hi there!");
-        }
-        public IActionResult Item(int productId)
-        {
-            ViewData["Message"] = "Your Item page.";
-            // Retrieve Genre and its Associated Albums from database
-            //var productModel = from a in _context.Products where a.ProductId == productId select a;
-//productModel
-            return View();
-        }
-      public async Task<IActionResult> Categorie()
-        {
-            ViewData["Message"] = "Your categorie page.";
-            //var categories = _context.Categories.Include(p => p.Cables).Include(p => p.Gadgets);
             
-            //await categorieenproduct.ToListAsync()
-            return View();
+            var kabels = _context.Kabels.Where(p => p.Naam.StartsWith(searchString.ToLower())); 
+            var drones = _context.Drones.Where(p => p.Naam.StartsWith(searchString.ToLower()));
+            var spelcomputers = _context.Spelcomputers.Where(p => p.Naam.StartsWith(searchString.ToUpper()));
+            var horloges = _context.Horloges.Where(p => p.Naam.StartsWith(searchString.ToUpper()));
+            var fotocameras = _context.Fotocameras.Where(p => p.Naam.StartsWith(searchString.ToUpper()));
+            var schoenen = _context.Schoenen.Where(p => p.Naam.StartsWith(searchString.ToUpper()));
+            var wrapper = new  Categorie();
+            wrapper.Kabels = kabels.ToList();
+            wrapper.Drones = drones.ToList();
+            wrapper.Spelcomputers = spelcomputers.ToList();
+            wrapper.Horloges = horloges.ToList();
+            wrapper.Fotocameras = fotocameras.ToList();
+            wrapper.Schoenen = schoenen.ToList();
+            
+            return View(wrapper);
+            } 
         }
+        public async Task<IActionResult> Cart(string model_name)
+        {
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var gotuserId = claim.Value;
+            var kabel_cart_items = from kabel in _context.Kabels
+            from cart in _context.Cart
+            where kabel.Id == cart.Product_Id && cart.User_Id == gotuserId 
+            select new Kabel{
+                    Naam = kabel.Naam,
+                    Id = kabel.Id
+            };
+            var drone_cart_items = from drones in _context.Drones
+                        from cart in _context.Cart
+                        where drones.Id == cart.Product_Id && cart.User_Id == gotuserId 
+                        select new Drone{
+                                Naam = drones.Naam,
+                                Id = drones.Id
+                        };
+            var spelcomputer_cart_items = from spelcomputer in _context.Spelcomputers
+            from cart in _context.Cart
+            where spelcomputer.Id == cart.Product_Id && cart.User_Id == gotuserId 
+            select new Spelcomputer{
+                    Naam = spelcomputer.Naam,
+                    Id = spelcomputer.Id
+            };
+            var horloge_cart_items = from horloge in _context.Horloges
+            from cart in _context.Cart
+            where horloge.Id == cart.Product_Id && cart.User_Id == gotuserId 
+            select new Horloge{
+                    Naam = horloge.Naam,
+                    Id = horloge.Id
+            };
+            var fotocamera_cart_items = from fotocamera in _context.Fotocameras
+            from cart in _context.Cart
+            where fotocamera.Id == cart.Product_Id && cart.User_Id == gotuserId 
+            select new Fotocamera{
+                    Naam = fotocamera.Naam,
+                    Id = fotocamera.Id
+            };
+            var schoen_cart_items = from schoen in _context.Schoenen
+            from cart in _context.Cart
+            where schoen.Id == cart.Product_Id && cart.User_Id == gotuserId 
+            select new Schoen{
+                    Naam = schoen.Naam,
+                    Id = schoen.Id
+            };
+            var wrappert = new  Categorie();
+            //add all the items to the wrapper
+            wrappert.Drones = drone_cart_items.ToList();
+            wrappert.Kabels = kabel_cart_items.ToList();
+            wrappert.Spelcomputers = spelcomputer_cart_items.ToList();
+            wrappert.Horloges = horloge_cart_items.ToList();
+            wrappert.Fotocameras = fotocamera_cart_items.ToList();
+            wrappert.Schoenen = schoen_cart_items.ToList();
 
+            return View(wrappert);
+        }
+        [Authorize]
+        public async Task<IActionResult> AddToShoppingCart(int product, string model) {
+           var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var gotuserId = claim.Value;
+            Cart m = new Cart {
+                User_Id = gotuserId,
+                Product_Id = product,
+                Model_naam = model
+            };
+            _context.Cart.Add(m);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

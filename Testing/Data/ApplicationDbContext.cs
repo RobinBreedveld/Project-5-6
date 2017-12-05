@@ -18,6 +18,7 @@ namespace login2.Data
     public DbSet<Horloge> Horloges { get; set; }
     public DbSet<Fotocamera> Fotocameras { get; set; }
     public DbSet<Schoen> Schoenen { get; set; }
+    public DbSet<Cart> Cart { get; set; }
 
         
         

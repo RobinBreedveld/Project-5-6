@@ -7,9 +7,7 @@ using Microsoft.AspNetCore.Identity;
 namespace login2.Models
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser
-    {
-    // Your Extended Properties
-    // public Shoppingcart Shoppingcart{ get; set; }
-    }
+  public class ApplicationUser : IdentityUser
+{
+}
 }

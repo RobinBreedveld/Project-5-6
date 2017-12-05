@@ -7,13 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using login2.Data;
 using login2.Models;
-
+using Microsoft.AspNetCore.Identity;
+using System.Web;
+using System.Security.Principal;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using login2.Models.ManageViewModels;
+using login2.Services;
 namespace login2.Controllers
 {
     public class DroneController : Controller
     {
         private readonly ApplicationDbContext _context;
-
         public DroneController(ApplicationDbContext context)
         {
             _context = context;
@@ -54,6 +64,7 @@ namespace login2.Controllers
 
             return View(drone);
         }
+        
 
         // GET: Drone/Create
         public IActionResult Create()

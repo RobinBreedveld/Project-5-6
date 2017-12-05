@@ -79,6 +79,7 @@
     </dl>
 </div>
 <div>
+    @Html.ActionLink("Add to shoppingcart","AddToShoppingCart","Home", new { product =  @Model.Id, model = "Spelcomputer"})
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

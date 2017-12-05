@@ -11,9 +11,10 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171204202026_neww")]
+    partial class neww
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,6 +54,8 @@ namespace login2.Migrations
 
                     b.Property<string>("SecurityStamp");
 
+                    b.Property<int>("ShoppingCartId");
+
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
@@ -67,33 +70,9 @@ namespace login2.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
+                    b.HasIndex("ShoppingCartId");
+
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("login2.Models.Cart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Aantal");
-
-                    b.Property<string>("Beschrijving");
-
-                    b.Property<string>("Merk");
-
-                    b.Property<string>("Model_naam");
-
-                    b.Property<int>("Order_nummer");
-
-                    b.Property<int>("Prijs");
-
-                    b.Property<int>("Product_Id");
-
-                    b.Property<string>("User_Id");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cart");
                 });
 
             modelBuilder.Entity("login2.Models.Categorie", b =>
@@ -131,11 +110,15 @@ namespace login2.Migrations
 
                     b.Property<int>("Prijs");
 
+                    b.Property<int?>("ShoppingCartId");
+
                     b.Property<string>("Type");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategorieId");
+
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Drones");
                 });
@@ -169,11 +152,15 @@ namespace login2.Migrations
 
                     b.Property<int>("Prijs");
 
+                    b.Property<int?>("ShoppingCartId");
+
                     b.Property<string>("Type");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategorieId");
+
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Fotocameras");
                 });
@@ -205,11 +192,15 @@ namespace login2.Migrations
 
                     b.Property<int>("Prijs");
 
+                    b.Property<int?>("ShoppingCartId");
+
                     b.Property<string>("Type");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategorieId");
+
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Horloges");
                 });
@@ -237,11 +228,15 @@ namespace login2.Migrations
 
                     b.Property<int>("Prijs");
 
+                    b.Property<int?>("ShoppingCartId");
+
                     b.Property<string>("Type");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategorieId");
+
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Kabels");
                 });
@@ -273,13 +268,29 @@ namespace login2.Migrations
 
                     b.Property<int>("Prijs");
 
+                    b.Property<int?>("ShoppingCartId");
+
                     b.Property<string>("Type");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategorieId");
 
+                    b.HasIndex("ShoppingCartId");
+
                     b.ToTable("Schoenen");
+                });
+
+            modelBuilder.Entity("login2.Models.ShoppingCart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShoppingCart");
                 });
 
             modelBuilder.Entity("login2.Models.Spelcomputer", b =>
@@ -305,6 +316,8 @@ namespace login2.Migrations
 
                     b.Property<int>("Prijs");
 
+                    b.Property<int?>("ShoppingCartId");
+
                     b.Property<string>("Type");
 
                     b.Property<int>("opslagcapaciteit");
@@ -312,6 +325,8 @@ namespace login2.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategorieId");
+
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Spelcomputers");
                 });
@@ -423,12 +438,24 @@ namespace login2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("login2.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("login2.Models.ShoppingCart", "ShoppingCart")
+                        .WithMany()
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("login2.Models.Drone", b =>
                 {
                     b.HasOne("login2.Models.Categorie", "Categorie")
                         .WithMany("Drones")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("login2.Models.ShoppingCart")
+                        .WithMany("Drones")
+                        .HasForeignKey("ShoppingCartId");
                 });
 
             modelBuilder.Entity("login2.Models.Fotocamera", b =>
@@ -437,6 +464,10 @@ namespace login2.Migrations
                         .WithMany("Fotocameras")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("login2.Models.ShoppingCart")
+                        .WithMany("Fotocameras")
+                        .HasForeignKey("ShoppingCartId");
                 });
 
             modelBuilder.Entity("login2.Models.Horloge", b =>
@@ -445,6 +476,10 @@ namespace login2.Migrations
                         .WithMany("Horloges")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("login2.Models.ShoppingCart")
+                        .WithMany("Horloges")
+                        .HasForeignKey("ShoppingCartId");
                 });
 
             modelBuilder.Entity("login2.Models.Kabel", b =>
@@ -453,6 +488,10 @@ namespace login2.Migrations
                         .WithMany("Kabels")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("login2.Models.ShoppingCart")
+                        .WithMany("Kabels")
+                        .HasForeignKey("ShoppingCartId");
                 });
 
             modelBuilder.Entity("login2.Models.Schoen", b =>
@@ -461,6 +500,10 @@ namespace login2.Migrations
                         .WithMany("Schoenen")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("login2.Models.ShoppingCart")
+                        .WithMany("Schoenen")
+                        .HasForeignKey("ShoppingCartId");
                 });
 
             modelBuilder.Entity("login2.Models.Spelcomputer", b =>
@@ -469,6 +512,10 @@ namespace login2.Migrations
                         .WithMany("Spelcomputers")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("login2.Models.ShoppingCart")
+                        .WithMany("Spelcomputers")
+                        .HasForeignKey("ShoppingCartId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
