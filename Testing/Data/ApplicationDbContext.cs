@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,18 +10,20 @@ namespace login2.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-       public DbSet<Categorie> Categories { get; set; }
-    public DbSet<Kabel> Kabels { get; set; }
-    //this is actual entity object linked to the actors in our DB
-    public DbSet<Drone> Drones { get; set; }
-    public DbSet<Spelcomputer> Spelcomputers { get; set; }
-    public DbSet<Horloge> Horloges { get; set; }
-    public DbSet<Fotocamera> Fotocameras { get; set; }
-    public DbSet<Schoen> Schoenen { get; set; }
-    public DbSet<Cart> Cart { get; set; }
+        public DbSet<Categorie> Categories { get; set; }
+        public DbSet<Kabel> Kabels { get; set; }
+        //this is actual entity object linked to the actors in our DB
+        public DbSet<Drone> Drones { get; set; }
+        public DbSet<Spelcomputer> Spelcomputers { get; set; }
+        public DbSet<Horloge> Horloges { get; set; }
+        public DbSet<Fotocamera> Fotocameras { get; set; }
+        public DbSet<Schoen> Schoenen { get; set; }
+        public DbSet<Cart> Cart { get; set; }
 
-        
-        
+        public DbSet<login2.Models.ApplicationUser> ApplicationUser { get; set; }
+
+
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -34,5 +36,6 @@ namespace login2.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
     }
 }
