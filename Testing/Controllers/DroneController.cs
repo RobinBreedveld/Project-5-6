@@ -170,6 +170,12 @@ namespace login2.Controllers
             var drone = await _context.Drones.SingleOrDefaultAsync(m => m.Id == id);
             _context.Drones.Remove(drone);
             await _context.SaveChangesAsync();
+            //deletes cartitem with same id as deleted item
+            var delete = await _context.Cart.SingleOrDefaultAsync(m => m.Product_Id == id && m.Model_naam == "Drone");
+            if (delete != null){
+            _context.Cart.Remove(delete);
+            await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 

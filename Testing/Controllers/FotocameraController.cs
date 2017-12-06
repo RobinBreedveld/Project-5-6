@@ -149,6 +149,12 @@ namespace login2.Controllers
             var fotocamera = await _context.Fotocameras.SingleOrDefaultAsync(m => m.Id == id);
             _context.Fotocameras.Remove(fotocamera);
             await _context.SaveChangesAsync();
+            //deletes cartitem with same id as deleted item
+            var delete = await _context.Cart.SingleOrDefaultAsync(m => m.Product_Id == id && m.Model_naam == "Fotocamera");
+            if (delete != null){
+            _context.Cart.Remove(delete);
+            await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 

@@ -1,25 +1,31 @@
 @model login2.Models.Categorie
 @foreach (var item in Model.Drones){
 
-        <h1>@item.Naam</h1>
+        <h1>@item.Naam</h1> 
+        @Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @item.Id, model = "Drone"})
 }
 @foreach (var item in Model.Kabels){
 
         <h1>@item.Naam</h1>
+        @Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @item.Id, model = "Kabel"})
 }
 @foreach (var item in Model.Spelcomputers){
 
         <h1>@item.Naam</h1>
+        @Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @item.Id, model = "Spelcomputer"})
 }
 @foreach (var item in Model.Horloges){
 
         <h1>@item.Naam</h1>
+        @Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @item.Id, model = "Horloges"})
 }
 @foreach (var item in Model.Fotocameras){
 
         <h1>@item.Naam</h1>
+        @Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @item.Id, model = "Fotocameras"})
 }
 @foreach (var item in Model.Schoenen){
 
         <h1>@item.Naam</h1>
+        @Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @item.Id, model = "Schoenen"})
 }

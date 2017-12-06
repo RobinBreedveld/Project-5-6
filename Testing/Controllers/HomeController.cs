@@ -151,7 +151,17 @@ namespace login2.Controllers
             };
             _context.Cart.Add(m);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Cart");
+        }
+        [Authorize]
+        public async Task<IActionResult> DeleteFromShoppingCart(int product, string model) {
+           var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var gotuserId = claim.Value;
+            var delete = await _context.Cart.SingleOrDefaultAsync(m => m.Product_Id == product && m.Model_naam == model && m.User_Id == gotuserId);
+            _context.Cart.Remove(delete);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Cart");
         }
         public IActionResult About()
         {
