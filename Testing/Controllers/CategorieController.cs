@@ -22,7 +22,7 @@ namespace login2.Controllers
         // GET: Categorie
         public async Task<IActionResult> Index()
         {
-            var categories = _context.Categories.Include(p => p.Kabels).Include(p => p.Schoenen);
+            var categories = _context.Categories.Include(p => p.Kabels).Include(p => p.Schoenen).Include(p => p.Drones).Include(p => p.Horloges).Include(p => p.Spelcomputers).Include(p => p.Fotocameras);
             return View(await categories.ToListAsync());
         }
         // GET: Categorie/Details/5

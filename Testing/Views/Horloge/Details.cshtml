@@ -85,7 +85,14 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Add to shoppingcart","AddToShoppingCart","Home", new { product =  @Model.Id, model = "Horloge"})
+    <!-- @Html.ActionLink("Add to shoppingcart","AddToShoppingCart","Home", new { product =  @Model.Id, model = "Horloge"}) -->
+    <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+        <p> @Html.TextBox("aantal", 1)
+            @Html.TextBox("product", @Model.Id, new {style = "display: none;"})
+            @Html.TextBox("model", "Horloge", new {style = "display: none;"})
+            <input class="aantal" type="submit" value="Add to shoppingcart" />
+        </p>
+    </form>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
