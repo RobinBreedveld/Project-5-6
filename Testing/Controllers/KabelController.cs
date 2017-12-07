@@ -20,10 +20,72 @@ namespace login2.Controllers
         }
 
         // GET: Kabel
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            var applicationDbContext = _context.Kabels.Include(k => k.Categorie);
-            return View(await applicationDbContext.ToListAsync());
+            ViewBag.NaamSortParm = String.IsNullOrEmpty(sortOrder) ? "naam" : "";
+            ViewBag.TypeSortParm = sortOrder == "type" ? "type_desc" : "type";
+            ViewBag.PrijsSortParm = sortOrder == "prijs" ? "prijs_desc" : "prijs";
+            ViewBag.MerkSortParm = sortOrder == "merk" ? "merk_desc" : "merk";
+            ViewBag.KleurSortParm = sortOrder == "kleur" ? "kleur_desc" : "kleur";
+            ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
+            ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
+            ViewBag.LengteSortParm = sortOrder == "lengte" ? "lengte_desc" : "lengte";
+            
+            var kabels = from a in _context.Kabels.Include(d => d.Categorie) select a;
+
+            switch (sortOrder)
+            {
+                case "naam":
+                    kabels = kabels.OrderByDescending(s => s.Naam);
+                    break;
+                case "type":
+                    kabels = kabels.OrderBy(s => s.Type);
+                    break;
+                case "type_desc":
+                    kabels = kabels.OrderByDescending(s => s.Type);
+                    break;
+                case "prijs":
+                    kabels = kabels.OrderBy(s => s.Prijs);
+                    break;
+                case "prijs_desc":
+                    kabels = kabels.OrderByDescending(s => s.Prijs);
+                    break;   
+                case "merk":
+                    kabels = kabels.OrderBy(s => s.Merk);
+                    break;
+                case "merk_desc":
+                    kabels = kabels.OrderByDescending(s => s.Merk);
+                    break;
+                case "kleur":
+                    kabels = kabels.OrderBy(s => s.Kleur);
+                    break;
+                case "kleur_desc":
+                    kabels = kabels.OrderByDescending(s => s.Kleur);
+                    break;
+                case "aantal":
+                    kabels = kabels.OrderBy(s => s.Aantal);
+                    break; 
+                case "aantal_desc":
+                    kabels = kabels.OrderByDescending(s => s.Aantal);
+                    break;
+                case "aantal_gekocht":
+                    kabels = kabels.OrderBy(s => s.Aantal_gekocht);
+                    break; 
+                case "aantal_gekocht_desc":
+                    kabels = kabels.OrderByDescending(s => s.Aantal_gekocht);
+                    break;
+                case "lengte":
+                    kabels = kabels.OrderBy(s => s.Lengte);
+                    break; 
+                case "lengte_desc":
+                    kabels = kabels.OrderByDescending(s => s.Lengte);
+                    break; 
+                default:
+                     kabels = kabels.OrderBy(s => s.Naam);
+                    break;
+            }
+        
+            return View(await kabels.ToListAsync());
         }
 
         // GET: Kabel/Details/5

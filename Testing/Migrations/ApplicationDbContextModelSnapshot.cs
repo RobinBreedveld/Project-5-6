@@ -301,13 +301,13 @@ namespace login2.Migrations
 
                     b.Property<string>("Naam");
 
+                    b.Property<int>("Opslagcapaciteit");
+
                     b.Property<string>("Opties");
 
                     b.Property<int>("Prijs");
 
                     b.Property<string>("Type");
-
-                    b.Property<int>("opslagcapaciteit");
 
                     b.HasKey("Id");
 

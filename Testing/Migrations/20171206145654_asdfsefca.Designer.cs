@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171204122916_woidc")]
-    partial class woidc
+    [Migration("20171206145654_asdfsefca")]
+    partial class asdfsefca
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,6 +69,32 @@ namespace login2.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("login2.Models.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<string>("Beschrijving");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Model_naam");
+
+                    b.Property<int>("Order_nummer");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<int>("Product_Id");
+
+                    b.Property<string>("User_Id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cart");
                 });
 
             modelBuilder.Entity("login2.Models.Categorie", b =>

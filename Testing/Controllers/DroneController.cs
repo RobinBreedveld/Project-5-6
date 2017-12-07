@@ -30,20 +30,80 @@ namespace login2.Controllers
         }
 
         // GET: Drone
-        public async Task<IActionResult> Index(string searchString, string sortOrder)
+
+    public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            var drones = from a in _context.Drones select a;
-            if (!String.IsNullOrEmpty(searchString))
+            ViewBag.NaamSortParm = String.IsNullOrEmpty(sortOrder) ? "naam" : "";
+            ViewBag.TypeSortParm = sortOrder == "type" ? "type_desc" : "type";
+            ViewBag.PrijsSortParm = sortOrder == "prijs" ? "prijs_desc" : "prijs";
+            ViewBag.MerkSortParm = sortOrder == "merk" ? "merk_desc" : "merk";
+            ViewBag.KleurSortParm = sortOrder == "kleur" ? "kleur_desc" : "kleur";
+            ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
+            ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
+            ViewBag.Aantal_rotorsSortParm = sortOrder == "aantal_rotors" ? "aantal_rotors_desc" : "aantal_rotors";
+            ViewBag.GrootteSortParm = sortOrder == "grootte" ? "grootte_desc" : "grootte";
+            
+            var drones = from a in _context.Drones.Include(d => d.Categorie) select a;
+
+            switch (sortOrder)
             {
-                drones = _context.Drones.Where(s => s.Naam.StartsWith(searchString.ToUpper()));
-            }
-            else
-            {
-                drones = from a in _context.Drones select a;
+                case "naam":
+                    drones = drones.OrderByDescending(s => s.Naam);
+                    break;
+                case "type":
+                    drones = drones.OrderBy(s => s.Type);
+                    break;
+                case "type_desc":
+                    drones = drones.OrderByDescending(s => s.Type);
+                    break;
+                case "prijs":
+                    drones = drones.OrderBy(s => s.Prijs);
+                    break;
+                case "prijs_desc":
+                    drones = drones.OrderByDescending(s => s.Prijs);
+                    break;   
+                case "merk":
+                    drones = drones.OrderBy(s => s.Merk);
+                    break;
+                case "merk_desc":
+                    drones = drones.OrderByDescending(s => s.Merk);
+                    break;
+                case "kleur":
+                    drones = drones.OrderBy(s => s.Kleur);
+                    break;
+                case "kleur_desc":
+                    drones = drones.OrderByDescending(s => s.Kleur);
+                    break;
+                case "aantal":
+                    drones = drones.OrderBy(s => s.Aantal);
+                    break; 
+                case "aantal_desc":
+                    drones = drones.OrderByDescending(s => s.Aantal);
+                    break;
+                case "aantal_gekocht":
+                    drones = drones.OrderBy(s => s.Aantal_gekocht);
+                    break; 
+                case "aantal_gekocht_desc":
+                    drones = drones.OrderByDescending(s => s.Aantal_gekocht);
+                    break;
+                case "aantal_rotors":
+                    drones = drones.OrderBy(s => s.Aantal_rotors);
+                    break; 
+                case "aantal_rotors_desc":
+                    drones = drones.OrderByDescending(s => s.Aantal_rotors);
+                    break; 
+                case "grootte":
+                    drones = drones.OrderBy(s => s.Grootte);
+                    break; 
+                case "grootte_desc":
+                    drones = drones.OrderByDescending(s => s.Grootte);
+                    break;         
+                default:
+                     drones = drones.OrderBy(s => s.Naam);
+                    break;
             }
 
-            var applicationDbContext = _context.Drones.Include(d => d.Categorie);
-            return View(await applicationDbContext.ToListAsync());
+        return View(await drones.ToListAsync());
         }
 
         // GET: Drone/Details/5

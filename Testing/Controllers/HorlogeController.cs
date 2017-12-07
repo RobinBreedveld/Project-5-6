@@ -20,11 +20,88 @@ namespace login2.Controllers
         }
 
         // GET: Horloge
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            var applicationDbContext = _context.Horloges.Include(h => h.Categorie);
-            return View(await applicationDbContext.ToListAsync());
+            ViewBag.NaamSortParm = String.IsNullOrEmpty(sortOrder) ? "naam" : "";
+            ViewBag.TypeSortParm = sortOrder == "type" ? "type_desc" : "type";
+            ViewBag.PrijsSortParm = sortOrder == "prijs" ? "prijs_desc" : "prijs";
+            ViewBag.MerkSortParm = sortOrder == "merk" ? "merk_desc" : "merk";
+            ViewBag.KleurSortParm = sortOrder == "kleur" ? "kleur_desc" : "kleur";
+            ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
+            ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
+            ViewBag.GrootteSortParm = sortOrder == "grootte" ? "grootte_desc" : "grootte";
+            ViewBag.MateriaalSortParm = sortOrder == "materiaal" ? "materiaal_desc" : "materiaal";
+            ViewBag.GeslachtSortParm = sortOrder == "geslacht" ? "geslacht_desc" : "geslacht";
+            
+            var horloges = from a in _context.Horloges.Include(d => d.Categorie) select a;
+            
+            switch (sortOrder)
+            {
+                case "naam":
+                    horloges = horloges.OrderByDescending(s => s.Naam);
+                    break;
+                case "type":
+                    horloges = horloges.OrderBy(s => s.Type);
+                    break;
+                case "type_desc":
+                    horloges = horloges.OrderByDescending(s => s.Type);
+                    break;
+                case "prijs":
+                    horloges = horloges.OrderBy(s => s.Prijs);
+                    break;
+                case "prijs_desc":
+                    horloges = horloges.OrderByDescending(s => s.Prijs);
+                    break;   
+                case "merk":
+                    horloges = horloges.OrderBy(s => s.Merk);
+                    break;
+                case "merk_desc":
+                    horloges = horloges.OrderByDescending(s => s.Merk);
+                    break;
+                case "kleur":
+                    horloges = horloges.OrderBy(s => s.Kleur);
+                    break;
+                case "kleur_desc":
+                    horloges = horloges.OrderByDescending(s => s.Kleur);
+                    break;
+                case "aantal":
+                    horloges = horloges.OrderBy(s => s.Aantal);
+                    break; 
+                case "aantal_desc":
+                    horloges = horloges.OrderByDescending(s => s.Aantal);
+                    break;
+                case "aantal_gekocht":
+                    horloges = horloges.OrderBy(s => s.Aantal_gekocht);
+                    break; 
+                case "aantal_gekocht_desc":
+                    horloges = horloges.OrderByDescending(s => s.Aantal_gekocht);
+                    break;
+                case "grootte":
+                    horloges = horloges.OrderBy(s => s.Grootte);
+                    break; 
+                case "grootte_desc":
+                    horloges = horloges.OrderByDescending(s => s.Grootte);
+                    break; 
+                case "materiaal":
+                    horloges = horloges.OrderBy(s => s.Materiaal);
+                    break; 
+                case "materiaal_desc":
+                    horloges = horloges.OrderByDescending(s => s.Materiaal);
+                    break;
+                case "geslacht":
+                    horloges = horloges.OrderBy(s => s.Geslacht);
+                    break;
+                case "geslacht_desc":
+                    horloges = horloges.OrderByDescending(s => s.Geslacht);
+                    break;         
+                default:
+                     horloges = horloges.OrderBy(s => s.Naam);
+                    break;
+            }
+        
+            return View(await horloges.ToListAsync());
         }
+
 
         // GET: Horloge/Details/5
         public async Task<IActionResult> Details(int? id)

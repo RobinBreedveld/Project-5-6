@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171206112222_Userscontrollerr")]
-    partial class Userscontrollerr
+    [Migration("20171206155656_ugfuydytc")]
+    partial class ugfuydytc
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -194,8 +194,6 @@ namespace login2.Migrations
 
                     b.Property<string>("Geslacht");
 
-                    b.Property<int>("Grootte");
-
                     b.Property<string>("Kleur");
 
                     b.Property<string>("Materiaal");
@@ -302,13 +300,13 @@ namespace login2.Migrations
 
                     b.Property<string>("Naam");
 
+                    b.Property<int>("Opslagcapaciteit");
+
                     b.Property<string>("Opties");
 
                     b.Property<int>("Prijs");
 
                     b.Property<string>("Type");
-
-                    b.Property<int>("opslagcapaciteit");
 
                     b.HasKey("Id");
 

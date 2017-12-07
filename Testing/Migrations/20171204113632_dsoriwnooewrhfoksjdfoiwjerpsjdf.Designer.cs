@@ -106,7 +106,7 @@ namespace login2.Migrations
 
                     b.Property<string>("Type");
 
-                    b.Property<int>("opslagcapaciteit");
+                    b.Property<int>("Opslagcapaciteit");
 
                     b.HasKey("Id");
 

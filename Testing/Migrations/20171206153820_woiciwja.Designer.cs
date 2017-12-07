@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171205141526_newone")]
-    partial class newone
+    [Migration("20171206153820_woiciwja")]
+    partial class woiciwja
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -302,13 +302,13 @@ namespace login2.Migrations
 
                     b.Property<string>("Naam");
 
+                    b.Property<int>("Opslagcapaciteit");
+
                     b.Property<string>("Opties");
 
                     b.Property<int>("Prijs");
 
                     b.Property<string>("Type");
-
-                    b.Property<int>("opslagcapaciteit");
 
                     b.HasKey("Id");
 

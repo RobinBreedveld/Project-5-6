@@ -12,36 +12,33 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Type)
+<th>
+                    @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParm })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Naam)
+                    @Html.ActionLink("Naam", "Index", new { sortOrder = ViewBag.NaamSortParm })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Prijs)
+                    @Html.ActionLink("Prijs", "Index", new { sortOrder = ViewBag.PrijsSortParm })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Merk)
+                    @Html.ActionLink("Merk", "Index", new { sortOrder = ViewBag.MerkSortParm })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Kleur)
+                    @Html.ActionLink("Kleur", "Index", new { sortOrder = ViewBag.KleurSortParm })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Aantal)
+                    @Html.ActionLink("Aantal", "Index", new { sortOrder = ViewBag.AantalSortParm })
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Afbeelding)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Aantal_gekocht)
+                    @Html.ActionLink("Aantal_gekocht", "Index", new { sortOrder = ViewBag.Aantal_gekochtSortParm })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Lengte)
+                    @Html.ActionLink("Lengte", "Index", new { sortOrder = ViewBag.LengteSortParm })
                 </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categorie)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -74,9 +71,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Lengte)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categorie.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -78,7 +78,7 @@ namespace login2.Models
     public int Aantal_gekocht { get; set; }
     public int CategorieId { get; set; }
     public Categorie Categorie { get; set; }
-    public int opslagcapaciteit { get; set; }
+    public int Opslagcapaciteit { get; set; }
     public string Opties { get; set; }
   }
 

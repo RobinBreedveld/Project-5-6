@@ -182,7 +182,7 @@ namespace login2.Migrations
                     Opties = table.Column<string>(type: "text", nullable: true),
                     Prijs = table.Column<int>(type: "int4", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: true),
-                    opslagcapaciteit = table.Column<int>(type: "int4", nullable: false)
+                    Opslagcapaciteit = table.Column<int>(type: "int4", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -20,10 +20,86 @@ namespace login2.Controllers
         }
 
         // GET: Schoen
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            var applicationDbContext = _context.Schoenen.Include(s => s.Categorie);
-            return View(await applicationDbContext.ToListAsync());
+            ViewBag.NaamSortParm = String.IsNullOrEmpty(sortOrder) ? "naam" : "";
+            ViewBag.TypeSortParm = sortOrder == "type" ? "type_desc" : "type";
+            ViewBag.PrijsSortParm = sortOrder == "prijs" ? "prijs_desc" : "prijs";
+            ViewBag.MerkSortParm = sortOrder == "merk" ? "merk_desc" : "merk";
+            ViewBag.KleurSortParm = sortOrder == "kleur" ? "kleur_desc" : "kleur";
+            ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
+            ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
+            ViewBag.MaatSortParm = sortOrder == "maat" ? "maat_desc" : "maat";
+            ViewBag.MateriaalSortParm = sortOrder == "materiaal" ? "materiaal_desc" : "materiaal";
+            ViewBag.GeslachtSortParm = sortOrder == "geslacht" ? "geslacht_desc" : "geslacht";
+            
+            var schoenen = from a in _context.Schoenen.Include(d => d.Categorie) select a;
+
+            switch (sortOrder)
+            {
+                case "naam":
+                    schoenen = schoenen.OrderByDescending(s => s.Naam);
+                    break;
+                case "type":
+                    schoenen = schoenen.OrderBy(s => s.Type);
+                    break;
+                case "type_desc":
+                    schoenen = schoenen.OrderByDescending(s => s.Type);
+                    break;
+                case "prijs":
+                    schoenen = schoenen.OrderBy(s => s.Prijs);
+                    break;
+                case "prijs_desc":
+                    schoenen = schoenen.OrderByDescending(s => s.Prijs);
+                    break;   
+                case "merk":
+                    schoenen = schoenen.OrderBy(s => s.Merk);
+                    break;
+                case "merk_desc":
+                    schoenen = schoenen.OrderByDescending(s => s.Merk);
+                    break;
+                case "kleur":
+                    schoenen = schoenen.OrderBy(s => s.Kleur);
+                    break;
+                case "kleur_desc":
+                    schoenen = schoenen.OrderByDescending(s => s.Kleur);
+                    break;
+                case "aantal":
+                    schoenen = schoenen.OrderBy(s => s.Aantal);
+                    break; 
+                case "aantal_desc":
+                    schoenen = schoenen.OrderByDescending(s => s.Aantal);
+                    break;
+                case "aantal_gekocht":
+                    schoenen = schoenen.OrderBy(s => s.Aantal_gekocht);
+                    break; 
+                case "aantal_gekocht_desc":
+                    schoenen = schoenen.OrderByDescending(s => s.Aantal_gekocht);
+                    break;
+                case "maat":
+                    schoenen = schoenen.OrderBy(s => s.Maat);
+                    break; 
+                case "maat_desc":
+                    schoenen = schoenen.OrderByDescending(s => s.Maat);
+                    break; 
+                case "materiaal":
+                    schoenen = schoenen.OrderBy(s => s.Materiaal);
+                    break; 
+                case "materiaal_desc":
+                    schoenen = schoenen.OrderByDescending(s => s.Materiaal);
+                    break;
+                case "geslacht":
+                    schoenen = schoenen.OrderBy(s => s.Geslacht);
+                    break;
+                case "geslacht_desc":
+                    schoenen = schoenen.OrderByDescending(s => s.Geslacht);
+                    break;         
+                default:
+                     schoenen = schoenen.OrderBy(s => s.Naam);
+                    break;
+            }
+        
+            return View(await schoenen.ToListAsync());
         }
 
         // GET: Schoen/Details/5

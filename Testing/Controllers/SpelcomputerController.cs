@@ -20,10 +20,79 @@ namespace login2.Controllers
         }
 
         // GET: Spelcomputer
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            var applicationDbContext = _context.Spelcomputers.Include(s => s.Categorie);
-            return View(await applicationDbContext.ToListAsync());
+            ViewBag.NaamSortParm = String.IsNullOrEmpty(sortOrder) ? "naam" : "";
+            ViewBag.TypeSortParm = sortOrder == "type" ? "type_desc" : "type";
+            ViewBag.PrijsSortParm = sortOrder == "prijs" ? "prijs_desc" : "prijs";
+            ViewBag.MerkSortParm = sortOrder == "merk" ? "merk_desc" : "merk";
+            ViewBag.KleurSortParm = sortOrder == "kleur" ? "kleur_desc" : "kleur";
+            ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
+            ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
+            ViewBag.OpslagcapaciteitSortParm = sortOrder == "opslagcapaciteit" ? "opslagcapaciteit_desc" : "opslagcapaciteit";
+            ViewBag.OptiesSortParm = sortOrder == "opties" ? "opties_desc" : "opties";
+            
+            var spelcomputers = from a in _context.Spelcomputers.Include(d => d.Categorie) select a;
+
+            switch (sortOrder)
+            {
+                case "naam":
+                    spelcomputers = spelcomputers.OrderByDescending(s => s.Naam);
+                    break;
+                case "type":
+                    spelcomputers = spelcomputers.OrderBy(s => s.Type);
+                    break;
+                case "type_desc":
+                    spelcomputers = spelcomputers.OrderByDescending(s => s.Type);
+                    break;
+                case "prijs":
+                    spelcomputers = spelcomputers.OrderBy(s => s.Prijs);
+                    break;
+                case "prijs_desc":
+                    spelcomputers = spelcomputers.OrderByDescending(s => s.Prijs);
+                    break;   
+                case "merk":
+                    spelcomputers = spelcomputers.OrderBy(s => s.Merk);
+                    break;
+                case "merk_desc":
+                    spelcomputers = spelcomputers.OrderByDescending(s => s.Merk);
+                    break;
+                case "kleur":
+                    spelcomputers = spelcomputers.OrderBy(s => s.Kleur);
+                    break;
+                case "kleur_desc":
+                    spelcomputers = spelcomputers.OrderByDescending(s => s.Kleur);
+                    break;
+                case "aantal":
+                    spelcomputers = spelcomputers.OrderBy(s => s.Aantal);
+                    break; 
+                case "aantal_desc":
+                    spelcomputers = spelcomputers.OrderByDescending(s => s.Aantal);
+                    break;
+                case "aantal_gekocht":
+                    spelcomputers = spelcomputers.OrderBy(s => s.Aantal_gekocht);
+                    break; 
+                case "aantal_gekocht_desc":
+                    spelcomputers = spelcomputers.OrderByDescending(s => s.Aantal_gekocht);
+                    break;
+                case "opslagcapaciteit":
+                    spelcomputers = spelcomputers.OrderBy(s => s.Opslagcapaciteit);
+                    break; 
+                case "opslagcapaciteit_desc":
+                    spelcomputers = spelcomputers.OrderByDescending(s => s.Opslagcapaciteit);
+                    break; 
+                case "opties":
+                    spelcomputers = spelcomputers.OrderBy(s => s.Opties);
+                    break; 
+                case "opties_desc":
+                    spelcomputers = spelcomputers.OrderByDescending(s => s.Opties);
+                    break;     
+                default:
+                     spelcomputers = spelcomputers.OrderBy(s => s.Naam);
+                    break;
+            }
+        
+            return View(await spelcomputers.ToListAsync());
         }
 
         // GET: Spelcomputer/Details/5
@@ -57,7 +126,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,opslagcapaciteit,Opties")] Spelcomputer spelcomputer)
+        public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Opslagcapaciteit,Opties")] Spelcomputer spelcomputer)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +160,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,opslagcapaciteit,Opties")] Spelcomputer spelcomputer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Opslagcapaciteit,Opties")] Spelcomputer spelcomputer)
         {
             if (id != spelcomputer.Id)
             {
