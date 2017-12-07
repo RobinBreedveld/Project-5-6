@@ -7,6 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using login2.Data;
 using login2.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using login2.Models.AccountViewModels;
+using login2.Services;
 
 namespace login2.Controllers
 {
@@ -107,6 +115,7 @@ namespace login2.Controllers
             return View(kabel);
         }
 
+        [Authorize(Roles="Admin")]
         // GET: Kabel/Create
         public IActionResult Create()
         {
@@ -119,6 +128,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Lengte")] Kabel kabel)
         {
             if (ModelState.IsValid)
@@ -130,7 +140,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", kabel.CategorieId);
             return View(kabel);
         }
-
+        [Authorize(Roles="Admin")]
         // GET: Kabel/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -153,6 +163,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Lengte")] Kabel kabel)
         {
             if (id != kabel.Id)
@@ -183,7 +194,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", kabel.CategorieId);
             return View(kabel);
         }
-
+        [Authorize(Roles="Admin")]
         // GET: Kabel/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -202,7 +213,7 @@ namespace login2.Controllers
 
             return View(kabel);
         }
-
+        [Authorize(Roles="Admin")]
         // POST: Kabel/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

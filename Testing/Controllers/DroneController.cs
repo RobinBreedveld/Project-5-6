@@ -127,6 +127,7 @@ namespace login2.Controllers
         
 
         // GET: Drone/Create
+        [Authorize(Roles="Admin")]
         public IActionResult Create()
         {
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -138,6 +139,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Aantal_rotors,Grootte")] Drone drone)
         {
             if (ModelState.IsValid)
@@ -151,6 +153,7 @@ namespace login2.Controllers
         }
 
         // GET: Drone/Edit/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -172,6 +175,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Aantal_rotors,Grootte")] Drone drone)
         {
             if (id != drone.Id)
@@ -204,6 +208,7 @@ namespace login2.Controllers
         }
 
         // GET: Drone/Delete/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -225,6 +230,7 @@ namespace login2.Controllers
         // POST: Drone/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var drone = await _context.Drones.SingleOrDefaultAsync(m => m.Id == id);

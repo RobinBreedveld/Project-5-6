@@ -7,6 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using login2.Data;
 using login2.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Web;
+using System.Security.Principal;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using login2.Models.ManageViewModels;
+using login2.Services;
 
 namespace login2.Controllers
 {
@@ -44,6 +56,7 @@ namespace login2.Controllers
         }
 
         // GET: Categorie/Create
+        [Authorize(Roles="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +67,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Create([Bind("Id")] Categorie categorie)
         {
             if (ModelState.IsValid)
@@ -66,6 +80,7 @@ namespace login2.Controllers
         }
 
         // GET: Categorie/Edit/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +101,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id")] Categorie categorie)
         {
             if (id != categorie.Id)
@@ -117,6 +133,7 @@ namespace login2.Controllers
         }
 
         // GET: Categorie/Delete/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +154,7 @@ namespace login2.Controllers
         // POST: Categorie/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var categorie = await _context.Categories.SingleOrDefaultAsync(m => m.Id == id);

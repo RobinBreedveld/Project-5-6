@@ -7,6 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using login2.Data;
 using login2.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using login2.Models.AccountViewModels;
+using login2.Services;
 
 namespace login2.Controllers
 {
@@ -120,7 +128,7 @@ namespace login2.Controllers
 
             return View(schoen);
         }
-
+        [Authorize(Roles="Admin")]
         // GET: Schoen/Create
         public IActionResult Create()
         {
@@ -133,6 +141,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Maat,Materiaal,Geslacht")] Schoen schoen)
         {
             if (ModelState.IsValid)
@@ -144,7 +153,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", schoen.CategorieId);
             return View(schoen);
         }
-
+        [Authorize(Roles="Admin")]
         // GET: Schoen/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -167,6 +176,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Maat,Materiaal,Geslacht")] Schoen schoen)
         {
             if (id != schoen.Id)
@@ -199,6 +209,7 @@ namespace login2.Controllers
         }
 
         // GET: Schoen/Delete/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -220,6 +231,7 @@ namespace login2.Controllers
         // POST: Schoen/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var schoen = await _context.Schoenen.SingleOrDefaultAsync(m => m.Id == id);

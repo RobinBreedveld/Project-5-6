@@ -7,6 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using login2.Data;
 using login2.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using login2.Models.AccountViewModels;
+using login2.Services;
 
 namespace login2.Controllers
 {
@@ -115,6 +123,7 @@ namespace login2.Controllers
         }
 
         // GET: Spelcomputer/Create
+        [Authorize(Roles="Admin")]
         public IActionResult Create()
         {
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -126,6 +135,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Opslagcapaciteit,Opties")] Spelcomputer spelcomputer)
         {
             if (ModelState.IsValid)
@@ -139,6 +149,7 @@ namespace login2.Controllers
         }
 
         // GET: Spelcomputer/Edit/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -160,6 +171,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Opslagcapaciteit,Opties")] Spelcomputer spelcomputer)
         {
             if (id != spelcomputer.Id)
@@ -192,6 +204,7 @@ namespace login2.Controllers
         }
 
         // GET: Spelcomputer/Delete/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -213,6 +226,7 @@ namespace login2.Controllers
         // POST: Spelcomputer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var spelcomputer = await _context.Spelcomputers.SingleOrDefaultAsync(m => m.Id == id);

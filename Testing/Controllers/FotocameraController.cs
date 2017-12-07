@@ -7,6 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using login2.Data;
 using login2.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using login2.Models.AccountViewModels;
+using login2.Services;
 
 namespace login2.Controllers
 {
@@ -14,7 +22,13 @@ namespace login2.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-    public async Task<IActionResult> Index(string searchString, string sortOrder)
+        public FotocameraController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: Fotocamera
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
             ViewBag.NaamSortParm = String.IsNullOrEmpty(sortOrder) ? "naam" : "";
             ViewBag.TypeSortParm = sortOrder == "type" ? "type_desc" : "type";
@@ -29,7 +43,7 @@ namespace login2.Controllers
             ViewBag.Max_BereikSortParm = sortOrder == "Max_Bereik" ? "Max_Bereik_desc" : "Max_Bereik";
             
             var fotocameras = from a in _context.Fotocameras.Include(d => d.Categorie) select a;
-
+           
             switch (sortOrder)
             {
                 case "naam":
@@ -123,6 +137,7 @@ namespace login2.Controllers
         }
 
         // GET: Fotocamera/Create
+         [Authorize(Roles="Admin")]
         public IActionResult Create()
         {
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -134,6 +149,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+         [Authorize(Roles="Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,MegaPixels,Flits,Min_Bereik,Max_Bereik")] Fotocamera fotocamera)
         {
             if (ModelState.IsValid)
@@ -147,6 +163,7 @@ namespace login2.Controllers
         }
 
         // GET: Fotocamera/Edit/5
+         [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -168,6 +185,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+         [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,MegaPixels,Flits,Min_Bereik,Max_Bereik")] Fotocamera fotocamera)
         {
             if (id != fotocamera.Id)
@@ -200,6 +218,7 @@ namespace login2.Controllers
         }
 
         // GET: Fotocamera/Delete/5
+         [Authorize(Roles="Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -221,17 +240,12 @@ namespace login2.Controllers
         // POST: Fotocamera/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+         [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var fotocamera = await _context.Fotocameras.SingleOrDefaultAsync(m => m.Id == id);
             _context.Fotocameras.Remove(fotocamera);
             await _context.SaveChangesAsync();
-            //deletes cartitem with same id as deleted item
-            var delete = await _context.Cart.SingleOrDefaultAsync(m => m.Product_Id == id && m.Model_naam == "Fotocamera");
-            if (delete != null){
-            _context.Cart.Remove(delete);
-            await _context.SaveChangesAsync();
-            }
             return RedirectToAction(nameof(Index));
         }
 
