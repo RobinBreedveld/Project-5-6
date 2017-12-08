@@ -31,10 +31,7 @@
                     @Html.ActionLink("Aantal", "Index", new { sortOrder = ViewBag.AantalSortParm })
                 </th>
                 <th>
-                    
-                    <img class="test" src="@Url.Content(@item.Afbeelding)" width="200px" height= "100px" />
-
-                    
+                    @Html.DisplayNameFor(model => model.Afbeelding)
                 </th>
                 <th>
                     @Html.ActionLink("Aantal_gekocht", "Index", new { sortOrder = ViewBag.Aantal_gekochtSortParm })
