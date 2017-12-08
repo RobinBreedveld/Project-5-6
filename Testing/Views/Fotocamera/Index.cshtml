@@ -73,7 +73,9 @@
                 @Html.DisplayFor(modelItem => item.Aantal)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Afbeelding)
+                
+                <img class="test" src="@Url.Content(@item.Afbeelding)" width="200px" height= "100px" />
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aantal_gekocht)
