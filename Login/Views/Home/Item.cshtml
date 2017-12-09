@@ -1,0 +1,15 @@
+@model IEnumerable<login2.Models.Product>
+
+@{
+ ViewBag.Title = "Browse";
+}
+
+ @foreach (var product in Model)
+ {
+ <h2>
+@product.Name
+ </h2>
+ <img src="@Url.Content(product.Image )" width="300px" height= "300px" />
+
+ }
+ </br>

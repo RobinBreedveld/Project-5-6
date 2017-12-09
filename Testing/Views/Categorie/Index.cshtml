@@ -1,0 +1,63 @@
+@model IEnumerable<login2.Models.Categorie>
+
+@{
+    ViewData["Title"] = "Index";
+     var i = 0;
+    var w = 0;
+}
+
+<h2>Index</h2>
+@foreach (var item in Model) {
+         <a asp-controller="Schoen" asp-action="Index">  <h1>Schoenen</h1></a> 
+    @foreach (var schoen in item.Schoenen){
+      
+            <a asp-controller="schoen" asp-action="Details" asp-route-id="@schoen.Id"><p>@schoen.Naam</p></a>
+        
+    }
+           <a asp-controller="Kabel" asp-action="Index"> <h1>Kabels</h1></a>
+    @foreach (var kabel in item.Kabels){
+            <a asp-controller="Kabel" asp-action="Details" asp-route-id="@kabel.Id"><p>@kabel.Naam</p></a> 
+        
+    }
+            <a asp-controller="Drone" asp-action="Index"><h1>Drones</h1></a>
+    @foreach (var drone in item.Drones){
+            <a asp-controller="Drone" asp-action="Details" asp-route-id="@drone.Id"><p>@drone.Naam</p></a> 
+        
+    }
+    <a asp-controller="Spelcomputer" asp-action="Index"><h1>Spelcomputers</h1></a>
+    @foreach (var spelcomputer in item.Spelcomputers){
+          <a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputer.Id"><p>@spelcomputer.Naam</p></a> 
+        
+    }
+    <a asp-controller="Horloge" asp-action="Index"><h1>Horloges</h1></a>
+    @foreach (var horloge in item.Horloges){
+            <a asp-controller="Horloge" asp-action="Details" asp-route-id="@horloge.Id"><p>@horloge.Naam</p></a> 
+        
+    }
+    <a asp-controller="Fotocamera" asp-action="Index"><h1>Fotocameras</h1></a>
+    @foreach (var fotocamera in item.Fotocameras){
+            <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocamera.Id"><h1>@fotocamera.Naam</h1></a> 
+        
+    }
+}
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

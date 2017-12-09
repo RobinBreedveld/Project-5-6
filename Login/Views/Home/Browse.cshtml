@@ -1,0 +1,29 @@
+@model IEnumerable<login2.Models.Product>
+
+@{
+ ViewBag.Title = "Browse";
+}
+<th>
+            @Html.ActionLink("Length", "Browse", new { sortOrder = "Name" })
+        </th>
+ @foreach (var product in Model)
+ {
+<div id="wrapitem">
+ <h2>
+@Html.ActionLink(@product.Name, "Item", new { productId = product.ProductId}, new  {@class = "browse" })
+ </h2>
+ <img class="test" style="float: left ;" src="@Url.Content(product.Image )" width="200px" height= "200px" />
+  @foreach (var spec in product.Spec) {
+            <span>
+                <strong>@Html.DisplayFor(modelItem => spec.Name):</strong>
+            </span>
+            <span>
+                @Html.DisplayFor(modelItem => spec.Intvalue) 
+                @Html.DisplayFor(modelItem => spec.Stringvalue) 
+            </span>
+ }
+  </div>
+ }
+ 
+
+

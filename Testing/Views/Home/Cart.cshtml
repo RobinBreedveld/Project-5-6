@@ -1,0 +1,15 @@
+@model IEnumerable<login2.Models.Cart>
+
+ @foreach (var item in Model) {
+        <h1>Aantal:@item.Aantal, Product: @item.Product_Id,Model: @item.Model_naam</h1>
+        <form  asp-controller="Home" asp-action="Edit" method="POST">
+                @Html.TextBox("new_aantal")
+                @Html.TextBox("old_aantal",@item.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@item.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@item.Model_naam, new {style = "display: none;"} )
+                <input class="Aantal" type="submit" value="Aantal" />
+        </form>
+        @Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @item.Product_Id, model = @item.Model_naam})
+ }
+ 
+ 

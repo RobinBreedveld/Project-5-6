@@ -1,0 +1,87 @@
+@model login2.Models.Spelcomputer
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Spelcomputer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Prijs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Prijs)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Merk)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Merk)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Kleur)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Kleur)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Aantal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Aantal)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Afbeelding)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Afbeelding)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Aantal_gekocht)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Aantal_gekocht)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Opslagcapaciteit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Opslagcapaciteit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Opties)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Opties)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Categorie)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Categorie.Id)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

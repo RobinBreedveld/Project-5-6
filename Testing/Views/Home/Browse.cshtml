@@ -1,0 +1,28 @@
+@model login2.Models.Categorie
+
+
+<h2>Het zoekresultaat:</h2>
+@foreach (var kabels in Model.Kabels)
+{
+  <h1>@kabels.Naam</h1>
+}
+@foreach (var drones in Model.Drones)
+{
+  <h1>@drones.Naam</h1>
+}
+@foreach (var spelcomputers in Model.Spelcomputers)
+{
+  <h1>@spelcomputers.Naam</h1>
+}
+@foreach (var horloges in Model.Horloges)
+{
+  <h1>@horloges.Naam</h1>
+}
+@foreach (var fotocameras in Model.Fotocameras)
+{
+  <h1>@fotocameras.Naam</h1>
+}
+@foreach (var schoenen in Model.Schoenen)
+{
+  <h1>@schoenen.Naam</h1>
+}

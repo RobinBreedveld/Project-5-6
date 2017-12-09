@@ -1,0 +1,89 @@
+@model IEnumerable<login2.Models.Drone>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Naam", "Index", new { sortOrder = ViewBag.NaamSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Prijs", "Index", new { sortOrder = ViewBag.PrijsSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Merk", "Index", new { sortOrder = ViewBag.MerkSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Kleur", "Index", new { sortOrder = ViewBag.KleurSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Aantal", "Index", new { sortOrder = ViewBag.AantalSortParm })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Afbeelding)
+                </th>
+                <th>
+                    @Html.ActionLink("Aantal_gekocht", "Index", new { sortOrder = ViewBag.Aantal_gekochtSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Aantal_rotors", "Index", new { sortOrder = ViewBag.Aantal_rotorsSortParm })
+                </th>
+                <th>
+                    @Html.ActionLink("Grootte", "Index", new { sortOrder = ViewBag.GrootteSortParm })
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prijs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Merk)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kleur)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Afbeelding)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal_gekocht)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal_rotors)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grootte) cm
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
