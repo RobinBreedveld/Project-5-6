@@ -225,7 +225,6 @@ namespace login2.Controllers
             {
                 return NotFound();
             }
-
             var fotocamera = await _context.Fotocameras
                 .Include(f => f.Categorie)
                 .SingleOrDefaultAsync(m => m.Id == id);
@@ -233,7 +232,6 @@ namespace login2.Controllers
             {
                 return NotFound();
             }
-
             return View(fotocamera);
         }
 
@@ -243,9 +241,14 @@ namespace login2.Controllers
          [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var fotocamera = await _context.Fotocameras.SingleOrDefaultAsync(m => m.Id == id);
+            var fotocamera = await _context.Fotocameras.FirstOrDefaultAsync(m => m.Id == id);
             _context.Fotocameras.Remove(fotocamera);
+            
+            HomeController controller = new HomeController(_context);
+             var delete = _context.Cart.Where(m => m.Product_Id == id && m.Model_naam == "Fotocamera");
+            _context.Cart.RemoveRange(delete);
             await _context.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 

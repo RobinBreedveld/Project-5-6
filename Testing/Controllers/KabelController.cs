@@ -213,10 +213,11 @@ namespace login2.Controllers
 
             return View(kabel);
         }
-        [Authorize(Roles="Admin")]
+        
         // POST: Kabel/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var kabel = await _context.Kabels.SingleOrDefaultAsync(m => m.Id == id);

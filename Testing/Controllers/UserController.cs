@@ -7,10 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using login2.Data;
 using login2.Models;
-
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using login2.Models.AccountViewModels;
+using login2.Services;
 
 namespace login2.Controllers
 {
+    [Authorize(Roles="Admin")]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _context;

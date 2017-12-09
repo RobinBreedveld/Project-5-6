@@ -4,32 +4,49 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Webshop</title>      
+     <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>    
     
 </head>
-<body>    
-    <div class="container body-content">
-        <div id="banner">
-            
+<body>  
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Shipped</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Categorie" asp-action="Index">Categorieën</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li> @await Html.PartialAsync("_LoginPartial")</li>
+                    <li> <a asp-area="" asp-controller="Home" asp-action="Cart"><img class="img-responsive" src="~/images/like.png" width= "30";></a></li>
+	                <li> <a asp-area="" asp-controller="Home" asp-action="Cart"><img class="img-responsive" src="~/images/shoppingcart.png"  width= "30"></a></li>
+                    <li><form  asp-controller="Home" asp-action="Browse" method="GET">
+                     @Html.TextBox("SearchString")
+                        <input  type="submit" value="Search" />
+                        </form> 
+                    </li>  
+                    </ul>
+            </div>
         </div>
-        <div id="header">
-	<a asp-area="" asp-controller="Home" asp-action="Index"><img class="logo"src="~/images/logo.jpg"></a>
-	<form  asp-controller="Home" asp-action="Browse" method="GET">
-        <p> @Html.TextBox("SearchString")
-            <input class="search" type="submit" value="Search" />
-        </p>
-    </form>
-	<img class="like"src="~/images/like.png">
-	<a asp-area="" asp-controller="Home" asp-action="Cart"><img class="like"src="~/images/shoppingcart.png"></a>
-</div>
-<ul>
-  <li><a class="active"<a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-  <li><a asp-area="" asp-controller="Categorie" asp-action="Index">Categorieën</a></li>
-    @await Html.PartialAsync("_LoginPartial")
-</ul>
-
+    </nav> 
         @RenderBody()
-        
         <footer>
             <hr />
             <p>&copy; 2017 - Shipped.nl</p>

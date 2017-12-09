@@ -146,7 +146,7 @@ namespace login2.Controllers
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
             //checks if the products already exists
-            var check = from s in _context.Cart where s.Product_Id == product select s;
+            var check = from s in _context.Cart where s.Product_Id == product && s.Model_naam == model && s.User_Id == gotuserId select s;
             if (check.Count() == 0){
                 //creates the new cart
                 Cart m = new Cart {
@@ -172,6 +172,15 @@ namespace login2.Controllers
             //deleted a shoppingcart item
             var delete = await _context.Cart.SingleOrDefaultAsync(m => m.Product_Id == product && m.Model_naam == model && m.User_Id == gotuserId);
             _context.Cart.Remove(delete);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Cart");
+        }
+         [Authorize]
+        public async Task<IActionResult> DeleteAllFromShoppingCart(int product, string model) {
+            //deleted a shoppingcart item
+            var delete = await _context.Cart.SingleOrDefaultAsync(m => m.Product_Id == product && m.Model_naam == model);
+            var deleteme =  _context.Cart.Where(m => m.Product_Id == product && m.Model_naam == model);
+            _context.Cart.RemoveRange(delete);
             await _context.SaveChangesAsync();
             return RedirectToAction("Cart");
         }
