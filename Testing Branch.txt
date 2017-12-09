@@ -1,0 +1,4 @@
+Dit is de Testing branch.
+
+In deze branch kan je code schrijven en commiten. Als de code stabiel en goedgekeurd is kan de code worden gemerged met de branch.
+Dit mag alleen met toestemming van alle teamleden!
