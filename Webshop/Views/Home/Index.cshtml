@@ -1,9 +1,0 @@
-﻿@model IEnumerable<Webshop.Models.Categorie>
-@{
-    ViewData["Title"] = "Home Page";
-}
-
-@foreach (var categorie in Model)
- {
- <h1>@Html.ActionLink(categorie.Name, "Browse", new { categorieId = categorie.Id}, new  {@class = "home" })</h1>
- }
