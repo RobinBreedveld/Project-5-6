@@ -125,3 +125,14 @@ C:\Users\okell\Documents\GitHub\Project-5-6\Testing\obj\Debug\netcoreapp2.0\logi
 C:\Users\okell\Documents\GitHub\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.AssemblyInfo.cs
 C:\Users\okell\Documents\GitHub\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.dll
 C:\Users\okell\Documents\GitHub\Project-5-6\Testing\obj\Debug\netcoreapp2.0\login2.pdb
+E:\Documenten\GitHub\Project-5-6\Shipped\bin\Debug\netcoreapp2.0\login2.deps.json
+E:\Documenten\GitHub\Project-5-6\Shipped\bin\Debug\netcoreapp2.0\login2.runtimeconfig.json
+E:\Documenten\GitHub\Project-5-6\Shipped\bin\Debug\netcoreapp2.0\login2.runtimeconfig.dev.json
+E:\Documenten\GitHub\Project-5-6\Shipped\bin\Debug\netcoreapp2.0\login2.dll
+E:\Documenten\GitHub\Project-5-6\Shipped\bin\Debug\netcoreapp2.0\login2.pdb
+E:\Documenten\GitHub\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\login2.csproj.CoreCompileInputs.cache
+E:\Documenten\GitHub\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+E:\Documenten\GitHub\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\login2.AssemblyInfoInputs.cache
+E:\Documenten\GitHub\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\login2.AssemblyInfo.cs
+E:\Documenten\GitHub\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\login2.dll
+E:\Documenten\GitHub\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\login2.pdb

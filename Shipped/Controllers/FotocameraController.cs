@@ -242,13 +242,10 @@ namespace login2.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var fotocamera = await _context.Fotocameras.FirstOrDefaultAsync(m => m.Id == id);
-            _context.Fotocameras.Remove(fotocamera);
-            
+            _context.Fotocameras.Remove(fotocamera);            
             HomeController controller = new HomeController(_context);
-             var delete = _context.Cart.Where(m => m.Product_Id == id && m.Model_naam == "Fotocamera");
-            _context.Cart.RemoveRange(delete);
-            await _context.SaveChangesAsync();
-            
+            await controller.DeleteAllFromShoppingCart(id, "Fotocamera");
+            await _context.SaveChangesAsync();           
             return RedirectToAction(nameof(Index));
         }
 

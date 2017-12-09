@@ -176,12 +176,10 @@ namespace login2.Controllers
             return RedirectToAction("Cart");
         }
          [Authorize]
-        public async Task<IActionResult> DeleteAllFromShoppingCart(int product, string model) {
+        public async Task<IActionResult> DeleteAllFromShoppingCart(int product_id, string model) {
             //deleted a shoppingcart item
-            var delete = await _context.Cart.SingleOrDefaultAsync(m => m.Product_Id == product && m.Model_naam == model);
-            var deleteme =  _context.Cart.Where(m => m.Product_Id == product && m.Model_naam == model);
+            var delete = _context.Cart.Where(m => m.Product_Id == product_id && m.Model_naam == model);      
             _context.Cart.RemoveRange(delete);
-            await _context.SaveChangesAsync();
             return RedirectToAction("Cart");
         }
         [Authorize]

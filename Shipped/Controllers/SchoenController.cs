@@ -234,15 +234,11 @@ namespace login2.Controllers
         [Authorize(Roles="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var schoen = await _context.Schoenen.SingleOrDefaultAsync(m => m.Id == id);
+            var schoen = await _context.Schoenen.FirstOrDefaultAsync(m => m.Id == id);
             _context.Schoenen.Remove(schoen);
-            await _context.SaveChangesAsync();
-            //deletes cartitem with same id as deleted item
-            var delete = await _context.Cart.SingleOrDefaultAsync(m => m.Product_Id == id && m.Model_naam == "Schoen");
-            if (delete != null){
-            _context.Cart.Remove(delete);
-            await _context.SaveChangesAsync();
-            }
+            HomeController controller = new HomeController(_context);
+            await controller.DeleteAllFromShoppingCart(id, "Schoen");
+            await _context.SaveChangesAsync();     
             return RedirectToAction(nameof(Index));
         }
 

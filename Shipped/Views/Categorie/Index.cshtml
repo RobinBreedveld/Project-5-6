@@ -5,8 +5,7 @@
      var i = 0;
     var w = 0;
 }
-
-<h2>Index</h2>
+<h1>Categorie</h1>
 @foreach (var item in Model) {
          <a asp-controller="Schoen" asp-action="Index">  <h1>Schoenen</h1></a> 
     @foreach (var schoen in item.Schoenen){
@@ -36,7 +35,7 @@
     }
     <a asp-controller="Fotocamera" asp-action="Index"><h1>Fotocameras</h1></a>
     @foreach (var fotocamera in item.Fotocameras){
-            <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocamera.Id"><h1>@fotocamera.Naam</h1></a> 
+            <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocamera.Id"><p>@fotocamera.Naam</p></a> 
         
     }
 }
