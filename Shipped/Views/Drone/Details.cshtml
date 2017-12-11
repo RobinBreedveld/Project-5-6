@@ -88,6 +88,8 @@
             <input class="aantal" type="submit" value="Add to shoppingcart" />
         </p>
     </form>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    @if (this.User.IsInRole("Admin"))
+    {
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> }
     <a asp-action="Index">Back to List</a>
 </div>
