@@ -20,7 +20,7 @@ using login2.Services;
 
 namespace login2.Controllers
 {
-    [Authorize(Roles="Admin")]
+    //[Authorize(Roles="Admin")]
     public class ParserController : Controller
     {
 
@@ -30,6 +30,17 @@ namespace login2.Controllers
             _context = context;
         }
 
+        public IActionResult Index()
+        {
+
+            List<string> li = new List<string>() { "PostKabel", "PostDrone", "PostSpelcomputer", "PostHorloge", "PostFotocamera", "PostSchoen" };
+
+            ViewBag.listofitems = li.ToList();
+
+
+
+            return View();
+        }
         public IActionResult Kabel()
         {
 
@@ -71,6 +82,7 @@ namespace login2.Controllers
 
 
 
+
         [HttpPost("UploadFiles")]
         public async Task<IActionResult> PostKabel(List<IFormFile> files)
         {
@@ -94,18 +106,20 @@ namespace login2.Controllers
                         {
                             var line = sr.ReadLine();
                             var data = line.Split(new[] { ',' });
-                            var kabel = new Kabel() {
+                            var kabel = new Kabel()
+                            {
 
-                            Type = data[0], 
-                            Naam = data[1], 
-                            Prijs = /* Veranderen naar Float?*/int.Parse(data[2]), 
-                            Merk = data[3], 
-                            Kleur = data[4], 
-                            Aantal = int.Parse(data[5]), 
-                            Afbeelding = data[6] , 
-                            Aantal_gekocht = int.Parse(data[7]), 
-                            Lengte = int.Parse(data[8]), 
-                            CategorieId = 1 };
+                                Type = data[0],
+                                Naam = data[1],
+                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                Merk = data[3],
+                                Kleur = data[4],
+                                Aantal = int.Parse(data[5]),
+                                Afbeelding = data[6],
+                                Aantal_gekocht = int.Parse(data[7]),
+                                Lengte = int.Parse(data[8]),
+                                CategorieId = 1
+                            };
                             _context.Kabels.Add(kabel);
                         }
                         _context.SaveChanges();
@@ -119,9 +133,76 @@ namespace login2.Controllers
         }
 
 
+        [HttpPost("")]
+        public async Task<IActionResult> PostSwitch(List<IFormFile> files, string typeOfUploading)
+        {
+
+            switch (typeOfUploading)
+            {
+
+                case "PostDrone":
+                    await PostDrone(files);
+                    break;
+                
+                case "PostFotocamera":
+                    await PostFotocamera(files);
+                    break;
+
+                case "PostHorloge":
+                    await PostHorloge(files);
+                    break;
+
+                case "PostKabel":
+                    await PostKabel(files);
+                    break;
+                
+                case "PostSchoen":
+                    await PostSchoen(files);
+                    break;
+
+                case "SpelComputer":
+                    await PostSpelcomputer(files);
+                    break;
+                
+                
+            }
+
+
+            // if (typeOfUploading == "PostDrone")
+            // {
+            //     await PostDrone(files);
+
+            // }
+
+            // else if (typeOfUploading == "PostSpelcomputer")
+            // {
+            //     await PostSpelcomputer(files);
+            // }
+
+            // else if (typeOfUploading == "PostHorloge")
+            // {
+            //     await PostHorloge(files);
+            // }
+
+            // else if (typeOfUploading == "PostSchoen"){
+            //     await PostSchoen(files);
+            // }
+
+
+
+
+
+            return Ok(new { count = files.Count });
+            
+        }
+
+
+
         [HttpPost("PostDrone")]
         public async Task<IActionResult> PostDrone(List<IFormFile> files)
         {
+
+
             long size = files.Sum(f => f.Length);
 
             // full path to file in temp location
@@ -142,19 +223,21 @@ namespace login2.Controllers
                         {
                             var line = sr.ReadLine();
                             var data = line.Split(new[] { ',' });
-                            var drone = new Drone() { 
-                            Type = data[0], 
-                            Naam = data[1], 
-                            Prijs = /* Veranderen naar Float?*/int.Parse(data[2]), 
-                            Merk = data[3], 
-                            Kleur = data[4], 
-                            Aantal = int.Parse(data[5]), 
-                            Afbeelding = data[6] , 
-                            Aantal_gekocht = int.Parse(data[7]),
-                            Aantal_rotors = int.Parse(data[8]),
-                            Grootte = int.Parse(data[9]), 
-                            CategorieId = 1 };
-                            
+                            var drone = new Drone()
+                            {
+                                Type = data[0],
+                                Naam = data[1],
+                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                Merk = data[3],
+                                Kleur = data[4],
+                                Aantal = int.Parse(data[5]),
+                                Afbeelding = data[6],
+                                Aantal_gekocht = int.Parse(data[7]),
+                                Aantal_rotors = int.Parse(data[8]),
+                                Grootte = int.Parse(data[9]),
+                                CategorieId = 1
+                            };
+
                             _context.Drones.Add(drone);
                         }
 
@@ -163,13 +246,14 @@ namespace login2.Controllers
                 }
             }
 
+
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
-            return Ok(new { count = files.Count, size, filePath });
+            return Ok(new { count = files.Count });
         }
 
 
-        
+
         [HttpPost("PostSpelcomputer")]
         public async Task<IActionResult> PostSpelcomputer(List<IFormFile> files)
         {
@@ -193,19 +277,21 @@ namespace login2.Controllers
                         {
                             var line = sr.ReadLine();
                             var data = line.Split(new[] { ',' });
-                            var spelcomputer = new Spelcomputer() { 
-                            Type = data[0], 
-                            Naam = data[1], 
-                            Prijs = /* Veranderen naar Float?*/int.Parse(data[2]), 
-                            Merk = data[3], 
-                            Kleur = data[4], 
-                            Aantal = int.Parse(data[5]),
-                            Afbeelding = data[6] , 
-                            Aantal_gekocht = int.Parse(data[7]), 
-                            Opslagcapaciteit = int.Parse(data[8]),
-                            Opties = data[9], 
-                            CategorieId = 1 };
-                            
+                            var spelcomputer = new Spelcomputer()
+                            {
+                                Type = data[0],
+                                Naam = data[1],
+                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                Merk = data[3],
+                                Kleur = data[4],
+                                Aantal = int.Parse(data[5]),
+                                Afbeelding = data[6],
+                                Aantal_gekocht = int.Parse(data[7]),
+                                Opslagcapaciteit = int.Parse(data[8]),
+                                Opties = data[9],
+                                CategorieId = 1
+                            };
+
                             _context.Spelcomputers.Add(spelcomputer);
                         }
 
@@ -243,21 +329,23 @@ namespace login2.Controllers
                         {
                             var line = sr.ReadLine();
                             var data = line.Split(new[] { ',' });
-                            var horloge = new Horloge() { 
-                            
-                            Type = data[0], 
-                            Naam = data[1], 
-                            Prijs = /* Veranderen naar Float?*/int.Parse(data[2]), 
-                            Merk = data[3], 
-                            Kleur = data[4], 
-                            Aantal = int.Parse(data[5]), 
-                            Afbeelding = data[6] , 
-                            Aantal_gekocht = int.Parse(data[7]), 
-                            Grootte = int.Parse(data[8]), 
-                            Materiaal = data[9] , 
-                            Geslacht = data[10], 
-                            CategorieId = 1 };
-                            
+                            var horloge = new Horloge()
+                            {
+
+                                Type = data[0],
+                                Naam = data[1],
+                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                Merk = data[3],
+                                Kleur = data[4],
+                                Aantal = int.Parse(data[5]),
+                                Afbeelding = data[6],
+                                Aantal_gekocht = int.Parse(data[7]),
+                                Grootte = int.Parse(data[8]),
+                                Materiaal = data[9],
+                                Geslacht = data[10],
+                                CategorieId = 1
+                            };
+
                             _context.Horloges.Add(horloge);
                         }
 
@@ -295,21 +383,23 @@ namespace login2.Controllers
                         {
                             var line = sr.ReadLine();
                             var data = line.Split(new[] { ',' });
-                            var fotocamera = new Fotocamera() { 
-                                Type = data[0], 
-                                Naam = data[1], 
-                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]), 
-                                Merk = data[3], 
-                                Kleur = data[4], 
-                                Aantal = int.Parse(data[5]), 
-                                Afbeelding = data[6] , 
-                                Aantal_gekocht = int.Parse(data[7]), 
-                                MegaPixels = int.Parse(data[8]), 
+                            var fotocamera = new Fotocamera()
+                            {
+                                Type = data[0],
+                                Naam = data[1],
+                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                Merk = data[3],
+                                Kleur = data[4],
+                                Aantal = int.Parse(data[5]),
+                                Afbeelding = data[6],
+                                Aantal_gekocht = int.Parse(data[7]),
+                                MegaPixels = int.Parse(data[8]),
                                 Flits = data[9],
-                                Min_Bereik = int.Parse(data[10]) , 
-                                Max_Bereik = int.Parse(data[11]), 
-                                CategorieId = 1 };
-                            
+                                Min_Bereik = int.Parse(data[10]),
+                                Max_Bereik = int.Parse(data[11]),
+                                CategorieId = 1
+                            };
+
                             _context.Fotocameras.Add(fotocamera);
                         }
 
@@ -327,7 +417,7 @@ namespace login2.Controllers
 
 
 
-        
+
         [HttpPost("PostSchoen")]
         public async Task<IActionResult> PostSchoen(List<IFormFile> files)
         {
@@ -351,21 +441,22 @@ namespace login2.Controllers
                         {
                             var line = sr.ReadLine();
                             var data = line.Split(new[] { ',' });
-                            var schoen = new Schoen() {
-                                 Type = data[0], 
-                                 Naam = data[1], 
-                                 Prijs = /* Veranderen naar Float?*/int.Parse(data[2]), 
-                                 Merk = data[3], 
-                                 Kleur = data[4], 
-                                 Aantal = int.Parse(data[5]), 
-                                 Afbeelding = data[6] , 
-                                 Aantal_gekocht = int.Parse(data[7]), 
-                                 Maat = int.Parse(data[8]), 
-                                 Materiaal = data[9],
-                                 Geslacht = data[10] ,  
-                                 CategorieId = 1 
-                                 };
-                            
+                            var schoen = new Schoen()
+                            {
+                                Type = data[0],
+                                Naam = data[1],
+                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                Merk = data[3],
+                                Kleur = data[4],
+                                Aantal = int.Parse(data[5]),
+                                Afbeelding = data[6],
+                                Aantal_gekocht = int.Parse(data[7]),
+                                Maat = int.Parse(data[8]),
+                                Materiaal = data[9],
+                                Geslacht = data[10],
+                                CategorieId = 1
+                            };
+
                             _context.Schoenen.Add(schoen);
                         }
 
@@ -379,7 +470,7 @@ namespace login2.Controllers
             return Ok(new { count = files.Count, size, filePath });
         }
 
-        
+
 
 
 
