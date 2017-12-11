@@ -138,10 +138,18 @@ namespace login2.Controllers
             // wrappert.Fotocameras = fotocamera_cart_items.ToList();
             // wrappert.Schoenen = schoen_cart_items.ToList();
              var cart_items = from s in _context.Cart where s.User_Id == gotuserId select s;
+             var totaal =   from item in _context.Cart
+                                where item.User_Id == gotuserId
+                                group item by item.User_Id into items
+                                select new  { 
+                                        Totaal = items.Sum(x => x.Prijs * x.Aantal)};
+            foreach( var item in totaal){
+                ViewBag.Totaal = item.Totaal;
+             }    
             return View(cart_items);
         }
         [Authorize]
-        public async Task<IActionResult> AddToShoppingCart(int product, string model, int aantal) {
+        public async Task<IActionResult> AddToShoppingCart(int product, string model, int aantal, int prijs) {
            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
@@ -153,7 +161,8 @@ namespace login2.Controllers
                     User_Id = gotuserId,
                     Product_Id = product,
                     Model_naam = model,
-                    Aantal = aantal
+                    Aantal = aantal,
+                    Prijs = prijs,
                 };
 
                 _context.Cart.Add(m);

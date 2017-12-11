@@ -1,7 +1,11 @@
 @model IEnumerable<login2.Models.Cart>
+
+@{
+    ViewData["Title"] = "Index"; 
+}
 <h1>Hello</h1>
  @foreach (var item in Model) {
-        <h1>Aantal:@item.Aantal, Product: @item.Product_Id,Model: @item.Model_naam</h1>
+        <h1>Aantal:@item.Aantal Product: @item.Product_Id Model: @item.Model_naam Prijs: @(@item.Prijs * @item.Aantal)</h1>
         <form  asp-controller="Home" asp-action="Edit" method="POST">
                 @Html.TextBox("new_aantal")
                 @Html.TextBox("old_aantal",@item.Aantal, new {style = "display: none;"} )
@@ -11,5 +15,4 @@
         </form>
         @Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @item.Product_Id, model = @item.Model_naam})
  }
- 
- 
+<h1>Uw totale prijs: @ViewBag.Totaal</h1>
