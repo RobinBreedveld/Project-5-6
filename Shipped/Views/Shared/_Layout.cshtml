@@ -1,4 +1,8 @@
 ﻿<!DOCTYPE html>
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <html>
 <head>
     <meta charset="utf-8" />
@@ -49,11 +53,12 @@
       <div class="container">
         @RenderBody()
         
-    </div>
     <footer>
             <hr />
             <p>&copy; 2017 - Shipped.nl</p>
         </footer>
+    </div>
+        
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
