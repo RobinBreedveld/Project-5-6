@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace login2.Migrations
 {
-    public partial class dsoriwnooewrhfoksjdfoiwjerpsjdf : Migration
+    public partial class InitialCreateLoginDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,6 +49,26 @@ namespace login2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cart",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Aantal = table.Column<int>(type: "int4", nullable: false),
+                    Beschrijving = table.Column<string>(type: "text", nullable: true),
+                    Merk = table.Column<string>(type: "text", nullable: true),
+                    Model_naam = table.Column<string>(type: "text", nullable: true),
+                    Order_nummer = table.Column<int>(type: "int4", nullable: false),
+                    Prijs = table.Column<int>(type: "int4", nullable: false),
+                    Product_Id = table.Column<int>(type: "int4", nullable: false),
+                    User_Id = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cart", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
@@ -58,6 +78,27 @@ namespace login2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Aantal = table.Column<int>(type: "int4", nullable: false),
+                    Beschrijving = table.Column<string>(type: "text", nullable: true),
+                    Merk = table.Column<string>(type: "text", nullable: true),
+                    Model_naam = table.Column<string>(type: "text", nullable: true),
+                    Order_nummer = table.Column<string>(type: "text", nullable: true),
+                    Prijs = table.Column<int>(type: "int4", nullable: false),
+                    Product_Id = table.Column<int>(type: "int4", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: true),
+                    User_Id = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderHistory", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,35 +203,6 @@ namespace login2.Migrations
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Consoles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Aantal = table.Column<int>(type: "int4", nullable: false),
-                    Aantal_gekocht = table.Column<int>(type: "int4", nullable: false),
-                    Afbeelding = table.Column<string>(type: "text", nullable: true),
-                    CategorieId = table.Column<int>(type: "int4", nullable: false),
-                    Kleur = table.Column<string>(type: "text", nullable: true),
-                    Merk = table.Column<string>(type: "text", nullable: true),
-                    Naam = table.Column<string>(type: "text", nullable: true),
-                    Opties = table.Column<string>(type: "text", nullable: true),
-                    Prijs = table.Column<int>(type: "int4", nullable: false),
-                    Type = table.Column<string>(type: "text", nullable: true),
-                    Opslagcapaciteit = table.Column<int>(type: "int4", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Consoles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Consoles_Categories_CategorieId",
-                        column: x => x.CategorieId,
-                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -343,6 +355,35 @@ namespace login2.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Spelcomputers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Aantal = table.Column<int>(type: "int4", nullable: false),
+                    Aantal_gekocht = table.Column<int>(type: "int4", nullable: false),
+                    Afbeelding = table.Column<string>(type: "text", nullable: true),
+                    CategorieId = table.Column<int>(type: "int4", nullable: false),
+                    Kleur = table.Column<string>(type: "text", nullable: true),
+                    Merk = table.Column<string>(type: "text", nullable: true),
+                    Naam = table.Column<string>(type: "text", nullable: true),
+                    Opslagcapaciteit = table.Column<int>(type: "int4", nullable: false),
+                    Opties = table.Column<string>(type: "text", nullable: true),
+                    Prijs = table.Column<int>(type: "int4", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Spelcomputers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Spelcomputers_Categories_CategorieId",
+                        column: x => x.CategorieId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -381,11 +422,6 @@ namespace login2.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Consoles_CategorieId",
-                table: "Consoles",
-                column: "CategorieId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Drones_CategorieId",
                 table: "Drones",
                 column: "CategorieId");
@@ -409,6 +445,11 @@ namespace login2.Migrations
                 name: "IX_Schoenen_CategorieId",
                 table: "Schoenen",
                 column: "CategorieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Spelcomputers_CategorieId",
+                table: "Spelcomputers",
+                column: "CategorieId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -429,7 +470,7 @@ namespace login2.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Consoles");
+                name: "Cart");
 
             migrationBuilder.DropTable(
                 name: "Drones");
@@ -444,7 +485,13 @@ namespace login2.Migrations
                 name: "Kabels");
 
             migrationBuilder.DropTable(
+                name: "OrderHistory");
+
+            migrationBuilder.DropTable(
                 name: "Schoenen");
+
+            migrationBuilder.DropTable(
+                name: "Spelcomputers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

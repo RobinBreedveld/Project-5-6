@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171206155656_ugfuydytc")]
-    partial class ugfuydytc
+    [Migration("20171218144617_InitialCreateLoginDB")]
+    partial class InitialCreateLoginDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -194,6 +194,8 @@ namespace login2.Migrations
 
                     b.Property<string>("Geslacht");
 
+                    b.Property<int>("Grootte");
+
                     b.Property<string>("Kleur");
 
                     b.Property<string>("Materiaal");
@@ -243,6 +245,34 @@ namespace login2.Migrations
                     b.HasIndex("CategorieId");
 
                     b.ToTable("Kabels");
+                });
+
+            modelBuilder.Entity("login2.Models.OrderHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<string>("Beschrijving");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Model_naam");
+
+                    b.Property<string>("Order_nummer");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<int>("Product_Id");
+
+                    b.Property<string>("Status");
+
+                    b.Property<string>("User_Id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderHistory");
                 });
 
             modelBuilder.Entity("login2.Models.Schoen", b =>

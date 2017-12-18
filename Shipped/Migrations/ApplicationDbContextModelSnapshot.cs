@@ -246,6 +246,34 @@ namespace login2.Migrations
                     b.ToTable("Kabels");
                 });
 
+            modelBuilder.Entity("login2.Models.OrderHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<string>("Beschrijving");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Model_naam");
+
+                    b.Property<string>("Order_nummer");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<int>("Product_Id");
+
+                    b.Property<string>("Status");
+
+                    b.Property<string>("User_Id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderHistory");
+                });
+
             modelBuilder.Entity("login2.Models.Schoen", b =>
                 {
                     b.Property<int>("Id")

@@ -222,6 +222,28 @@ namespace login2.Controllers
         }
             return RedirectToAction("Cart");
         }
+        [Authorize]
+        public async Task<IActionResult> Buy() {
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var gotuserId = claim.Value;
+            var getcart = _context.Cart.Where( m => m.User_Id == gotuserId) ;
+            foreach(var item in getcart){
+                OrderHistory order = new OrderHistory {
+                    User_Id = gotuserId,
+                    Product_Id = item.Product_Id,
+                    Model_naam = item.Model_naam,
+                    Prijs = item.Prijs,
+                    Order_nummer = DateTime.Now.Second.ToString()
+                    
+                };
+                 _context.OrderHistory.Add(order);
+                 
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Cart");
+
+        }
          private bool cartExists(int id)
         {
             return _context.Cart.Any(e => e.Id == id);
