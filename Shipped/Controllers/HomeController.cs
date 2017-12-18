@@ -238,7 +238,7 @@ namespace login2.Controllers
                     
                 };
                  _context.OrderHistory.Add(order);
-                 
+                 _context.Cart.RemoveRange(getcart);
             }
             await _context.SaveChangesAsync();
             return RedirectToAction("Cart");
