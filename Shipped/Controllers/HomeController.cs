@@ -57,7 +57,7 @@ namespace login2.Controllers
 //  public async Task<IActionResult> Browse(int categorieId, int Id, string searchString, string sortOrder)
         public IActionResult Browse(string searchString)
         {
-            ViewData["Message"] = "Your Browse page.";
+            ViewData["Message"] = "Your Browse page .";
             if( searchString == null ) {
                 return View("Index");
             }
