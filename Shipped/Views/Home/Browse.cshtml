@@ -4,25 +4,25 @@
 <h2>Het zoekresultaat:</h2>
 @foreach (var kabels in Model.Kabels)
 {
-  <h1>@kabels.Naam</h1>
+  <a asp-controller="kabel" asp-action="Details" asp-route-id="@kabels.Id"><h1>@kabels.Naam</h1></a>
 }
 @foreach (var drones in Model.Drones)
 {
-  <h1>@drones.Naam</h1>
+  <a asp-controller="drone" asp-action="Details" asp-route-id="@drones.Id"><h1>@drones.Naam</h1></a>
 }
 @foreach (var spelcomputers in Model.Spelcomputers)
 {
-  <h1>@spelcomputers.Naam</h1>
+  <a asp-controller="spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><h1>@spelcomputers.Naam</h1></a>
 }
 @foreach (var horloges in Model.Horloges)
 {
-  <h1>@horloges.Naam</h1>
+  <a asp-controller="horloge" asp-action="Details" asp-route-id="@horloges.Id"><h1>@horloges.Naam</h1></a>
 }
 @foreach (var fotocameras in Model.Fotocameras)
 {
-  <h1>@fotocameras.Naam</h1>
+  <a asp-controller="fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id"><h1>@fotocameras.Naam</h1></a>
 }
 @foreach (var schoenen in Model.Schoenen)
 {
-  <h1>@schoenen.Naam</h1>
+  <a asp-controller="schoen" asp-action="Details" asp-route-id="@schoenen.Id"><h1>@schoenen.Naam</h1></a>
 }

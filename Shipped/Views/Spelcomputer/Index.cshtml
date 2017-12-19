@@ -26,13 +26,16 @@
                     @Html.ActionLink("Merk", "Index", new { sortOrder = ViewBag.MerkSortParm })
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.Afbeelding)
+                </th>
+
+            @if (this.User.IsInRole("Admin"))   
+                {
+                <th>
                     @Html.ActionLink("Kleur", "Index", new { sortOrder = ViewBag.KleurSortParm })
                 </th>
                 <th>
                     @Html.ActionLink("Aantal", "Index", new { sortOrder = ViewBag.AantalSortParm })
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Afbeelding)
                 </th>
                 <th>
                     @Html.ActionLink("Aantal_gekocht", "Index", new { sortOrder = ViewBag.Aantal_gekochtSortParm })
@@ -43,6 +46,7 @@
                 <th>
                     @Html.ActionLink("Opties", "Index", new { sortOrder = ViewBag.OptiesSortParm })
                 </th>
+                }
             <th></th>
         </tr>
     </thead>
@@ -62,13 +66,16 @@
                 @Html.DisplayFor(modelItem => item.Merk)
             </td>
             <td>
+                 <img class="test" src="@Url.Content(@item.Afbeelding)" width="200px" height= "100px" />
+            </td>
+
+        @if (this.User.IsInRole("Admin"))   
+            {
+            <td>
                 @Html.DisplayFor(modelItem => item.Kleur)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aantal)
-            </td>
-            <td>
-                 <img class="test" src="@Url.Content(@item.Afbeelding)" width="200px" height= "100px" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aantal_gekocht)
@@ -79,6 +86,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Opties)
             </td>
+            }
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
                  @if (this.User.IsInRole("Admin")) {  

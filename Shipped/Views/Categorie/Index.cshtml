@@ -2,41 +2,63 @@
 
 @{
     ViewData["Title"] = "Index";
-     var i = 0;
-    var w = 0;
+        var aantalschoencat = 0;
+        var aantalkabelcat = 0;
+        var aantaldronecat = 0;
+        var aantalspelcomputercat = 0;
+        var aantalhorlogecat = 0;
+        var aantalfotocameracat = 0;
+        
 }
 <h1>Categorie</h1>
 @foreach (var item in Model) {
-         <a asp-controller="Schoen" asp-action="Index">  <h1>Schoenen</h1></a> 
+    
+    <a asp-controller="Schoen" asp-action="Index">  <h1>Schoenen</h1></a> 
     @foreach (var schoen in item.Schoenen){
-      
+      @if (aantalschoencat < 3){
             <a asp-controller="schoen" asp-action="Details" asp-route-id="@schoen.Id"><p>@schoen.Naam</p></a>
-        
+            aantalschoencat = aantalschoencat + 1;
+        }
     }
-           <a asp-controller="Kabel" asp-action="Index"> <h1>Kabels</h1></a>
+          
+    <a asp-controller="Kabel" asp-action="Index"> <h1>Kabels</h1></a>
     @foreach (var kabel in item.Kabels){
-            <a asp-controller="Kabel" asp-action="Details" asp-route-id="@kabel.Id"><p>@kabel.Naam</p></a> 
-        
+        @if (aantalkabelcat < 3){
+            <a asp-controller="Kabel" asp-action="Details" asp-route-id="@kabel.Id"><p>@kabel.Naam</p></a>
+            aantalkabelcat = aantalkabelcat + 1; 
+        }
     }
-            <a asp-controller="Drone" asp-action="Index"><h1>Drones</h1></a>
+    
+    <a asp-controller="Drone" asp-action="Index"><h1>Drones</h1></a>
     @foreach (var drone in item.Drones){
+        @if (aantaldronecat < 3){
             <a asp-controller="Drone" asp-action="Details" asp-route-id="@drone.Id"><p>@drone.Naam</p></a> 
-        
+            aantaldronecat = aantaldronecat + 1;       
+        }
     }
+
     <a asp-controller="Spelcomputer" asp-action="Index"><h1>Spelcomputers</h1></a>
     @foreach (var spelcomputer in item.Spelcomputers){
-          <a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputer.Id"><p>@spelcomputer.Naam</p></a> 
-        
+        @if (aantalspelcomputercat < 3){
+            <a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputer.Id"><p>@spelcomputer.Naam</p></a> 
+            aantalspelcomputercat = aantalspelcomputercat + 1;
+        }
     }
+
     <a asp-controller="Horloge" asp-action="Index"><h1>Horloges</h1></a>
     @foreach (var horloge in item.Horloges){
+        @if (aantalhorlogecat < 3){
             <a asp-controller="Horloge" asp-action="Details" asp-route-id="@horloge.Id"><p>@horloge.Naam</p></a> 
-        
+            aantalhorlogecat = aantalhorlogecat + 1;
+        }
     }
+
     <a asp-controller="Fotocamera" asp-action="Index"><h1>Fotocameras</h1></a>
     @foreach (var fotocamera in item.Fotocameras){
+        @if (aantalfotocameracat < 3){
             <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocamera.Id"><p>@fotocamera.Naam</p></a> 
-        
+            aantalfotocameracat = aantalfotocameracat + 1;          
+        }
     }
 }
 

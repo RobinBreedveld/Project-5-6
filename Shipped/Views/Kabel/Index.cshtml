@@ -14,8 +14,8 @@
 <table class="table">
     <thead>
         <tr>
-<th>
-                    @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParm })
+                <th>
+                @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParm })
                 </th>
                 <th>
                     @Html.ActionLink("Naam", "Index", new { sortOrder = ViewBag.NaamSortParm })
@@ -27,13 +27,16 @@
                     @Html.ActionLink("Merk", "Index", new { sortOrder = ViewBag.MerkSortParm })
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.Afbeelding)
+                </th>
+                
+            @if (this.User.IsInRole("Admin"))
+                {
+                <th>
                     @Html.ActionLink("Kleur", "Index", new { sortOrder = ViewBag.KleurSortParm })
                 </th>
                 <th>
                     @Html.ActionLink("Aantal", "Index", new { sortOrder = ViewBag.AantalSortParm })
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Afbeelding)
                 </th>
                 <th>
                     @Html.ActionLink("Aantal_gekocht", "Index", new { sortOrder = ViewBag.Aantal_gekochtSortParm })
@@ -41,17 +44,38 @@
                 <th>
                     @Html.ActionLink("Lengte", "Index", new { sortOrder = ViewBag.LengteSortParm })
                 </th>
+                }
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
+
+    
+<div class="card" style="width: 20rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-block">
+    <h4 class="card-title">Card title</h4>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Cras justo odio</li>
+    <li class="list-group-item">Dapibus ac facilisis in</li>
+    <li class="list-group-item">Vestibulum at eros</li>
+  </ul>
+  <div class="card-block">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Naam)
+                @Html.DisplayFor(modelItem => item.Naam, new {action="Details"})
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Prijs)
@@ -60,22 +84,23 @@
                 @Html.DisplayFor(modelItem => item.Merk)
             </td>
             <td>
+                 <img class="test" src="@Url.Content(@item.Afbeelding)" width="200px" height= "100px" />
+            </td>
+            
+        @if (this.User.IsInRole("Admin"))
+            {
+            <td>
                 @Html.DisplayFor(modelItem => item.Kleur)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aantal)
             </td>
             <td>
-                 <img class="test" src="@Url.Content(@item.Afbeelding)" width="200px" height= "100px" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aantal_gekocht)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Lengte)
             </td>
+            }
             <td>
-                
+            
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
                       @if (this.User.IsInRole("Admin")) {  
                      <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
