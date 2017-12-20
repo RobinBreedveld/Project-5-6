@@ -11,6 +11,7 @@
     {
         <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a asp-action="ExternalLogins">External logins</a></li>
     }
+    <li><a asp-area="" asp-controller="Home" asp-action="OrderHistory" class="navbar-brand">OrderHistory</a></li>
     @if (this.User.IsInRole("Admin")) {
         <li><a asp-area="" asp-controller="Parser" asp-action="Index" class="navbar-brand">Upload bestanden</a></li>
         <li><a asp-area="" asp-controller="User" asp-action="Index" class="navbar-brand">Users</a></li>

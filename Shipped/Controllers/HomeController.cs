@@ -152,6 +152,7 @@ namespace login2.Controllers
             }
             return View(cart_items);
         }
+
         [Authorize]
         public async Task<IActionResult> AddToShoppingCart(int product, string model, int aantal, int prijs)
         {
@@ -180,6 +181,7 @@ namespace login2.Controllers
             //goes to cart if product is already added
             return RedirectToAction("Cart");
         }
+        
         [Authorize]
         public async Task<IActionResult> DeleteFromShoppingCart(int product, string model)
         {
@@ -249,7 +251,8 @@ namespace login2.Controllers
                     Product_Id = item.Product_Id,
                     Model_naam = item.Model_naam,
                     Prijs = item.Prijs,
-                    Order_nummer = DateTime.Now.Second.ToString()
+                    Order_nummer = DateTime.Now.Second.ToString(),
+                    Aantal = item.Aantal
 
                 };
                 switch (item.Model_naam)
@@ -295,6 +298,37 @@ namespace login2.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Cart");
 
+        }
+         
+        [Authorize]
+        public IActionResult OrderHistory()
+        {
+            
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var gotuserId = claim.Value;
+            var OrderHistory = from m in _context.OrderHistory 
+                                where m.User_Id == gotuserId 
+                                select m;
+            return View(OrderHistory);
+        }
+       
+        [Authorize]
+        public async Task<IActionResult> OrderHistoryItem(string order_nummer)
+        {
+            if (order_nummer == null)
+            {
+                return View("Index");
+            }
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var gotuserId = claim.Value;
+            var ordersinid = _context.OrderHistory.Where(m => m.Order_nummer == order_nummer && m.User_Id == gotuserId);
+            if (ordersinid == null)
+            {
+                return NotFound();
+            }
+            return View(ordersinid);
         }
         private bool cartExists(int id)
         {

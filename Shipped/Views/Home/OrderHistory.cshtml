@@ -1,0 +1,4 @@
+@model IEnumerable<login2.Models.OrderHistory>
+@foreach (var item in Model) {
+     <a asp-controller="Home" asp-action="OrderHistoryItem" asp-route-order_nummer="@item.Order_nummer"><h1>@item.Order_nummer</h1></a> 
+}

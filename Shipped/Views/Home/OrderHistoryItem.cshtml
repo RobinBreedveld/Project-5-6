@@ -1,0 +1,8 @@
+@model IEnumerable<login2.Models.OrderHistory>
+   
+@foreach (var item in Model) {
+     <h1>Ordernummer: @item.Order_nummer</h1>
+     <h1>Product: @item.Id</h1>
+     <h1>Totaalprijs: @item.Prijs</h1>
+     <h1>Aantal: @item.Aantal</h1>
+}

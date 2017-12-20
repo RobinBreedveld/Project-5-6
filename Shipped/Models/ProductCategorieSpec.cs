@@ -28,6 +28,19 @@ namespace login2.Models
         public int Prijs { get; set; }
 
     }
+ public class Wishlist
+    {
+        public int Id { get; set; }
+        public int Order_nummer { get; set; }
+        public string User_Id { get; set; }
+        public int Product_Id { get; set; }
+        public string Merk { get; set; }
+        public string Model_naam { get; set; }
+        public string Beschrijving { get; set; }
+        public int Aantal { get; set; }
+        public int Prijs { get; set; }
+
+    }
 public class OrderHistory
     {
         public int Id { get; set; }
