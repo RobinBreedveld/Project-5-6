@@ -20,11 +20,16 @@ namespace login2.Controllers
 {
     public class SpelcomputerController : Controller
     {
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
 
-        public SpelcomputerController(ApplicationDbContext context)
+        public SpelcomputerController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
         {
             _context = context;
+            _manager = manager;
+            _emailSender = emailSender;
+
         }
 
         // GET: Spelcomputer
@@ -39,7 +44,7 @@ namespace login2.Controllers
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
             ViewBag.OpslagcapaciteitSortParm = sortOrder == "opslagcapaciteit" ? "opslagcapaciteit_desc" : "opslagcapaciteit";
             ViewBag.OptiesSortParm = sortOrder == "opties" ? "opties_desc" : "opties";
-            
+
             var spelcomputers = from a in _context.Spelcomputers.Include(d => d.Categorie) select a;
 
             switch (sortOrder)
@@ -58,7 +63,7 @@ namespace login2.Controllers
                     break;
                 case "prijs_desc":
                     spelcomputers = spelcomputers.OrderByDescending(s => s.Prijs);
-                    break;   
+                    break;
                 case "merk":
                     spelcomputers = spelcomputers.OrderBy(s => s.Merk);
                     break;
@@ -73,33 +78,33 @@ namespace login2.Controllers
                     break;
                 case "aantal":
                     spelcomputers = spelcomputers.OrderBy(s => s.Aantal);
-                    break; 
+                    break;
                 case "aantal_desc":
                     spelcomputers = spelcomputers.OrderByDescending(s => s.Aantal);
                     break;
                 case "aantal_gekocht":
                     spelcomputers = spelcomputers.OrderBy(s => s.Aantal_gekocht);
-                    break; 
+                    break;
                 case "aantal_gekocht_desc":
                     spelcomputers = spelcomputers.OrderByDescending(s => s.Aantal_gekocht);
                     break;
                 case "opslagcapaciteit":
                     spelcomputers = spelcomputers.OrderBy(s => s.Opslagcapaciteit);
-                    break; 
+                    break;
                 case "opslagcapaciteit_desc":
                     spelcomputers = spelcomputers.OrderByDescending(s => s.Opslagcapaciteit);
-                    break; 
+                    break;
                 case "opties":
                     spelcomputers = spelcomputers.OrderBy(s => s.Opties);
-                    break; 
+                    break;
                 case "opties_desc":
                     spelcomputers = spelcomputers.OrderByDescending(s => s.Opties);
-                    break;     
+                    break;
                 default:
-                     spelcomputers = spelcomputers.OrderBy(s => s.Naam);
+                    spelcomputers = spelcomputers.OrderBy(s => s.Naam);
                     break;
             }
-        
+
             return View(await spelcomputers.ToListAsync());
         }
 
@@ -123,7 +128,7 @@ namespace login2.Controllers
         }
 
         // GET: Spelcomputer/Create
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -135,7 +140,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Opslagcapaciteit,Opties")] Spelcomputer spelcomputer)
         {
             if (ModelState.IsValid)
@@ -149,7 +154,7 @@ namespace login2.Controllers
         }
 
         // GET: Spelcomputer/Edit/5
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -171,7 +176,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Opslagcapaciteit,Opties")] Spelcomputer spelcomputer)
         {
             if (id != spelcomputer.Id)
@@ -204,7 +209,7 @@ namespace login2.Controllers
         }
 
         // GET: Spelcomputer/Delete/5
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -226,14 +231,15 @@ namespace login2.Controllers
         // POST: Spelcomputer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var spelcomputer = await _context.Spelcomputers.FirstOrDefaultAsync(m => m.Id == id);
             _context.Spelcomputers.Remove(spelcomputer);
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new HomeController(_context, _emailSender, _manager);
+
             await controller.DeleteAllFromShoppingCart(id, "Spelcomputer");
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

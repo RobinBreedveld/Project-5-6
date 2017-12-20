@@ -20,11 +20,16 @@ namespace login2.Controllers
 {
     public class HorlogeController : Controller
     {
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
 
-        public HorlogeController(ApplicationDbContext context)
+        public HorlogeController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
         {
             _context = context;
+            _manager = manager;
+            _emailSender = emailSender;
+
         }
 
         // GET: Horloge
@@ -40,9 +45,9 @@ namespace login2.Controllers
             ViewBag.GrootteSortParm = sortOrder == "grootte" ? "grootte_desc" : "grootte";
             ViewBag.MateriaalSortParm = sortOrder == "materiaal" ? "materiaal_desc" : "materiaal";
             ViewBag.GeslachtSortParm = sortOrder == "geslacht" ? "geslacht_desc" : "geslacht";
-            
+
             var horloges = from a in _context.Horloges.Include(d => d.Categorie) select a;
-            
+
             switch (sortOrder)
             {
                 case "naam":
@@ -59,7 +64,7 @@ namespace login2.Controllers
                     break;
                 case "prijs_desc":
                     horloges = horloges.OrderByDescending(s => s.Prijs);
-                    break;   
+                    break;
                 case "merk":
                     horloges = horloges.OrderBy(s => s.Merk);
                     break;
@@ -74,25 +79,25 @@ namespace login2.Controllers
                     break;
                 case "aantal":
                     horloges = horloges.OrderBy(s => s.Aantal);
-                    break; 
+                    break;
                 case "aantal_desc":
                     horloges = horloges.OrderByDescending(s => s.Aantal);
                     break;
                 case "aantal_gekocht":
                     horloges = horloges.OrderBy(s => s.Aantal_gekocht);
-                    break; 
+                    break;
                 case "aantal_gekocht_desc":
                     horloges = horloges.OrderByDescending(s => s.Aantal_gekocht);
                     break;
                 case "grootte":
                     horloges = horloges.OrderBy(s => s.Grootte);
-                    break; 
+                    break;
                 case "grootte_desc":
                     horloges = horloges.OrderByDescending(s => s.Grootte);
-                    break; 
+                    break;
                 case "materiaal":
                     horloges = horloges.OrderBy(s => s.Materiaal);
-                    break; 
+                    break;
                 case "materiaal_desc":
                     horloges = horloges.OrderByDescending(s => s.Materiaal);
                     break;
@@ -101,12 +106,12 @@ namespace login2.Controllers
                     break;
                 case "geslacht_desc":
                     horloges = horloges.OrderByDescending(s => s.Geslacht);
-                    break;         
+                    break;
                 default:
-                     horloges = horloges.OrderBy(s => s.Naam);
+                    horloges = horloges.OrderBy(s => s.Naam);
                     break;
             }
-        
+
             return View(await horloges.ToListAsync());
         }
 
@@ -129,7 +134,7 @@ namespace login2.Controllers
 
             return View(horloge);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Horloge/Create
         public IActionResult Create()
         {
@@ -142,7 +147,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Grootte,Materiaal,Geslacht")] Horloge horloge)
         {
             if (ModelState.IsValid)
@@ -154,7 +159,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", horloge.CategorieId);
             return View(horloge);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Horloge/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -177,7 +182,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Grootte,Materiaal,Geslacht")] Horloge horloge)
         {
             if (id != horloge.Id)
@@ -208,7 +213,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", horloge.CategorieId);
             return View(horloge);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Horloge/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -231,14 +236,15 @@ namespace login2.Controllers
         // POST: Horloge/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var horloge = await _context.Horloges.FirstOrDefaultAsync(m => m.Id == id);
             _context.Horloges.Remove(horloge);
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new HomeController(_context, _emailSender, _manager);
+
             await controller.DeleteAllFromShoppingCart(id, "Horloge");
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

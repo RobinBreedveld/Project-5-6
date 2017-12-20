@@ -20,11 +20,16 @@ namespace login2.Controllers
 {
     public class SchoenController : Controller
     {
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
 
-        public SchoenController(ApplicationDbContext context)
+        public SchoenController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
         {
             _context = context;
+            _manager = manager;
+            _emailSender = emailSender;
+
         }
 
         // GET: Schoen
@@ -40,7 +45,7 @@ namespace login2.Controllers
             ViewBag.MaatSortParm = sortOrder == "maat" ? "maat_desc" : "maat";
             ViewBag.MateriaalSortParm = sortOrder == "materiaal" ? "materiaal_desc" : "materiaal";
             ViewBag.GeslachtSortParm = sortOrder == "geslacht" ? "geslacht_desc" : "geslacht";
-            
+
             var schoenen = from a in _context.Schoenen.Include(d => d.Categorie) select a;
 
             switch (sortOrder)
@@ -59,7 +64,7 @@ namespace login2.Controllers
                     break;
                 case "prijs_desc":
                     schoenen = schoenen.OrderByDescending(s => s.Prijs);
-                    break;   
+                    break;
                 case "merk":
                     schoenen = schoenen.OrderBy(s => s.Merk);
                     break;
@@ -74,25 +79,25 @@ namespace login2.Controllers
                     break;
                 case "aantal":
                     schoenen = schoenen.OrderBy(s => s.Aantal);
-                    break; 
+                    break;
                 case "aantal_desc":
                     schoenen = schoenen.OrderByDescending(s => s.Aantal);
                     break;
                 case "aantal_gekocht":
                     schoenen = schoenen.OrderBy(s => s.Aantal_gekocht);
-                    break; 
+                    break;
                 case "aantal_gekocht_desc":
                     schoenen = schoenen.OrderByDescending(s => s.Aantal_gekocht);
                     break;
                 case "maat":
                     schoenen = schoenen.OrderBy(s => s.Maat);
-                    break; 
+                    break;
                 case "maat_desc":
                     schoenen = schoenen.OrderByDescending(s => s.Maat);
-                    break; 
+                    break;
                 case "materiaal":
                     schoenen = schoenen.OrderBy(s => s.Materiaal);
-                    break; 
+                    break;
                 case "materiaal_desc":
                     schoenen = schoenen.OrderByDescending(s => s.Materiaal);
                     break;
@@ -101,12 +106,12 @@ namespace login2.Controllers
                     break;
                 case "geslacht_desc":
                     schoenen = schoenen.OrderByDescending(s => s.Geslacht);
-                    break;         
+                    break;
                 default:
-                     schoenen = schoenen.OrderBy(s => s.Naam);
+                    schoenen = schoenen.OrderBy(s => s.Naam);
                     break;
             }
-        
+
             return View(await schoenen.ToListAsync());
         }
 
@@ -128,7 +133,7 @@ namespace login2.Controllers
 
             return View(schoen);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Schoen/Create
         public IActionResult Create()
         {
@@ -141,7 +146,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Maat,Materiaal,Geslacht")] Schoen schoen)
         {
             if (ModelState.IsValid)
@@ -153,7 +158,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", schoen.CategorieId);
             return View(schoen);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Schoen/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -176,7 +181,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Maat,Materiaal,Geslacht")] Schoen schoen)
         {
             if (id != schoen.Id)
@@ -209,7 +214,7 @@ namespace login2.Controllers
         }
 
         // GET: Schoen/Delete/5
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -231,14 +236,15 @@ namespace login2.Controllers
         // POST: Schoen/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var schoen = await _context.Schoenen.FirstOrDefaultAsync(m => m.Id == id);
             _context.Schoenen.Remove(schoen);
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new HomeController(_context, _emailSender, _manager);
+
             await controller.DeleteAllFromShoppingCart(id, "Schoen");
-            await _context.SaveChangesAsync();     
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

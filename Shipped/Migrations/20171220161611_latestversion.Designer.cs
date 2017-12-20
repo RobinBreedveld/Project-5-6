@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171220141227_hoppa")]
-    partial class hoppa
+    [Migration("20171220161611_latestversion")]
+    partial class latestversion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -23,15 +23,21 @@ namespace login2.Controllers
 {
     public class DroneController : Controller
     {
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
-        public DroneController(ApplicationDbContext context)
+
+        public DroneController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
         {
             _context = context;
+            _manager = manager;
+            _emailSender = emailSender;
+
         }
 
         // GET: Drone
 
-    public async Task<IActionResult> Index(string searchString, string sortOrder)
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
             ViewBag.NaamSortParm = String.IsNullOrEmpty(sortOrder) ? "naam" : "";
             ViewBag.TypeSortParm = sortOrder == "type" ? "type_desc" : "type";
@@ -42,7 +48,7 @@ namespace login2.Controllers
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
             ViewBag.Aantal_rotorsSortParm = sortOrder == "aantal_rotors" ? "aantal_rotors_desc" : "aantal_rotors";
             ViewBag.GrootteSortParm = sortOrder == "grootte" ? "grootte_desc" : "grootte";
-            
+
             var drones = from a in _context.Drones.Include(d => d.Categorie) select a;
 
             switch (sortOrder)
@@ -61,7 +67,7 @@ namespace login2.Controllers
                     break;
                 case "prijs_desc":
                     drones = drones.OrderByDescending(s => s.Prijs);
-                    break;   
+                    break;
                 case "merk":
                     drones = drones.OrderBy(s => s.Merk);
                     break;
@@ -76,34 +82,34 @@ namespace login2.Controllers
                     break;
                 case "aantal":
                     drones = drones.OrderBy(s => s.Aantal);
-                    break; 
+                    break;
                 case "aantal_desc":
                     drones = drones.OrderByDescending(s => s.Aantal);
                     break;
                 case "aantal_gekocht":
                     drones = drones.OrderBy(s => s.Aantal_gekocht);
-                    break; 
+                    break;
                 case "aantal_gekocht_desc":
                     drones = drones.OrderByDescending(s => s.Aantal_gekocht);
                     break;
                 case "aantal_rotors":
                     drones = drones.OrderBy(s => s.Aantal_rotors);
-                    break; 
+                    break;
                 case "aantal_rotors_desc":
                     drones = drones.OrderByDescending(s => s.Aantal_rotors);
-                    break; 
+                    break;
                 case "grootte":
                     drones = drones.OrderBy(s => s.Grootte);
-                    break; 
+                    break;
                 case "grootte_desc":
                     drones = drones.OrderByDescending(s => s.Grootte);
-                    break;         
+                    break;
                 default:
-                     drones = drones.OrderBy(s => s.Naam);
+                    drones = drones.OrderBy(s => s.Naam);
                     break;
             }
 
-        return View(await drones.ToListAsync());
+            return View(await drones.ToListAsync());
         }
 
         // GET: Drone/Details/5
@@ -124,10 +130,10 @@ namespace login2.Controllers
 
             return View(drone);
         }
-        
+
 
         // GET: Drone/Create
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -139,7 +145,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Aantal_rotors,Grootte")] Drone drone)
         {
             if (ModelState.IsValid)
@@ -153,7 +159,7 @@ namespace login2.Controllers
         }
 
         // GET: Drone/Edit/5
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -175,7 +181,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Aantal_rotors,Grootte")] Drone drone)
         {
             if (id != drone.Id)
@@ -208,7 +214,7 @@ namespace login2.Controllers
         }
 
         // GET: Drone/Delete/5
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -230,14 +236,14 @@ namespace login2.Controllers
         // POST: Drone/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var drone = await _context.Drones.FirstOrDefaultAsync(m => m.Id == id);
             _context.Drones.Remove(drone);
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new HomeController(_context, _emailSender, _manager);
             await controller.DeleteAllFromShoppingCart(id, "Drone");
-            await _context.SaveChangesAsync();            
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

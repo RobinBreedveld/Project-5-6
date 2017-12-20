@@ -20,11 +20,16 @@ namespace login2.Controllers
 {
     public class FotocameraController : Controller
     {
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
 
-        public FotocameraController(ApplicationDbContext context)
+        public FotocameraController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
         {
             _context = context;
+            _manager = manager;
+            _emailSender = emailSender;
+
         }
 
         // GET: Fotocamera
@@ -41,9 +46,9 @@ namespace login2.Controllers
             ViewBag.FlitsSortParm = sortOrder == "Flits" ? "Flits_desc" : "Flits";
             ViewBag.Min_BereikSortParm = sortOrder == "Min_Bereik" ? "Min_Bereik_desc" : "Min_Bereik";
             ViewBag.Max_BereikSortParm = sortOrder == "Max_Bereik" ? "Max_Bereik_desc" : "Max_Bereik";
-            
+
             var fotocameras = from a in _context.Fotocameras.Include(d => d.Categorie) select a;
-           
+
             switch (sortOrder)
             {
                 case "naam":
@@ -60,7 +65,7 @@ namespace login2.Controllers
                     break;
                 case "prijs_desc":
                     fotocameras = fotocameras.OrderByDescending(s => s.Prijs);
-                    break;   
+                    break;
                 case "merk":
                     fotocameras = fotocameras.OrderBy(s => s.Merk);
                     break;
@@ -75,46 +80,46 @@ namespace login2.Controllers
                     break;
                 case "aantal":
                     fotocameras = fotocameras.OrderBy(s => s.Aantal);
-                    break; 
+                    break;
                 case "aantal_desc":
                     fotocameras = fotocameras.OrderByDescending(s => s.Aantal);
                     break;
                 case "aantal_gekocht":
                     fotocameras = fotocameras.OrderBy(s => s.Aantal_gekocht);
-                    break; 
+                    break;
                 case "aantal_gekocht_desc":
                     fotocameras = fotocameras.OrderByDescending(s => s.Aantal_gekocht);
                     break;
                 case "MegaPixels":
                     fotocameras = fotocameras.OrderBy(s => s.MegaPixels);
-                    break; 
+                    break;
                 case "MegaPixels_desc":
                     fotocameras = fotocameras.OrderByDescending(s => s.MegaPixels);
-                    break; 
+                    break;
                 case "Flits":
                     fotocameras = fotocameras.OrderBy(s => s.Flits);
-                    break; 
+                    break;
                 case "Flits_desc":
                     fotocameras = fotocameras.OrderByDescending(s => s.Flits);
-                    break; 
+                    break;
                 case "Min_Bereik":
                     fotocameras = fotocameras.OrderBy(s => s.Min_Bereik);
-                    break; 
+                    break;
                 case "Min_Bereik_desc":
                     fotocameras = fotocameras.OrderByDescending(s => s.Min_Bereik);
                     break;
                 case "Max_Bereik":
                     fotocameras = fotocameras.OrderBy(s => s.Max_Bereik);
-                    break; 
+                    break;
                 case "Max_Bereik_desc":
                     fotocameras = fotocameras.OrderByDescending(s => s.Max_Bereik);
-                    break;         
+                    break;
                 default:
-                     fotocameras = fotocameras.OrderBy(s => s.Naam);
+                    fotocameras = fotocameras.OrderBy(s => s.Naam);
                     break;
             }
 
-        return View(await fotocameras.ToListAsync());
+            return View(await fotocameras.ToListAsync());
         }
 
         // GET: Fotocamera/Details/5
@@ -137,7 +142,7 @@ namespace login2.Controllers
         }
 
         // GET: Fotocamera/Create
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -149,7 +154,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,MegaPixels,Flits,Min_Bereik,Max_Bereik")] Fotocamera fotocamera)
         {
             if (ModelState.IsValid)
@@ -163,7 +168,7 @@ namespace login2.Controllers
         }
 
         // GET: Fotocamera/Edit/5
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -185,7 +190,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,MegaPixels,Flits,Min_Bereik,Max_Bereik")] Fotocamera fotocamera)
         {
             if (id != fotocamera.Id)
@@ -218,7 +223,7 @@ namespace login2.Controllers
         }
 
         // GET: Fotocamera/Delete/5
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -238,14 +243,14 @@ namespace login2.Controllers
         // POST: Fotocamera/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var fotocamera = await _context.Fotocameras.FirstOrDefaultAsync(m => m.Id == id);
-            _context.Fotocameras.Remove(fotocamera);            
-            HomeController controller = new HomeController(_context);
+            _context.Fotocameras.Remove(fotocamera);
+            HomeController controller = new HomeController(_context, _emailSender, _manager);
             await controller.DeleteAllFromShoppingCart(id, "Fotocamera");
-            await _context.SaveChangesAsync();           
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
