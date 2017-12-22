@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Item Page</h2>
 
 <div>
     <h4>Schoen</h4>
@@ -96,5 +96,5 @@
     </form>
     @if (this.User.IsInRole("Admin")) { 
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> }
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" style="margin-left:20px">Back to List</a>
 </div>

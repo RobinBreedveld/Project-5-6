@@ -4,13 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Kabels</h2>
 @if (this.User.IsInRole("Admin"))
             {
 <p>
     <a asp-action="Create">Create New</a>
 </p>
             }
+            
 <table class="table">
     <thead>
         <tr>
@@ -26,9 +27,7 @@
                 <th>
                     @Html.ActionLink("Merk", "Index", new { sortOrder = ViewBag.MerkSortParm })
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Afbeelding)
-                </th>
+
                 
             @if (this.User.IsInRole("Admin"))
                 {
@@ -48,29 +47,44 @@
             <th></th>
         </tr>
     </thead>
+    
     <tbody>
 @foreach (var item in Model) {
 
     
-<div class="card" style="width: 20rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
+<div class="card" style="float: left; margin:2%; border: 1px solid #ddd;"><a asp-action="Details" asp-route-id="@item.Id">
+  <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
   <div class="card-block">
-    <h4 class="card-title">Card title</h4>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <h4 class="card-title">@item.Naam</h4>
+    <p class="card-text">Beschrijving van het product.</p>
   </div>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
+    <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Type: @item.Type</li></a>
+    <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Merk: @item.Merk</li></a>
+    <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Prijs: @item.Prijs</li></a>
+    
+    @if (!this.User.IsInRole("Admin")){
+    <div>
+    <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+        <p> @Html.TextBox("aantal", 1)
+            @Html.TextBox("product", @item.Id, new {style = "display: none;"})
+            @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+            @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
+            <input class="aantal" type="submit" value="Add to shoppingcart" />
+        </p>
+    </form>
+    </div>
+    }
+     @if (this.User.IsInRole("Admin")) {  
+                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                     <a asp-action="Delete" asp-route-id="@item.Id" style="float:right;">Delete</a>
+                  }
   </ul>
-  <div class="card-block">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
+  </a>
 </div>
 
 
-        <tr>
+        <!-- <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
@@ -84,7 +98,7 @@
                 @Html.DisplayFor(modelItem => item.Merk)
             </td>
             <td>
-                 <img class="test" src="@Url.Content(@item.Afbeelding)" width="200px" height= "100px" />
+                 <img class="test" src="@Url.Content(item.Afbeelding)" width="200px" height= "100px" />
             </td>
             
         @if (this.User.IsInRole("Admin"))
@@ -94,6 +108,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aantal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal_gekocht)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Lengte)
@@ -107,7 +124,7 @@
                      <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                   }
             </td>
-        </tr>
+        </tr> -->
 }
     </tbody>
 </table>

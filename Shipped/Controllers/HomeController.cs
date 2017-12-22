@@ -53,11 +53,11 @@ namespace login2.Controllers
 
 
         //public async Task<IActionResult> Index()
-        public IActionResult Index()
-        {
-            //var categorieenproduct = _context.Categories.Include(p => p.Products);
-            //await categorieenproduct.ToListAsync()
-            return View();
+        public async Task<IActionResult> Index()
+        {            
+            var categories = _context.Categories.Include(p => p.Kabels).Include(p => p.Schoenen).Include(p => p.Drones).Include(p => p.Horloges).Include(p => p.Spelcomputers).Include(p => p.Fotocameras);
+            return View(await categories.ToListAsync());
+              
         }
         //  public async Task<IActionResult> Browse(int categorieId, int Id, string searchString, string sortOrder)
         public IActionResult Browse(string searchString)

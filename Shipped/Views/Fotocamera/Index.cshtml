@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Fotocamera's</h2>
 @if (this.User.IsInRole("Admin")) { 
 <p>
     <a asp-action="Create">Create New</a>
@@ -58,7 +58,39 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+
+<div class="card" style="float: left; margin:2%; border: 1px solid #ddd;"><a asp-action="Details" asp-route-id="@item.Id">
+  <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+  <div class="card-block">
+    <h4 class="card-title">@item.Naam</h4>
+    <p class="card-text">Beschrijving van het product.</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Type: @item.Type</li></a>
+    <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Merk: @item.Merk</li></a>
+    <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Prijs: @item.Prijs</li></a>
+    
+    @if (!this.User.IsInRole("Admin")){
+    <div>
+    <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+        <p> @Html.TextBox("aantal", 1)
+            @Html.TextBox("product", @item.Id, new {style = "display: none;"})
+            @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+            @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
+            <input class="aantal" type="submit" value="Add to shoppingcart" />
+        </p>
+    </form>
+    </div>
+    }
+     @if (this.User.IsInRole("Admin")) {  
+                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                     <a asp-action="Delete" asp-route-id="@item.Id" style="float:right;">Delete</a>
+                  }
+  </ul>
+  </a>
+</div>
+
+        <!-- <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
@@ -106,7 +138,7 @@
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 }
             </td>
-        </tr>
+        </tr> -->
 }
     </tbody>
 </table>

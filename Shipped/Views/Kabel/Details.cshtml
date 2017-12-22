@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Item Page</h2>
 
 <div>
     <h4>Kabel</h4>
@@ -50,7 +50,7 @@
             @Html.DisplayNameFor(model => model.Afbeelding)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Afbeelding)
+                 <img class="test" src="@Url.Content(Model.Afbeelding)" width="200px" height= "100px" />
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Aantal_gekocht)
@@ -64,15 +64,11 @@
         <dd>
             @Html.DisplayFor(model => model.Lengte)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Categorie)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Categorie.Id)
-        </dd>
     </dl>
 </div>
+ 
 <div>
+    @if (!this.User.IsInRole("Admin")) {
     <!-- @Html.ActionLink("Add to shoppingcart","AddToShoppingCart","Home", new { product =  @Model.Id, model = "Kabel"}) -->
     <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
         <p> @Html.TextBox("aantal", 1)
@@ -82,7 +78,8 @@
             <input class="aantal" type="submit" value="Add to shoppingcart" />
         </p>
     </form>
+ }
      @if (this.User.IsInRole("Admin")) { 
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> }
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" style="margin-left:20px">Back to List</a>
 </div>

@@ -6,4 +6,18 @@
 
 <h3>Dit zijn onze best verkochte producten:</h3>
 
+@foreach (var item in Model) {
+    <a asp-controller="Schoen" asp-action="Index"><h1>Schoenen</h1></a>
+
+    <a asp-controller="Kabel" asp-action="Index"> <h1>Kabels</h1></a>
+
+    <a asp-controller="Drone" asp-action="Index"><h1>Drones</h1></a>
+
+    <a asp-controller="Spelcomputer" asp-action="Index"><h1>Spelcomputers</h1></a>
+
+    <a asp-controller="Horloge" asp-action="Index"><h1>Horloges</h1></a>
+
+    <a asp-controller="Fotocamera" asp-action="Index"><h1>Fotocameras</h1></a>
+    
+}
 
