@@ -16,10 +16,5 @@
         <li><a asp-area="" asp-controller="Parser" asp-action="Index" class="navbar-brand">Upload bestanden</a></li>
         <li><a asp-area="" asp-controller="User" asp-action="Index" class="navbar-brand">Users</a></li>
     }
-
-    @if (!this.User.IsInRole("Admin")) {
-    <li><a asp-area="" asp-controller="Wishlist" asp-action="Index" class="navbar-brand">Wish list</a></li>    
-        <li><a asp-area="" asp-controller="Home" asp-action="Cart" class="navbar-brand">Shopping cart</a></li>
-    }
 </ul>
 

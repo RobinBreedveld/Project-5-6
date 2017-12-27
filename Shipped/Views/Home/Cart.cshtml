@@ -5,13 +5,13 @@
 }
 <h1>Hello</h1>
  @foreach (var item in Model) {
-        <a asp-controller="@item.Model_naam" asp-action="Details" asp-route-id="@item.Product_Id"><h1>Aantal:@item.Aantal Product: @item.Product_Id Model: @item.Model_naam Prijs: @(@item.Prijs * @item.Aantal)</h1></a>
+        <h1>Aantal:@item.Aantal Product: @item.Product_Id Model: @item.Model_naam Prijs: @(@item.Prijs * @item.Aantal)</h1>
         <form  asp-controller="Home" asp-action="Edit" method="POST">
                 @Html.TextBox("new_aantal")
                 @Html.TextBox("old_aantal",@item.Aantal, new {style = "display: none;"} )
                 @Html.TextBox("id",@item.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@item.Model_naam, new {style = "display: none;"} )
-                <input class="Aantal" type="submit" value="Update aantal" />
+                <input class="Aantal" type="submit" value="Aantal" />
         </form>
         @Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @item.Product_Id, model = @item.Model_naam})
  }

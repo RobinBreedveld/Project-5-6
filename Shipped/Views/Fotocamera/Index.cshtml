@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Fotocamera's</h2>
+<h2>Index</h2>
 @if (this.User.IsInRole("Admin")) { 
 <p>
     <a asp-action="Create">Create New</a>
@@ -32,7 +32,7 @@
             @if (this.User.IsInRole("Admin"))
                 {
                 <th>
-                    @Html.ActionLink("Kleur", "Index", new { sortOrder = ViewBag.KleurSortParm })
+                    @Html.ActionLink("Megapixels", "Index", new { sortOrder = ViewBag.MegapixelsSortParm })
                 </th>
                 <th>
                     @Html.ActionLink("Aantal", "Index", new { sortOrder = ViewBag.AantalSortParm })
@@ -40,57 +40,47 @@
                 <th>
                     @Html.ActionLink("Aantal_gekocht", "Index", new { sortOrder = ViewBag.Aantal_gekochtSortParm })
                 </th>
-                <th>
-                    @Html.ActionLink("MegaPixels", "Index", new { sortOrder = ViewBag.MegaPixelsSortParm })
-                </th>
-                <th>
-                    @Html.ActionLink("Flits", "Index", new { sortOrder = ViewBag.FlitsSortParm })
-                </th>
-                <th>
-                    @Html.ActionLink("Min_Bereik", "Index", new { sortOrder = ViewBag.Min_BereikSortParm }) mm
-                </th>
-                <th>
-                    @Html.ActionLink("Max_Bereik", "Index", new { sortOrder = ViewBag.Max_BereikSortParm }) mm
-                </th>
                 }
             <th></th>
         </tr>
     </thead>
     <tbody>
+        <form  asp-controller="Fotocamera" asp-action="Index" method="GET">
+            <label for="type">Type</label></br>
+            <select id="type" name="type" multiple="multiple">
+                <option  value = null selected="selected">
+                    Alle Types
+                </option>
+                @foreach(var item in @ViewBag.Alles){
+                    <option value="@item.Type">@item.Type</option>
+                }
+           </select>
+            <label for="merk">Merken</label></br>
+            <select id="merk" name="merk" multiple="multiple">
+                <option  value = null selected="selected">
+                    Alle Merken
+                </option>
+                @foreach(var item in @ViewBag.Alles){
+                    <option value="@item.Merk">@item.Merk</option>
+                }
+           </select></br>
+           <label for="megapixels">Megapixels</label></br>
+            <select id="megapixels" name="megapixels" multiple="multiple">
+                <option value = null  selected="selected">
+                    Alle Megapixels
+                </option>
+                @foreach(var item in @ViewBag.Alles){
+                    <option value="@item.Megapixels">@item.Megapixels</option>
+                }
+           </select>
+           <label for="min">Min prijs</label>
+           <input id="min" type="number" name="min_prijs" />
+           <label for="max">Max prijs</label>
+           <input id="max" type="number" name="max_prijs" />
+           <input class="Filter" type="submit" value="Filter" />
+        </form>
 @foreach (var item in Model) {
-
-<div class="card" style="float: left; margin:2%; border: 1px solid #ddd;"><a asp-action="Details" asp-route-id="@item.Id">
-  <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-  <div class="card-block">
-    <h4 class="card-title">@item.Naam</h4>
-    <p class="card-text">Beschrijving van het product.</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Type: @item.Type</li></a>
-    <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Merk: @item.Merk</li></a>
-    <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Prijs: @item.Prijs</li></a>
-    
-    @if (!this.User.IsInRole("Admin")){
-    <div>
-    <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
-        <p> @Html.TextBox("aantal", 1)
-            @Html.TextBox("product", @item.Id, new {style = "display: none;"})
-            @Html.TextBox("model", "Kabel", new {style = "display: none;"})
-            @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
-            <input class="aantal" type="submit" value="Add to shoppingcart" />
-        </p>
-    </form>
-    </div>
-    }
-     @if (this.User.IsInRole("Admin")) {  
-                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
-                     <a asp-action="Delete" asp-route-id="@item.Id" style="float:right;">Delete</a>
-                  }
-  </ul>
-  </a>
-</div>
-
-        <!-- <tr>
+        <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
@@ -110,25 +100,13 @@
         @if (this.User.IsInRole("Admin"))
             {
             <td>
-                @Html.DisplayFor(modelItem => item.Kleur)
+                @Html.DisplayFor(modelItem => item.Megapixels)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aantal)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aantal_gekocht)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MegaPixels)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Flits)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Min_Bereik)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Max_Bereik)
             </td>
             }
             <td>
@@ -138,7 +116,7 @@
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 }
             </td>
-        </tr> -->
+        </tr>
 }
     </tbody>
 </table>

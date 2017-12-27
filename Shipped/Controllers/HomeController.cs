@@ -19,20 +19,16 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using login2.Models.ManageViewModels;
 using login2.Services;
+using Newtonsoft.Json;
 
 
 namespace login2.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IEmailSender _emailSender;
-        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
-        public HomeController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
+        public HomeController(ApplicationDbContext context)
         {
-
-            _manager = manager;
-            _emailSender = emailSender;
             _context = context;
 
             // var file = "data.csv";
@@ -53,11 +49,11 @@ namespace login2.Controllers
 
 
         //public async Task<IActionResult> Index()
-        public async Task<IActionResult> Index()
-        {            
-            var categories = _context.Categories.Include(p => p.Kabels).Include(p => p.Schoenen).Include(p => p.Drones).Include(p => p.Horloges).Include(p => p.Spelcomputers).Include(p => p.Fotocameras);
-            return View(await categories.ToListAsync());
-              
+        public IActionResult Index()
+        {
+            //var categorieenproduct = _context.Categories.Include(p => p.Products);
+            //await categorieenproduct.ToListAsync()
+            return View();
         }
         //  public async Task<IActionResult> Browse(int categorieId, int Id, string searchString, string sortOrder)
         public IActionResult Browse(string searchString)
@@ -186,7 +182,7 @@ namespace login2.Controllers
             //goes to cart if product is already added
             return RedirectToAction("Cart");
         }
-
+        
         [Authorize]
         public async Task<IActionResult> DeleteFromShoppingCart(int product, string model)
         {
@@ -199,6 +195,7 @@ namespace login2.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Cart");
         }
+
         [Authorize]
         public async Task<IActionResult> DeleteAllFromShoppingCart(int product_id, string model)
         {
@@ -238,121 +235,109 @@ namespace login2.Controllers
             }
             return RedirectToAction("Cart");
         }
+
         [Authorize]
         public async Task<IActionResult> Buy()
         {
-
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
             //Get the current users cart
             var getcart = _context.Cart.Where(m => m.User_Id == gotuserId);
-            string product = "";
-
-            int totaalprijs = 0;
-            Boolean empty = true;
+            
             //Loop all items from the cart in the OrderHistory model
             foreach (var item in getcart)
-            {
-
-                string items;
-                items = item + item.Model_naam;
+            {           
                 OrderHistory order = new OrderHistory
                 {
                     User_Id = gotuserId,
                     Product_Id = item.Product_Id,
                     Model_naam = item.Model_naam,
                     Prijs = item.Prijs,
-                    Order_nummer = _context.OrderHistory.Count().ToString()
+                    Order_nummer = DateTime.Now.Second.ToString(),
+                    Aantal = item.Aantal
 
                 };
-
                 switch (item.Model_naam)
                 {
                     case "Kabel":
                         var getkabel = _context.Kabels.Where(m => m.Id == item.Product_Id && item.Model_naam == "Kabel");
-                        getkabel.First().Aantal = getkabel.First().Aantal - item.Aantal;
-                        getkabel.First().Aantal_gekocht = getkabel.First().Aantal_gekocht + item.Aantal;
-                        product = product + getkabel.First().Naam + ",";
-                        totaalprijs = totaalprijs + getkabel.First().Prijs;
-                        empty = false;
+                            if(getkabel.First().Aantal - item.Aantal < 0){
+                                return RedirectToAction("Cart");
+                            }
+                            getkabel.First().Aantal = getkabel.First().Aantal - item.Aantal;
+                            getkabel.First().Aantal_gekocht = getkabel.First().Aantal_gekocht + item.Aantal;
                         break;
                     case "Drone":
                         var getdrone = _context.Drones.Where(m => m.Id == item.Product_Id && item.Model_naam == "Drone");
-                        getdrone.First().Aantal = getdrone.First().Aantal - item.Aantal;
-                        getdrone.First().Aantal_gekocht = getdrone.First().Aantal_gekocht + item.Aantal;
-                        product = product + getdrone.First().Naam + ",";
-                        totaalprijs = totaalprijs + getdrone.First().Prijs;
-                        empty = false;
-
+                            if(getdrone.First().Aantal - item.Aantal < 0){
+                                return RedirectToAction("Cart");
+                            }
+                            getdrone.First().Aantal = getdrone.First().Aantal - item.Aantal;
+                            getdrone.First().Aantal_gekocht = getdrone.First().Aantal_gekocht + item.Aantal;
+    
                         break;
                     case "Spelcomputer":
                         var getspelcomputer = _context.Spelcomputers.Where(m => m.Id == item.Product_Id && item.Model_naam == "Spelcomputer");
+                        if(getspelcomputer.First().Aantal - item.Aantal < 0){
+                                return RedirectToAction("Cart");
+                            }
                         getspelcomputer.First().Aantal = getspelcomputer.First().Aantal - item.Aantal;
                         getspelcomputer.First().Aantal_gekocht = getspelcomputer.First().Aantal_gekocht + item.Aantal;
-                        product = product + "," + getspelcomputer.First().Naam;
-                        totaalprijs = totaalprijs + getspelcomputer.First().Prijs;
-                        empty = false;
                         break;
                     case "Horloge":
                         var gethorloge = _context.Horloges.Where(m => m.Id == item.Product_Id && item.Model_naam == "Horloge");
+                        if(gethorloge.First().Aantal - item.Aantal < 0){
+                                return RedirectToAction("Cart");
+                            }
                         gethorloge.First().Aantal = gethorloge.First().Aantal - item.Aantal;
                         gethorloge.First().Aantal_gekocht = gethorloge.First().Aantal_gekocht + item.Aantal;
-                        product = product + gethorloge.First().Naam + ",";
-                        totaalprijs = totaalprijs + gethorloge.First().Prijs;
-                        empty = false;
-
                         break;
                     case "Fotocamera":
                         var getfotocamera = _context.Fotocameras.Where(m => m.Id == item.Product_Id && item.Model_naam == "Fotocamera");
+                        if(getfotocamera.First().Aantal - item.Aantal < 0){
+                                return RedirectToAction("Cart");
+                            }
                         getfotocamera.First().Aantal = getfotocamera.First().Aantal - item.Aantal;
                         getfotocamera.First().Aantal_gekocht = getfotocamera.First().Aantal_gekocht + item.Aantal;
-                        product = product + getfotocamera.First().Naam + ",";
-                        totaalprijs = totaalprijs + getfotocamera.First().Prijs;
-                        empty = false;
-
                         break;
                     case "Schoen":
                         var getschoen = _context.Schoenen.Where(m => m.Id == item.Product_Id && item.Model_naam == "Schoen");
+                        if(getschoen.First().Aantal - item.Aantal < 0){
+                                return RedirectToAction("Cart");
+                            }
                         getschoen.First().Aantal = getschoen.First().Aantal - item.Aantal;
                         getschoen.First().Aantal_gekocht = getschoen.First().Aantal_gekocht + item.Aantal;
-                        product = product + getschoen.First().Naam + ",";
-                        totaalprijs = totaalprijs + getschoen.First().Prijs;
-                        empty = false;
-
                         break;
                     default:
                         Console.WriteLine("Error");
                         break;
-                }
-                //Product Aantal - Cart Aantal    
-                _context.OrderHistory.Add(order);
+                } 
+                 _context.OrderHistory.Add(order);
                 _context.Cart.RemoveRange(getcart);
-
-
+         
             }
-            if (empty == false)
-            {
-                await _emailSender.SendEmailAsync($"{claimsIdentity.Name}", $"Purchase confirmation of order  ", $"Your order with order  has been confirmd and will be send! {product} <br/> Totaal prijs: {totaalprijs}");
-                await _context.SaveChangesAsync();
-            }
+
+            await _context.SaveChangesAsync();
             return RedirectToAction("Cart");
 
         }
 
+        
+         
         [Authorize]
         public IActionResult OrderHistory()
         {
-
+            
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
-            var OrderHistory = from m in _context.OrderHistory
-                               where m.User_Id == gotuserId
-                               select m;
+            var OrderHistory = from m in _context.OrderHistory 
+                                where m.User_Id == gotuserId 
+                                select m;
             return View(OrderHistory);
         }
-
+       
         [Authorize]
         public async Task<IActionResult> OrderHistoryItem(string order_nummer)
         {
@@ -369,6 +354,12 @@ namespace login2.Controllers
                 return NotFound();
             }
             return View(ordersinid);
+        }
+        public IActionResult Statistics()
+        {
+            ViewBag.ChartData = "Value,Value1,Value2,Value3";
+            ViewBag.ChartLabels = "Test,Test1,Test2,Test3";
+            return View();
         }
         private bool cartExists(int id)
         {

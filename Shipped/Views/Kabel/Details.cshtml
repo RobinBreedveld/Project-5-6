@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Item Page</h2>
+<h2>Details</h2>
 
 <div>
     <h4>Kabel</h4>
@@ -35,10 +35,10 @@
             @Html.DisplayFor(model => model.Merk)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Kleur)
+            @Html.DisplayNameFor(model => model.Lengte)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Kleur)
+            @Html.DisplayFor(model => model.Lengte)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Aantal)
@@ -50,7 +50,7 @@
             @Html.DisplayNameFor(model => model.Afbeelding)
         </dt>
         <dd>
-                 <img class="test" src="@Url.Content(Model.Afbeelding)" width="200px" height= "100px" />
+            @Html.DisplayFor(model => model.Afbeelding)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Aantal_gekocht)
@@ -59,16 +59,14 @@
             @Html.DisplayFor(model => model.Aantal_gekocht)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Lengte)
+            @Html.DisplayNameFor(model => model.Categorie)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Lengte)
+            @Html.DisplayFor(model => model.Categorie.Id)
         </dd>
     </dl>
 </div>
- 
 <div>
-    @if (!this.User.IsInRole("Admin")) {
     <!-- @Html.ActionLink("Add to shoppingcart","AddToShoppingCart","Home", new { product =  @Model.Id, model = "Kabel"}) -->
     <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
         <p> @Html.TextBox("aantal", 1)
@@ -78,8 +76,15 @@
             <input class="aantal" type="submit" value="Add to shoppingcart" />
         </p>
     </form>
- }
+    <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+        <p> @Html.TextBox("aantal", 1)
+            @Html.TextBox("product", @Model.Id, new {style = "display: none;"})
+            @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+            @Html.TextBox("prijs", @Model.Prijs, new {style = "display: none;"})
+            <input class="aantal" type="submit" value="Add to wishlist" />
+        </p>
+    </form>
      @if (this.User.IsInRole("Admin")) { 
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> }
-    <a asp-action="Index" style="margin-left:20px">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>

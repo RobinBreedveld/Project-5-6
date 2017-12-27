@@ -113,11 +113,10 @@ namespace login2.Controllers
                                 Naam = data[1],
                                 Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
                                 Merk = data[3],
-                                Kleur = data[4],
+                                Lengte = int.Parse(data[4]),
                                 Aantal = int.Parse(data[5]),
                                 Afbeelding = data[6],
                                 Aantal_gekocht = int.Parse(data[7]),
-                                Lengte = int.Parse(data[8]),
                                 CategorieId = 1
                             };
                             _context.Kabels.Add(kabel);
@@ -160,7 +159,7 @@ namespace login2.Controllers
                     await PostSchoen(files);
                     break;
 
-                case "PostSpelcomputer":
+                case "SpelComputer":
                     await PostSpelcomputer(files);
                     break;
                 
@@ -233,8 +232,6 @@ namespace login2.Controllers
                                 Aantal = int.Parse(data[5]),
                                 Afbeelding = data[6],
                                 Aantal_gekocht = int.Parse(data[7]),
-                                Aantal_rotors = int.Parse(data[8]),
-                                Grootte = int.Parse(data[9]),
                                 CategorieId = 1
                             };
 
@@ -283,12 +280,10 @@ namespace login2.Controllers
                                 Naam = data[1],
                                 Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
                                 Merk = data[3],
-                                Kleur = data[4],
+                                Geheugen = int.Parse(data[4]),
                                 Aantal = int.Parse(data[5]),
                                 Afbeelding = data[6],
                                 Aantal_gekocht = int.Parse(data[7]),
-                                Opslagcapaciteit = int.Parse(data[8]),
-                                Opties = data[9],
                                 CategorieId = 1
                             };
 
@@ -340,9 +335,6 @@ namespace login2.Controllers
                                 Aantal = int.Parse(data[5]),
                                 Afbeelding = data[6],
                                 Aantal_gekocht = int.Parse(data[7]),
-                                Grootte = int.Parse(data[8]),
-                                Materiaal = data[9],
-                                Geslacht = data[10],
                                 CategorieId = 1
                             };
 
@@ -389,14 +381,10 @@ namespace login2.Controllers
                                 Naam = data[1],
                                 Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
                                 Merk = data[3],
-                                Kleur = data[4],
+                                Megapixels = data[4],
                                 Aantal = int.Parse(data[5]),
                                 Afbeelding = data[6],
                                 Aantal_gekocht = int.Parse(data[7]),
-                                MegaPixels = int.Parse(data[8]),
-                                Flits = data[9],
-                                Min_Bereik = int.Parse(data[10]),
-                                Max_Bereik = int.Parse(data[11]),
                                 CategorieId = 1
                             };
 
@@ -452,8 +440,6 @@ namespace login2.Controllers
                                 Afbeelding = data[6],
                                 Aantal_gekocht = int.Parse(data[7]),
                                 Maat = int.Parse(data[8]),
-                                Materiaal = data[9],
-                                Geslacht = data[10],
                                 CategorieId = 1
                             };
 

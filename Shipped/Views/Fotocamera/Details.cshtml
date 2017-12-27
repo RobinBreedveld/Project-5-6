@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Item Page</h2>
+<h2>Details</h2>
 
 <div>
     <h4>Fotocamera</h4>
@@ -35,10 +35,10 @@
             @Html.DisplayFor(model => model.Merk)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Kleur)
+            @Html.DisplayNameFor(model => model.Megapixels)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Kleur)
+            @Html.DisplayFor(model => model.Megapixels)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Aantal)
@@ -59,30 +59,6 @@
             @Html.DisplayFor(model => model.Aantal_gekocht)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.MegaPixels)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.MegaPixels)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Flits)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Flits)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Min_Bereik)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Min_Bereik)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Max_Bereik)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Max_Bereik)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Categorie)
         </dt>
         <dd>
@@ -100,7 +76,15 @@
             <input class="aantal" type="submit" value="Add to shoppingcart" />
         </p>
     </form>
+    <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+        <p> @Html.TextBox("aantal", 1)
+            @Html.TextBox("product", @Model.Id, new {style = "display: none;"})
+            @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
+            @Html.TextBox("prijs", @Model.Prijs, new {style = "display: none;"})
+            <input class="aantal" type="submit" value="Add to wishlist" />
+        </p>
+    </form>
      @if (this.User.IsInRole("Admin")) { 
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> }
-    <a asp-action="Index" style="margin-left:20px">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
