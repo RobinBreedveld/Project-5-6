@@ -20,11 +20,16 @@ namespace login2.Controllers
 {
     public class FotocameraController : Controller
     {
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
 
-        public FotocameraController(ApplicationDbContext context)
+        public FotocameraController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
         {
             _context = context;
+            _manager = manager;
+            _emailSender = emailSender;
+
         }
 
         // GET: Fotocamera
@@ -37,143 +42,175 @@ namespace login2.Controllers
             ViewBag.MegapixelsSortParm = sortOrder == "megapixels" ? "megapixels_desc" : "megapixels";
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
-            ViewBag.Alles = _context.Fotocameras.GroupBy(p => new { p.Type, p.Merk, p.Megapixels} )
+            ViewBag.Alles = _context.Fotocameras.GroupBy(p => new { p.Type, p.Merk, p.Megapixels })
                             .Select(g => g.First())
                             .ToList();
             var fotocameras = from a in _context.Fotocameras.Include(d => d.Categorie) select a;
-             //Als alles leeg is
-            if( merk == null && min_prijs == 0 && max_prijs == null && megapixels == null && type == null) {
+            //Als alles leeg is
+            if (merk == null && min_prijs == 0 && max_prijs == null && megapixels == null && type == null)
+            {
                 fotocameras = from a in _context.Fotocameras.Include(d => d.Categorie) select a;
             }
             //Als alles niet leeg is
-            if (merk != null && min_prijs > 0 && max_prijs != null && megapixels != null && type == null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Megapixels ==  megapixels && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs != null && megapixels != null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Megapixels == megapixels && p.Type == type);
             }
 
             //Cases merk
             //Als merk en megapixels niet leeg zijn
-            if( merk != null && min_prijs == 0 && max_prijs == null && megapixels != null && type == null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Megapixels == megapixels);
+            if (merk != null && min_prijs == 0 && max_prijs == null && megapixels != null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Megapixels == megapixels);
             }
-            if( merk != null && min_prijs == 0 && max_prijs == null && megapixels != null && type != null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Megapixels == megapixels && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs == null && megapixels != null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Megapixels == megapixels && p.Type == type);
             }
             // Als merk niet leeg is
-            if ( merk != null && min_prijs == 0 && max_prijs == null && megapixels == null && type == null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk);
+            if (merk != null && min_prijs == 0 && max_prijs == null && megapixels == null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk);
             }
 
-            if ( merk != null && min_prijs == 0 && max_prijs == null && megapixels == null && type != null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs == null && megapixels == null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Type == type);
             }
-            
+
             //Als merk en min_prijs niet leeg zijn
-            if ( merk != null && min_prijs > 0 && max_prijs == null && megapixels == null && type == null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs >= min_prijs);
+            if (merk != null && min_prijs > 0 && max_prijs == null && megapixels == null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs >= min_prijs);
             }
 
-            if ( merk != null && min_prijs > 0 && max_prijs == null && megapixels == null && type != null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs == null && megapixels == null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Type == type);
             }
 
             //Als merk en min_prijs en megapixels niet leeg zijn
-            if ( merk != null && min_prijs > 0 && max_prijs == null && megapixels != null && type == null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Megapixels == megapixels);
+            if (merk != null && min_prijs > 0 && max_prijs == null && megapixels != null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Megapixels == megapixels);
             }
 
-            if ( merk != null && min_prijs > 0 && max_prijs == null && megapixels != null && type != null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Megapixels == megapixels && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs == null && megapixels != null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Megapixels == megapixels && p.Type == type);
             }
 
             //Als merk en max_prijs niet leeg zijn
-            if ( merk != null && min_prijs == 0 && max_prijs != null && megapixels == null && type == null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs <= max_prijs);
+            if (merk != null && min_prijs == 0 && max_prijs != null && megapixels == null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs <= max_prijs);
             }
 
-            if ( merk != null && min_prijs == 0 && max_prijs != null && megapixels == null && type != null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs != null && megapixels == null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Als merk en max_prijs en megapixels niet leeg zijn
-            if ( merk != null && min_prijs == 0 && max_prijs != null && megapixels != null && type == null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Megapixels == megapixels);
+            if (merk != null && min_prijs == 0 && max_prijs != null && megapixels != null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Megapixels == megapixels);
             }
-            if ( merk != null && min_prijs == 0 && max_prijs != null && megapixels != null && type != null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Megapixels == megapixels && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs != null && megapixels != null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Megapixels == megapixels && p.Type == type);
             }
 
             //Als merk en min_prijs en max_prijs niet leeg zijn
-            if (merk != null && min_prijs > 0 && max_prijs != null && megapixels == null && type == null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs);
+            if (merk != null && min_prijs > 0 && max_prijs != null && megapixels == null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs);
             }
-            if (merk != null && min_prijs > 0 && max_prijs != null && megapixels == null && type != null) {
-                fotocameras = _context.Fotocameras.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs != null && megapixels == null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Cases min_prijs & max_prijs
             //Als min_prijs niet leeg is
-            if( merk == null && min_prijs > 0 && max_prijs == null && megapixels == null && type == null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs >= min_prijs );
+            if (merk == null && min_prijs > 0 && max_prijs == null && megapixels == null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs >= min_prijs);
             }
-            if( merk == null && min_prijs > 0 && max_prijs == null && megapixels == null && type != null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs >= min_prijs && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs == null && megapixels == null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs >= min_prijs && p.Type == type);
             }
 
             //Als min_prijs en megapixels niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs == null && megapixels != null && type == null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs >= min_prijs && p.Megapixels == megapixels);
+            if (merk == null && min_prijs > 0 && max_prijs == null && megapixels != null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs >= min_prijs && p.Megapixels == megapixels);
             }
-            if( merk == null && min_prijs > 0 && max_prijs == null && megapixels != null && type != null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs >= min_prijs && p.Megapixels == megapixels && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs == null && megapixels != null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs >= min_prijs && p.Megapixels == megapixels && p.Type == type);
             }
 
             //Als max_prijs niet leeg is
-            if( merk == null && min_prijs == 0 && max_prijs != null && megapixels == null && type == null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs <= max_prijs );
+            if (merk == null && min_prijs == 0 && max_prijs != null && megapixels == null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs <= max_prijs);
             }
-            if( merk == null && min_prijs == 0 && max_prijs != null && megapixels == null && type != null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs <= max_prijs && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs != null && megapixels == null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Als max_prijs en megapixels niet leeg zijn
-            if( merk == null && min_prijs == 0 && max_prijs != null && megapixels != null && type == null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs <= max_prijs && p.Megapixels == megapixels);
+            if (merk == null && min_prijs == 0 && max_prijs != null && megapixels != null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs <= max_prijs && p.Megapixels == megapixels);
             }
-            if( merk == null && min_prijs == 0 && max_prijs != null && megapixels != null && type != null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs <= max_prijs && p.Megapixels == megapixels && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs != null && megapixels != null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs <= max_prijs && p.Megapixels == megapixels && p.Type == type);
             }
 
             //Als min_prijs en max_prijs niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs != null && megapixels == null && type == null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs );
+            if (merk == null && min_prijs > 0 && max_prijs != null && megapixels == null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs);
             }
-            if( merk == null && min_prijs > 0 && max_prijs != null && megapixels == null && type != null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs != null && megapixels == null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
             }
             //Als min_prijs en max_prijs en megapixels niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs != null && megapixels != null && type == null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Megapixels == megapixels);
+            if (merk == null && min_prijs > 0 && max_prijs != null && megapixels != null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Megapixels == megapixels);
             }
-            if( merk == null && min_prijs > 0 && max_prijs != null && megapixels != null && type != null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Megapixels == megapixels && p.Type == type);
-            }
-
-            //Cases megapixels
-            //Als megapixels niet leeg is
-            if( merk == null && min_prijs == 0 && max_prijs == null && megapixels != null && type == null){
-                 fotocameras = _context.Fotocameras.Where( p =>  p.Megapixels == megapixels);
-            }
-            if( merk == null && min_prijs == 0 && max_prijs == null && megapixels != null && type != null){
-                 fotocameras = _context.Fotocameras.Where( p =>  p.Megapixels == megapixels && p.Type == type);
-            }
-            if( merk == null && min_prijs == 0 && max_prijs == null && megapixels == null && type != null){
-                 fotocameras = _context.Fotocameras.Where( p => p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs != null && megapixels != null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Megapixels == megapixels && p.Type == type);
             }
 
             //Cases megapixels
             //Als megapixels niet leeg is
-            if( merk == null && min_prijs == 0 && max_prijs == 0 && megapixels != null){
-                 fotocameras = _context.Fotocameras.Where( p =>  p.Megapixels == megapixels);
+            if (merk == null && min_prijs == 0 && max_prijs == null && megapixels != null && type == null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Megapixels == megapixels);
+            }
+            if (merk == null && min_prijs == 0 && max_prijs == null && megapixels != null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Megapixels == megapixels && p.Type == type);
+            }
+            if (merk == null && min_prijs == 0 && max_prijs == null && megapixels == null && type != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Type == type);
+            }
+
+            //Cases megapixels
+            //Als megapixels niet leeg is
+            if (merk == null && min_prijs == 0 && max_prijs == 0 && megapixels != null)
+            {
+                fotocameras = _context.Fotocameras.Where(p => p.Megapixels == megapixels);
             }
             switch (sortOrder)
             {
@@ -191,7 +228,7 @@ namespace login2.Controllers
                     break;
                 case "prijs_desc":
                     fotocameras = fotocameras.OrderByDescending(s => s.Prijs);
-                    break;   
+                    break;
                 case "merk":
                     fotocameras = fotocameras.OrderBy(s => s.Merk);
                     break;
@@ -206,22 +243,22 @@ namespace login2.Controllers
                     break;
                 case "aantal":
                     fotocameras = fotocameras.OrderBy(s => s.Aantal);
-                    break; 
+                    break;
                 case "aantal_desc":
                     fotocameras = fotocameras.OrderByDescending(s => s.Aantal);
                     break;
                 case "aantal_gekocht":
                     fotocameras = fotocameras.OrderBy(s => s.Aantal_gekocht);
-                    break; 
+                    break;
                 case "aantal_gekocht_desc":
                     fotocameras = fotocameras.OrderByDescending(s => s.Aantal_gekocht);
-                    break;        
+                    break;
                 default:
-                     fotocameras = fotocameras.OrderBy(s => s.Naam);
+                    fotocameras = fotocameras.OrderBy(s => s.Naam);
                     break;
             }
 
-        return View(await fotocameras.ToListAsync());
+            return View(await fotocameras.ToListAsync());
         }
 
         // GET: Fotocamera/Details/5
@@ -244,7 +281,7 @@ namespace login2.Controllers
         }
 
         // GET: Fotocamera/Create
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -256,7 +293,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Megapixels,Aantal,Afbeelding,Aantal_gekocht,CategorieId")] Fotocamera fotocamera)
         {
             if (ModelState.IsValid)
@@ -270,7 +307,7 @@ namespace login2.Controllers
         }
 
         // GET: Fotocamera/Edit/5
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -292,7 +329,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Megapixels,Aantal,Afbeelding,Aantal_gekocht,CategorieId")] Fotocamera fotocamera)
         {
             if (id != fotocamera.Id)
@@ -325,7 +362,7 @@ namespace login2.Controllers
         }
 
         // GET: Fotocamera/Delete/5
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -345,16 +382,17 @@ namespace login2.Controllers
         // POST: Fotocamera/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-         [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var fotocamera = await _context.Fotocameras.FirstOrDefaultAsync(m => m.Id == id);
-            _context.Fotocameras.Remove(fotocamera);            
-            HomeController controller = new HomeController(_context);
+            _context.Fotocameras.Remove(fotocamera);
+            HomeController controller = new HomeController(_context, _emailSender, _manager);
+
             await controller.DeleteAllFromShoppingCart(id, "Fotocamera");
             WishlistController wishlistcontroller = new WishlistController(_context);
             await wishlistcontroller.DeleteAllFromWishlist(id, "Fotocamera");
-            await _context.SaveChangesAsync();           
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

@@ -20,11 +20,16 @@ namespace login2.Controllers
 {
     public class KabelController : Controller
     {
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
 
-        public KabelController(ApplicationDbContext context)
+        public KabelController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
         {
             _context = context;
+            _manager = manager;
+            _emailSender = emailSender;
+
         }
 
         // GET: Kabel
@@ -37,136 +42,167 @@ namespace login2.Controllers
             ViewBag.LengteSortParm = sortOrder == "lengte" ? "lengte_desc" : "lengte";
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
-            ViewBag.Alles = _context.Kabels.GroupBy(p => new { p.Type, p.Merk, p.Lengte} )
+            ViewBag.Alles = _context.Kabels.GroupBy(p => new { p.Type, p.Merk, p.Lengte })
                             .Select(g => g.First())
                             .ToList();
             var kabels = from a in _context.Kabels.Include(d => d.Categorie) select a;
-            if( merk == null && min_prijs == 0 && max_prijs == null && lengte == null && type == null) {
+            if (merk == null && min_prijs == 0 && max_prijs == null && lengte == null && type == null)
+            {
                 kabels = from a in _context.Kabels.Include(d => d.Categorie) select a;
             }
             //Als alles niet leeg is
-            if (merk != null && min_prijs > 0 && max_prijs != null && lengte != null && type == null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Lengte.ToString() ==  lengte && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs != null && lengte != null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Lengte.ToString() == lengte && p.Type == type);
             }
 
             //Cases merk
             //Als merk en lengte niet leeg zijn
-            if( merk != null && min_prijs == 0 && max_prijs == null && lengte != null && type == null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Lengte.ToString() == lengte);
+            if (merk != null && min_prijs == 0 && max_prijs == null && lengte != null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Lengte.ToString() == lengte);
             }
-            if( merk != null && min_prijs == 0 && max_prijs == null && lengte != null && type != null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Lengte.ToString() == lengte && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs == null && lengte != null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Lengte.ToString() == lengte && p.Type == type);
             }
             // Als merk niet leeg is
-            if ( merk != null && min_prijs == 0 && max_prijs == null && lengte == null && type == null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk);
+            if (merk != null && min_prijs == 0 && max_prijs == null && lengte == null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk);
             }
 
-            if ( merk != null && min_prijs == 0 && max_prijs == null && lengte == null && type != null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs == null && lengte == null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Type == type);
             }
-            
+
             //Als merk en min_prijs niet leeg zijn
-            if ( merk != null && min_prijs > 0 && max_prijs == null && lengte == null && type == null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs >= min_prijs);
+            if (merk != null && min_prijs > 0 && max_prijs == null && lengte == null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs >= min_prijs);
             }
 
-            if ( merk != null && min_prijs > 0 && max_prijs == null && lengte == null && type != null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs == null && lengte == null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Type == type);
             }
 
             //Als merk en min_prijs en lengte niet leeg zijn
-            if ( merk != null && min_prijs > 0 && max_prijs == null && lengte != null && type == null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Lengte.ToString() == lengte);
+            if (merk != null && min_prijs > 0 && max_prijs == null && lengte != null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Lengte.ToString() == lengte);
             }
 
-            if ( merk != null && min_prijs > 0 && max_prijs == null && lengte != null && type != null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Lengte.ToString() == lengte && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs == null && lengte != null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Lengte.ToString() == lengte && p.Type == type);
             }
 
             //Als merk en max_prijs niet leeg zijn
-            if ( merk != null && min_prijs == 0 && max_prijs != null && lengte == null && type == null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs <= max_prijs);
+            if (merk != null && min_prijs == 0 && max_prijs != null && lengte == null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs <= max_prijs);
             }
 
-            if ( merk != null && min_prijs == 0 && max_prijs != null && lengte == null && type != null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs != null && lengte == null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Als merk en max_prijs en lengte niet leeg zijn
-            if ( merk != null && min_prijs == 0 && max_prijs != null && lengte != null && type == null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Lengte.ToString() == lengte);
+            if (merk != null && min_prijs == 0 && max_prijs != null && lengte != null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Lengte.ToString() == lengte);
             }
-            if ( merk != null && min_prijs == 0 && max_prijs != null && lengte != null && type != null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Lengte.ToString() == lengte && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs != null && lengte != null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Lengte.ToString() == lengte && p.Type == type);
             }
 
             //Als merk en min_prijs en max_prijs niet leeg zijn
-            if (merk != null && min_prijs > 0 && max_prijs != null && lengte == null && type == null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs);
+            if (merk != null && min_prijs > 0 && max_prijs != null && lengte == null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs);
             }
-            if (merk != null && min_prijs > 0 && max_prijs != null && lengte == null && type != null) {
-                kabels = _context.Kabels.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs != null && lengte == null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Cases min_prijs & max_prijs
             //Als min_prijs niet leeg is
-            if( merk == null && min_prijs > 0 && max_prijs == null && lengte == null && type == null){
-                kabels = _context.Kabels.Where( p => p.Prijs >= min_prijs );
+            if (merk == null && min_prijs > 0 && max_prijs == null && lengte == null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs >= min_prijs);
             }
-            if( merk == null && min_prijs > 0 && max_prijs == null && lengte == null && type != null){
-                kabels = _context.Kabels.Where( p => p.Prijs >= min_prijs && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs == null && lengte == null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs >= min_prijs && p.Type == type);
             }
 
             //Als min_prijs en lengte niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs == null && lengte != null && type == null){
-                 kabels = _context.Kabels.Where( p => p.Prijs >= min_prijs && p.Lengte.ToString() == lengte);
+            if (merk == null && min_prijs > 0 && max_prijs == null && lengte != null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs >= min_prijs && p.Lengte.ToString() == lengte);
             }
-            if( merk == null && min_prijs > 0 && max_prijs == null && lengte != null && type != null){
-                 kabels = _context.Kabels.Where( p => p.Prijs >= min_prijs && p.Lengte.ToString() == lengte && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs == null && lengte != null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs >= min_prijs && p.Lengte.ToString() == lengte && p.Type == type);
             }
 
             //Als max_prijs niet leeg is
-            if( merk == null && min_prijs == 0 && max_prijs != null && lengte == null && type == null){
-                 kabels = _context.Kabels.Where( p => p.Prijs <= max_prijs );
+            if (merk == null && min_prijs == 0 && max_prijs != null && lengte == null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs <= max_prijs);
             }
-            if( merk == null && min_prijs == 0 && max_prijs != null && lengte == null && type != null){
-                 kabels = _context.Kabels.Where( p => p.Prijs <= max_prijs && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs != null && lengte == null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Als max_prijs en lengte niet leeg zijn
-            if( merk == null && min_prijs == 0 && max_prijs != null && lengte != null && type == null){
-                 kabels = _context.Kabels.Where( p => p.Prijs <= max_prijs && p.Lengte.ToString() == lengte);
+            if (merk == null && min_prijs == 0 && max_prijs != null && lengte != null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs <= max_prijs && p.Lengte.ToString() == lengte);
             }
-            if( merk == null && min_prijs == 0 && max_prijs != null && lengte != null && type != null){
-                 kabels = _context.Kabels.Where( p => p.Prijs <= max_prijs && p.Lengte.ToString() == lengte && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs != null && lengte != null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs <= max_prijs && p.Lengte.ToString() == lengte && p.Type == type);
             }
 
             //Als min_prijs en max_prijs niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs != null && lengte == null && type == null){
-                 kabels = _context.Kabels.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs );
+            if (merk == null && min_prijs > 0 && max_prijs != null && lengte == null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs);
             }
-            if( merk == null && min_prijs > 0 && max_prijs != null && lengte == null && type != null){
-                 kabels = _context.Kabels.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs != null && lengte == null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
             }
             //Als min_prijs en max_prijs en lengte niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs != null && lengte != null && type == null){
-                 kabels = _context.Kabels.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Lengte.ToString() == lengte);
+            if (merk == null && min_prijs > 0 && max_prijs != null && lengte != null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Lengte.ToString() == lengte);
             }
-            if( merk == null && min_prijs > 0 && max_prijs != null && lengte != null && type != null){
-                 kabels = _context.Kabels.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Lengte.ToString() == lengte && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs != null && lengte != null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Lengte.ToString() == lengte && p.Type == type);
             }
 
             //Cases lengte
             //Als lengte niet leeg is
-            if( merk == null && min_prijs == 0 && max_prijs == null && lengte != null && type == null){
-                 kabels = _context.Kabels.Where( p =>  p.Lengte.ToString() == lengte);
+            if (merk == null && min_prijs == 0 && max_prijs == null && lengte != null && type == null)
+            {
+                kabels = _context.Kabels.Where(p => p.Lengte.ToString() == lengte);
             }
-            if( merk == null && min_prijs == 0 && max_prijs == null && lengte != null && type != null){
-                 kabels = _context.Kabels.Where( p =>  p.Lengte.ToString() == lengte && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs == null && lengte != null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Lengte.ToString() == lengte && p.Type == type);
             }
-            if( merk == null && min_prijs == 0 && max_prijs == null && lengte == null && type != null){
-                 kabels = _context.Kabels.Where( p => p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs == null && lengte == null && type != null)
+            {
+                kabels = _context.Kabels.Where(p => p.Type == type);
             }
             switch (sortOrder)
             {
@@ -184,7 +220,7 @@ namespace login2.Controllers
                     break;
                 case "prijs_desc":
                     kabels = kabels.OrderByDescending(s => s.Prijs);
-                    break;   
+                    break;
                 case "merk":
                     kabels = kabels.OrderBy(s => s.Merk);
                     break;
@@ -199,21 +235,21 @@ namespace login2.Controllers
                     break;
                 case "aantal":
                     kabels = kabels.OrderBy(s => s.Aantal);
-                    break; 
+                    break;
                 case "aantal_desc":
                     kabels = kabels.OrderByDescending(s => s.Aantal);
                     break;
                 case "aantal_gekocht":
                     kabels = kabels.OrderBy(s => s.Aantal_gekocht);
-                    break; 
+                    break;
                 case "aantal_gekocht_desc":
                     kabels = kabels.OrderByDescending(s => s.Aantal_gekocht);
                     break;
                 default:
-                     kabels = kabels.OrderBy(s => s.Naam);
+                    kabels = kabels.OrderBy(s => s.Naam);
                     break;
             }
-        
+
             return View(await kabels.ToListAsync());
         }
 
@@ -236,7 +272,7 @@ namespace login2.Controllers
             return View(kabel);
         }
 
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Kabel/Create
         public IActionResult Create()
         {
@@ -249,7 +285,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Lengte,Aantal,Afbeelding,Aantal_gekocht,CategorieId")] Kabel kabel)
         {
             if (ModelState.IsValid)
@@ -261,7 +297,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", kabel.CategorieId);
             return View(kabel);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Kabel/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -284,7 +320,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Lengte,Aantal,Afbeelding,Aantal_gekocht,CategorieId")] Kabel kabel)
         {
             if (id != kabel.Id)
@@ -315,7 +351,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", kabel.CategorieId);
             return View(kabel);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Kabel/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -334,20 +370,21 @@ namespace login2.Controllers
 
             return View(kabel);
         }
-        
+
         // POST: Kabel/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var kabel = await _context.Kabels.SingleOrDefaultAsync(m => m.Id == id);
             _context.Kabels.Remove(kabel);
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new HomeController(_context, _emailSender, _manager);
+
             await controller.DeleteAllFromShoppingCart(id, "Kabel");
             WishlistController wishlistcontroller = new WishlistController(_context);
             await wishlistcontroller.DeleteAllFromWishlist(id, "Kabel");
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

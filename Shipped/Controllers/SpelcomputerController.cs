@@ -20,12 +20,18 @@ namespace login2.Controllers
 {
     public class SpelcomputerController : Controller
     {
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
 
-        public SpelcomputerController(ApplicationDbContext context)
+        public SpelcomputerController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
         {
             _context = context;
+            _manager = manager;
+            _emailSender = emailSender;
+
         }
+
 
         // GET: Spelcomputer
         public async Task<IActionResult> Index(string searchString, string sortOrder, string merk, int min_prijs, int? max_prijs, string geheugen, string type)
@@ -37,137 +43,168 @@ namespace login2.Controllers
             ViewBag.GeheugenSortParm = sortOrder == "geheugen" ? "geheugen_desc" : "geheugen";
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
-            ViewBag.Alles = _context.Spelcomputers.GroupBy(p => new { p.Type, p.Merk, p.Geheugen} )
+            ViewBag.Alles = _context.Spelcomputers.GroupBy(p => new { p.Type, p.Merk, p.Geheugen })
                             .Select(g => g.First())
                             .ToList();
             var spelcomputers = from a in _context.Spelcomputers.Include(d => d.Categorie) select a;
             //Als alles leeg is
-            if( merk == null && min_prijs == 0 && max_prijs == null && geheugen == null && type == null) {
+            if (merk == null && min_prijs == 0 && max_prijs == null && geheugen == null && type == null)
+            {
                 spelcomputers = from a in _context.Spelcomputers.Include(d => d.Categorie) select a;
             }
             //Als alles niet leeg is
-            if (merk != null && min_prijs > 0 && max_prijs != null && geheugen != null && type == null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Geheugen.ToString() ==  geheugen && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs != null && geheugen != null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
             }
 
             //Cases merk
             //Als merk en geheugen niet leeg zijn
-            if( merk != null && min_prijs == 0 && max_prijs == null && geheugen != null && type == null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Geheugen.ToString() == geheugen);
+            if (merk != null && min_prijs == 0 && max_prijs == null && geheugen != null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Geheugen.ToString() == geheugen);
             }
-            if( merk != null && min_prijs == 0 && max_prijs == null && geheugen != null && type != null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Geheugen.ToString() == geheugen && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs == null && geheugen != null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Geheugen.ToString() == geheugen && p.Type == type);
             }
             // Als merk niet leeg is
-            if ( merk != null && min_prijs == 0 && max_prijs == null && geheugen == null && type == null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk);
+            if (merk != null && min_prijs == 0 && max_prijs == null && geheugen == null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk);
             }
 
-            if ( merk != null && min_prijs == 0 && max_prijs == null && geheugen == null && type != null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs == null && geheugen == null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Type == type);
             }
-            
+
             //Als merk en min_prijs niet leeg zijn
-            if ( merk != null && min_prijs > 0 && max_prijs == null && geheugen == null && type == null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs >= min_prijs);
+            if (merk != null && min_prijs > 0 && max_prijs == null && geheugen == null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs >= min_prijs);
             }
 
-            if ( merk != null && min_prijs > 0 && max_prijs == null && geheugen == null && type != null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs == null && geheugen == null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Type == type);
             }
 
             //Als merk en min_prijs en geheugen niet leeg zijn
-            if ( merk != null && min_prijs > 0 && max_prijs == null && geheugen != null && type == null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Geheugen.ToString() == geheugen);
+            if (merk != null && min_prijs > 0 && max_prijs == null && geheugen != null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Geheugen.ToString() == geheugen);
             }
 
-            if ( merk != null && min_prijs > 0 && max_prijs == null && geheugen != null && type != null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs == null && geheugen != null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
             }
 
             //Als merk en max_prijs niet leeg zijn
-            if ( merk != null && min_prijs == 0 && max_prijs != null && geheugen == null && type == null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs <= max_prijs);
+            if (merk != null && min_prijs == 0 && max_prijs != null && geheugen == null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs <= max_prijs);
             }
 
-            if ( merk != null && min_prijs == 0 && max_prijs != null && geheugen == null && type != null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs != null && geheugen == null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Als merk en max_prijs en geheugen niet leeg zijn
-            if ( merk != null && min_prijs == 0 && max_prijs != null && geheugen != null && type == null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen);
+            if (merk != null && min_prijs == 0 && max_prijs != null && geheugen != null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen);
             }
-            if ( merk != null && min_prijs == 0 && max_prijs != null && geheugen != null && type != null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs != null && geheugen != null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
             }
 
             //Als merk en min_prijs en max_prijs niet leeg zijn
-            if (merk != null && min_prijs > 0 && max_prijs != null && geheugen == null && type == null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs);
+            if (merk != null && min_prijs > 0 && max_prijs != null && geheugen == null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs);
             }
-            if (merk != null && min_prijs > 0 && max_prijs != null && geheugen == null && type != null) {
-                spelcomputers = _context.Spelcomputers.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs != null && geheugen == null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Cases min_prijs & max_prijs
             //Als min_prijs niet leeg is
-            if( merk == null && min_prijs > 0 && max_prijs == null && geheugen == null && type == null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs >= min_prijs );
+            if (merk == null && min_prijs > 0 && max_prijs == null && geheugen == null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs >= min_prijs);
             }
-            if( merk == null && min_prijs > 0 && max_prijs == null && geheugen == null && type != null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs >= min_prijs && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs == null && geheugen == null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs >= min_prijs && p.Type == type);
             }
 
             //Als min_prijs en geheugen niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs == null && geheugen != null && type == null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs >= min_prijs && p.Geheugen.ToString() == geheugen);
+            if (merk == null && min_prijs > 0 && max_prijs == null && geheugen != null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs >= min_prijs && p.Geheugen.ToString() == geheugen);
             }
-            if( merk == null && min_prijs > 0 && max_prijs == null && geheugen != null && type != null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs >= min_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs == null && geheugen != null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs >= min_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
             }
 
             //Als max_prijs niet leeg is
-            if( merk == null && min_prijs == 0 && max_prijs != null && geheugen == null && type == null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs <= max_prijs );
+            if (merk == null && min_prijs == 0 && max_prijs != null && geheugen == null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs <= max_prijs);
             }
-            if( merk == null && min_prijs == 0 && max_prijs != null && geheugen == null && type != null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs <= max_prijs && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs != null && geheugen == null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Als max_prijs en geheugen niet leeg zijn
-            if( merk == null && min_prijs == 0 && max_prijs != null && geheugen != null && type == null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen);
+            if (merk == null && min_prijs == 0 && max_prijs != null && geheugen != null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen);
             }
-            if( merk == null && min_prijs == 0 && max_prijs != null && geheugen != null && type != null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs != null && geheugen != null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
             }
 
             //Als min_prijs en max_prijs niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs != null && geheugen == null && type == null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs );
+            if (merk == null && min_prijs > 0 && max_prijs != null && geheugen == null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs);
             }
-            if( merk == null && min_prijs > 0 && max_prijs != null && geheugen == null && type != null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs != null && geheugen == null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
             }
             //Als min_prijs en max_prijs en geheugen niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs != null && geheugen != null && type == null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen);
+            if (merk == null && min_prijs > 0 && max_prijs != null && geheugen != null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen);
             }
-            if( merk == null && min_prijs > 0 && max_prijs != null && geheugen != null && type != null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs != null && geheugen != null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
             }
 
             //Cases geheugen
             //Als geheugen niet leeg is
-            if( merk == null && min_prijs == 0 && max_prijs == null && geheugen != null && type == null){
-                spelcomputers = _context.Spelcomputers.Where( p =>  p.Geheugen.ToString() == geheugen);
+            if (merk == null && min_prijs == 0 && max_prijs == null && geheugen != null && type == null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Geheugen.ToString() == geheugen);
             }
-            if( merk == null && min_prijs == 0 && max_prijs == null && geheugen != null && type != null){
-                spelcomputers = _context.Spelcomputers.Where( p =>  p.Geheugen.ToString() == geheugen && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs == null && geheugen != null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Geheugen.ToString() == geheugen && p.Type == type);
             }
-            if( merk == null && min_prijs == 0 && max_prijs == null && geheugen == null && type != null){
-                spelcomputers = _context.Spelcomputers.Where( p => p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs == null && geheugen == null && type != null)
+            {
+                spelcomputers = _context.Spelcomputers.Where(p => p.Type == type);
             }
             switch (sortOrder)
             {
@@ -185,7 +222,7 @@ namespace login2.Controllers
                     break;
                 case "prijs_desc":
                     spelcomputers = spelcomputers.OrderByDescending(s => s.Prijs);
-                    break;   
+                    break;
                 case "merk":
                     spelcomputers = spelcomputers.OrderBy(s => s.Merk);
                     break;
@@ -200,21 +237,21 @@ namespace login2.Controllers
                     break;
                 case "aantal":
                     spelcomputers = spelcomputers.OrderBy(s => s.Aantal);
-                    break; 
+                    break;
                 case "aantal_desc":
                     spelcomputers = spelcomputers.OrderByDescending(s => s.Aantal);
                     break;
                 case "aantal_gekocht":
                     spelcomputers = spelcomputers.OrderBy(s => s.Aantal_gekocht);
-                    break; 
+                    break;
                 case "aantal_gekocht_desc":
                     spelcomputers = spelcomputers.OrderByDescending(s => s.Aantal_gekocht);
-                    break;    
+                    break;
                 default:
-                     spelcomputers = spelcomputers.OrderBy(s => s.Naam);
+                    spelcomputers = spelcomputers.OrderBy(s => s.Naam);
                     break;
             }
-        
+
             return View(await spelcomputers.ToListAsync());
         }
 
@@ -238,7 +275,7 @@ namespace login2.Controllers
         }
 
         // GET: Spelcomputer/Create
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -250,7 +287,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Geheugen,Aantal,Afbeelding,Aantal_gekocht,CategorieId")] Spelcomputer spelcomputer)
         {
             if (ModelState.IsValid)
@@ -264,7 +301,7 @@ namespace login2.Controllers
         }
 
         // GET: Spelcomputer/Edit/5
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -286,7 +323,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Geheugen,Aantal,Afbeelding,Aantal_gekocht,CategorieId")] Spelcomputer spelcomputer)
         {
             if (id != spelcomputer.Id)
@@ -319,7 +356,7 @@ namespace login2.Controllers
         }
 
         // GET: Spelcomputer/Delete/5
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -341,16 +378,17 @@ namespace login2.Controllers
         // POST: Spelcomputer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var spelcomputer = await _context.Spelcomputers.FirstOrDefaultAsync(m => m.Id == id);
             _context.Spelcomputers.Remove(spelcomputer);
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new HomeController(_context, _emailSender, _manager);
+
             await controller.DeleteAllFromShoppingCart(id, "Spelcomputer");
             WishlistController wishlistcontroller = new WishlistController(_context);
             await wishlistcontroller.DeleteAllFromWishlist(id, "Spelcomputer");
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

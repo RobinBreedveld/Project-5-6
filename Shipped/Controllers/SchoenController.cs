@@ -20,11 +20,16 @@ namespace login2.Controllers
 {
     public class SchoenController : Controller
     {
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
 
-        public SchoenController(ApplicationDbContext context)
+        public SchoenController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
         {
             _context = context;
+            _manager = manager;
+            _emailSender = emailSender;
+
         }
 
         // GET: Schoen
@@ -38,137 +43,168 @@ namespace login2.Controllers
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
             ViewBag.MaatSortParm = sortOrder == "maat" ? "maat_desc" : "maat";
-            ViewBag.Alles = _context.Schoenen.GroupBy(p => new { p.Type, p.Merk, p.Kleur} )
+            ViewBag.Alles = _context.Schoenen.GroupBy(p => new { p.Type, p.Merk, p.Kleur })
                             .Select(g => g.First())
                             .ToList();
             var schoenen = from a in _context.Schoenen.Include(d => d.Categorie) select a;
             //Als alles leeg is
-            if( merk == null && min_prijs == 0 && max_prijs == null && kleur == null && type == null) {
+            if (merk == null && min_prijs == 0 && max_prijs == null && kleur == null && type == null)
+            {
                 schoenen = from a in _context.Schoenen.Include(d => d.Categorie) select a;
             }
             //Als alles niet leeg is
-            if (merk != null && min_prijs > 0 && max_prijs != null && kleur != null && type == null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur ==  kleur && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs != null && kleur != null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
             }
 
             //Cases merk
             //Als merk en kleur niet leeg zijn
-            if( merk != null && min_prijs == 0 && max_prijs == null && kleur != null && type == null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Kleur == kleur);
+            if (merk != null && min_prijs == 0 && max_prijs == null && kleur != null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Kleur == kleur);
             }
-            if( merk != null && min_prijs == 0 && max_prijs == null && kleur != null && type != null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Kleur == kleur && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs == null && kleur != null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Kleur == kleur && p.Type == type);
             }
             // Als merk niet leeg is
-            if ( merk != null && min_prijs == 0 && max_prijs == null && kleur == null && type == null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk);
+            if (merk != null && min_prijs == 0 && max_prijs == null && kleur == null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk);
             }
 
-            if ( merk != null && min_prijs == 0 && max_prijs == null && kleur == null && type != null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs == null && kleur == null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Type == type);
             }
-            
+
             //Als merk en min_prijs niet leeg zijn
-            if ( merk != null && min_prijs > 0 && max_prijs == null && kleur == null && type == null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs >= min_prijs);
+            if (merk != null && min_prijs > 0 && max_prijs == null && kleur == null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs >= min_prijs);
             }
 
-            if ( merk != null && min_prijs > 0 && max_prijs == null && kleur == null && type != null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs == null && kleur == null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Type == type);
             }
 
             //Als merk en min_prijs en kleur niet leeg zijn
-            if ( merk != null && min_prijs > 0 && max_prijs == null && kleur != null && type == null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Kleur == kleur);
+            if (merk != null && min_prijs > 0 && max_prijs == null && kleur != null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Kleur == kleur);
             }
 
-            if ( merk != null && min_prijs > 0 && max_prijs == null && kleur != null && type != null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Kleur == kleur && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs == null && kleur != null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Kleur == kleur && p.Type == type);
             }
 
             //Als merk en max_prijs niet leeg zijn
-            if ( merk != null && min_prijs == 0 && max_prijs != null && kleur == null && type == null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs <= max_prijs);
+            if (merk != null && min_prijs == 0 && max_prijs != null && kleur == null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs <= max_prijs);
             }
 
-            if ( merk != null && min_prijs == 0 && max_prijs != null && kleur == null && type != null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs != null && kleur == null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Als merk en max_prijs en kleur niet leeg zijn
-            if ( merk != null && min_prijs == 0 && max_prijs != null && kleur != null && type == null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Kleur == kleur);
+            if (merk != null && min_prijs == 0 && max_prijs != null && kleur != null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Kleur == kleur);
             }
-            if ( merk != null && min_prijs == 0 && max_prijs != null && kleur != null && type != null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
+            if (merk != null && min_prijs == 0 && max_prijs != null && kleur != null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
             }
 
             //Als merk en min_prijs en max_prijs niet leeg zijn
-            if (merk != null && min_prijs > 0 && max_prijs != null && kleur == null && type == null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs);
+            if (merk != null && min_prijs > 0 && max_prijs != null && kleur == null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs);
             }
-            if (merk != null && min_prijs > 0 && max_prijs != null && kleur == null && type != null) {
-                schoenen = _context.Schoenen.Where( p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
+            if (merk != null && min_prijs > 0 && max_prijs != null && kleur == null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Cases min_prijs & max_prijs
             //Als min_prijs niet leeg is
-            if( merk == null && min_prijs > 0 && max_prijs == null && kleur == null && type == null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs >= min_prijs );
+            if (merk == null && min_prijs > 0 && max_prijs == null && kleur == null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs >= min_prijs);
             }
-            if( merk == null && min_prijs > 0 && max_prijs == null && kleur == null && type != null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs >= min_prijs && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs == null && kleur == null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs >= min_prijs && p.Type == type);
             }
 
             //Als min_prijs en kleur niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs == null && kleur != null && type == null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs >= min_prijs && p.Kleur == kleur);
+            if (merk == null && min_prijs > 0 && max_prijs == null && kleur != null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs >= min_prijs && p.Kleur == kleur);
             }
-            if( merk == null && min_prijs > 0 && max_prijs == null && kleur != null && type != null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs >= min_prijs && p.Kleur == kleur && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs == null && kleur != null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs >= min_prijs && p.Kleur == kleur && p.Type == type);
             }
 
             //Als max_prijs niet leeg is
-            if( merk == null && min_prijs == 0 && max_prijs != null && kleur == null && type == null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs <= max_prijs );
+            if (merk == null && min_prijs == 0 && max_prijs != null && kleur == null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs <= max_prijs);
             }
-            if( merk == null && min_prijs == 0 && max_prijs != null && kleur == null && type != null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs <= max_prijs && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs != null && kleur == null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs <= max_prijs && p.Type == type);
             }
 
             //Als max_prijs en kleur niet leeg zijn
-            if( merk == null && min_prijs == 0 && max_prijs != null && kleur != null && type == null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs <= max_prijs && p.Kleur == kleur);
+            if (merk == null && min_prijs == 0 && max_prijs != null && kleur != null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs <= max_prijs && p.Kleur == kleur);
             }
-            if( merk == null && min_prijs == 0 && max_prijs != null && kleur != null && type != null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs != null && kleur != null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
             }
 
             //Als min_prijs en max_prijs niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs != null && kleur == null && type == null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs );
+            if (merk == null && min_prijs > 0 && max_prijs != null && kleur == null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs);
             }
-            if( merk == null && min_prijs > 0 && max_prijs != null && kleur == null && type != null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs != null && kleur == null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
             }
             //Als min_prijs en max_prijs en kleur niet leeg zijn
-            if( merk == null && min_prijs > 0 && max_prijs != null && kleur != null && type == null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur == kleur);
+            if (merk == null && min_prijs > 0 && max_prijs != null && kleur != null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur == kleur);
             }
-            if( merk == null && min_prijs > 0 && max_prijs != null && kleur != null && type != null){
-                schoenen = _context.Schoenen.Where( p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
+            if (merk == null && min_prijs > 0 && max_prijs != null && kleur != null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
             }
 
             //Cases kleur
             //Als kleur niet leeg is
-            if( merk == null && min_prijs == 0 && max_prijs == null && kleur != null && type == null){
-                 schoenen = _context.Schoenen.Where( p =>  p.Kleur == kleur);
+            if (merk == null && min_prijs == 0 && max_prijs == null && kleur != null && type == null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Kleur == kleur);
             }
-            if( merk == null && min_prijs == 0 && max_prijs == null && kleur != null && type != null){
-                 schoenen = _context.Schoenen.Where( p =>  p.Kleur == kleur && p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs == null && kleur != null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Kleur == kleur && p.Type == type);
             }
-            if( merk == null && min_prijs == 0 && max_prijs == null && kleur == null && type != null){
-                 schoenen = _context.Schoenen.Where( p => p.Type == type);
+            if (merk == null && min_prijs == 0 && max_prijs == null && kleur == null && type != null)
+            {
+                schoenen = _context.Schoenen.Where(p => p.Type == type);
             }
             switch (sortOrder)
             {
@@ -186,7 +222,7 @@ namespace login2.Controllers
                     break;
                 case "prijs_desc":
                     schoenen = schoenen.OrderByDescending(s => s.Prijs);
-                    break;   
+                    break;
                 case "merk":
                     schoenen = schoenen.OrderBy(s => s.Merk);
                     break;
@@ -201,27 +237,27 @@ namespace login2.Controllers
                     break;
                 case "aantal":
                     schoenen = schoenen.OrderBy(s => s.Aantal);
-                    break; 
+                    break;
                 case "aantal_desc":
                     schoenen = schoenen.OrderByDescending(s => s.Aantal);
                     break;
                 case "aantal_gekocht":
                     schoenen = schoenen.OrderBy(s => s.Aantal_gekocht);
-                    break; 
+                    break;
                 case "aantal_gekocht_desc":
                     schoenen = schoenen.OrderByDescending(s => s.Aantal_gekocht);
                     break;
                 case "maat":
                     schoenen = schoenen.OrderBy(s => s.Maat);
-                    break; 
+                    break;
                 case "maat_desc":
                     schoenen = schoenen.OrderByDescending(s => s.Maat);
-                    break;         
+                    break;
                 default:
-                     schoenen = schoenen.OrderBy(s => s.Naam);
+                    schoenen = schoenen.OrderBy(s => s.Naam);
                     break;
             }
-        
+
             return View(await schoenen.ToListAsync());
         }
 
@@ -243,7 +279,7 @@ namespace login2.Controllers
 
             return View(schoen);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Schoen/Create
         public IActionResult Create()
         {
@@ -256,7 +292,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Maat")] Schoen schoen)
         {
             if (ModelState.IsValid)
@@ -268,7 +304,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", schoen.CategorieId);
             return View(schoen);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Schoen/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -291,7 +327,7 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Maat")] Schoen schoen)
         {
             if (id != schoen.Id)
@@ -324,7 +360,7 @@ namespace login2.Controllers
         }
 
         // GET: Schoen/Delete/5
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -346,16 +382,17 @@ namespace login2.Controllers
         // POST: Schoen/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var schoen = await _context.Schoenen.FirstOrDefaultAsync(m => m.Id == id);
             _context.Schoenen.Remove(schoen);
-            HomeController controller = new HomeController(_context);
+            HomeController controller = new HomeController(_context, _emailSender, _manager);
+
             await controller.DeleteAllFromShoppingCart(id, "Schoen");
             WishlistController wishlistcontroller = new WishlistController(_context);
             await wishlistcontroller.DeleteAllFromWishlist(id, "Schoen");
-            await _context.SaveChangesAsync();     
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

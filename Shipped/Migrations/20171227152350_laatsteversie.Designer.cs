@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171224213033_InitialCreateLoginDB")]
-    partial class InitialCreateLoginDB
+    [Migration("20171227152350_laatsteversie")]
+    partial class laatsteversie
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
