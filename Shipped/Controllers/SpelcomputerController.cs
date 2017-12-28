@@ -43,7 +43,13 @@ namespace login2.Controllers
             ViewBag.GeheugenSortParm = sortOrder == "geheugen" ? "geheugen_desc" : "geheugen";
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
-            ViewBag.Alles = _context.Spelcomputers.GroupBy(p => new { p.Type, p.Merk, p.Geheugen })
+            ViewBag.AllesTypes = _context.Spelcomputers.GroupBy(p => new { p.Type})
+                            .Select(g => g.First())
+                            .ToList();
+            ViewBag.AllesMerken = _context.Spelcomputers.GroupBy(p => new {p.Merk})
+                            .Select(g => g.First())
+                            .ToList();
+             ViewBag.AllesGeheugens = _context.Spelcomputers.GroupBy(p => new {p.Geheugen })
                             .Select(g => g.First())
                             .ToList();
             var spelcomputers = from a in _context.Spelcomputers.Include(d => d.Categorie) select a;

@@ -45,7 +45,13 @@ namespace login2.Controllers
             ViewBag.KleurSortParm = sortOrder == "kleur" ? "kleur_desc" : "kleur";
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
-            ViewBag.Alles = _context.Drones.GroupBy(p => new { p.Type, p.Merk, p.Kleur })
+            ViewBag.AllesTypes = _context.Drones.GroupBy(p => new { p.Type})
+                            .Select(g => g.First())
+                            .ToList();
+            ViewBag.AllesMerken = _context.Drones.GroupBy(p => new {p.Merk})
+                            .Select(g => g.First())
+                            .ToList();
+             ViewBag.AllesKleuren = _context.Drones.GroupBy(p => new {p.Kleur })
                             .Select(g => g.First())
                             .ToList();
             var drones = from a in _context.Drones.Include(d => d.Categorie) select a;

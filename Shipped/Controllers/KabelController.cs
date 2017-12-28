@@ -42,7 +42,13 @@ namespace login2.Controllers
             ViewBag.LengteSortParm = sortOrder == "lengte" ? "lengte_desc" : "lengte";
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
-            ViewBag.Alles = _context.Kabels.GroupBy(p => new { p.Type, p.Merk, p.Lengte })
+            ViewBag.AllesTypes = _context.Kabels.GroupBy(p => new { p.Type})
+                            .Select(g => g.First())
+                            .ToList();
+            ViewBag.AllesMerken = _context.Kabels.GroupBy(p => new {p.Merk})
+                            .Select(g => g.First())
+                            .ToList();
+             ViewBag.AllesLengtes = _context.Kabels.GroupBy(p => new {p.Lengte })
                             .Select(g => g.First())
                             .ToList();
             var kabels = from a in _context.Kabels.Include(d => d.Categorie) select a;

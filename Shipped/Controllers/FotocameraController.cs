@@ -42,7 +42,13 @@ namespace login2.Controllers
             ViewBag.MegapixelsSortParm = sortOrder == "megapixels" ? "megapixels_desc" : "megapixels";
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
-            ViewBag.Alles = _context.Fotocameras.GroupBy(p => new { p.Type, p.Merk, p.Megapixels })
+            ViewBag.AllesTypes = _context.Fotocameras.GroupBy(p => new { p.Type})
+                            .Select(g => g.First())
+                            .ToList();
+            ViewBag.AllesMerken = _context.Fotocameras.GroupBy(p => new {p.Merk})
+                            .Select(g => g.First())
+                            .ToList();
+             ViewBag.AllesMegapixels = _context.Fotocameras.GroupBy(p => new {p.Megapixels })
                             .Select(g => g.First())
                             .ToList();
             var fotocameras = from a in _context.Fotocameras.Include(d => d.Categorie) select a;

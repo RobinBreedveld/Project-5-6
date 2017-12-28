@@ -43,7 +43,13 @@ namespace login2.Controllers
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
             ViewBag.MaatSortParm = sortOrder == "maat" ? "maat_desc" : "maat";
-            ViewBag.Alles = _context.Schoenen.GroupBy(p => new { p.Type, p.Merk, p.Kleur })
+            ViewBag.AllesTypes = _context.Schoenen.GroupBy(p => new { p.Type})
+                            .Select(g => g.First())
+                            .ToList();
+            ViewBag.AllesMerken = _context.Schoenen.GroupBy(p => new {p.Merk})
+                            .Select(g => g.First())
+                            .ToList();
+             ViewBag.AllesKleuren = _context.Schoenen.GroupBy(p => new {p.Kleur })
                             .Select(g => g.First())
                             .ToList();
             var schoenen = from a in _context.Schoenen.Include(d => d.Categorie) select a;

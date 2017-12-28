@@ -59,7 +59,7 @@
                 <option  value = null selected="selected">
                     Alle Types
                 </option>
-                @foreach(var item in @ViewBag.Alles) 
+                @foreach(var item in @ViewBag.AllesTypes) 
                 {
                     <option value="@item.Type">@item.Type</option>
                 }                       
@@ -73,7 +73,7 @@
                 <option  value = null selected="selected">
                     Alle Merken
                 </option>
-                @foreach(var item in @ViewBag.Alles) 
+                @foreach(var item in @ViewBag.AllesMerken) 
                 {
                     <option value="@item.Merk">@item.Merk</option>
                 }
@@ -85,7 +85,7 @@
             <label for="kleur">Kleuren</label></br>
             <select id="kleur" name="kleur" multiple="multiple">
                 <option value = null  selected="selected">Alle Kleuren</option>
-                @foreach(var item in @ViewBag.Alles) 
+                @foreach(var item in @ViewBag.AllesKleuren) 
                 {
                     <option value="@item.Kleur">@item.Kleur</option>
                 }
