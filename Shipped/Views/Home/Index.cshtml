@@ -1,4 +1,4 @@
-﻿@model IEnumerable<login2.Models.Categorie>
+﻿@model login2.Models.Categorie
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -7,3 +7,27 @@
 <h3>Dit zijn onze best verkochte producten:</h3>
 
 
+@foreach (var kabels in Model.Kabels)
+{
+  <a asp-controller="kabel" asp-action="Details" asp-route-id="@kabels.Id"><h1>@kabels.Naam</h1></a>
+}
+@foreach (var drones in Model.Drones)
+{
+  <a asp-controller="drone" asp-action="Details" asp-route-id="@drones.Id"><h1>@drones.Naam</h1></a>
+}
+@foreach (var spelcomputers in Model.Spelcomputers)
+{
+  <a asp-controller="spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><h1>@spelcomputers.Naam</h1></a>
+}
+@foreach (var horloges in Model.Horloges)
+{
+  <a asp-controller="horloge" asp-action="Details" asp-route-id="@horloges.Id"><h1>@horloges.Naam</h1></a>
+}
+@foreach (var fotocameras in Model.Fotocameras)
+{
+  <a asp-controller="fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id"><h1>@fotocameras.Naam</h1></a>
+}
+@foreach (var schoenen in Model.Schoenen)
+{
+  <a asp-controller="schoen" asp-action="Details" asp-route-id="@schoenen.Id"><h1>@schoenen.Naam</h1></a>
+}

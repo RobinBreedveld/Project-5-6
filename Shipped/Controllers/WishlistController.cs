@@ -31,6 +31,8 @@ namespace login2.Controllers
             _context = context;
         }
         //public async Task<IActionResult> Index()
+
+        [Authorize]
         public IActionResult Index()
         {
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;

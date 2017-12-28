@@ -169,3 +169,14 @@ F:\Shipped\bin\Debug\netcoreapp2.0\login2.runtimeconfig.json
 F:\Shipped\bin\Debug\netcoreapp2.0\login2.runtimeconfig.dev.json
 F:\Shipped\bin\Debug\netcoreapp2.0\login2.dll
 F:\Shipped\bin\Debug\netcoreapp2.0\login2.pdb
+D:\School\Project 5-6\Project-5-6\Shipped\bin\Debug\netcoreapp2.0\login2.deps.json
+D:\School\Project 5-6\Project-5-6\Shipped\bin\Debug\netcoreapp2.0\login2.runtimeconfig.json
+D:\School\Project 5-6\Project-5-6\Shipped\bin\Debug\netcoreapp2.0\login2.runtimeconfig.dev.json
+D:\School\Project 5-6\Project-5-6\Shipped\bin\Debug\netcoreapp2.0\login2.dll
+D:\School\Project 5-6\Project-5-6\Shipped\bin\Debug\netcoreapp2.0\login2.pdb
+D:\School\Project 5-6\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\login2.csproj.CoreCompileInputs.cache
+D:\School\Project 5-6\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+D:\School\Project 5-6\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\login2.AssemblyInfoInputs.cache
+D:\School\Project 5-6\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\login2.AssemblyInfo.cs
+D:\School\Project 5-6\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\login2.dll
+D:\School\Project 5-6\Project-5-6\Shipped\obj\Debug\netcoreapp2.0\login2.pdb

@@ -159,7 +159,7 @@ namespace login2.Controllers
                     await PostSchoen(files);
                     break;
 
-                case "SpelComputer":
+                case "PostSpelcomputer":
                     await PostSpelcomputer(files);
                     break;
                 

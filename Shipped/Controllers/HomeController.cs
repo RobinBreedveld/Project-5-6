@@ -57,9 +57,40 @@ namespace login2.Controllers
         //public async Task<IActionResult> Index()
         public IActionResult Index()
         {
-            //var categorieenproduct = _context.Categories.Include(p => p.Products);
-            //await categorieenproduct.ToListAsync()
-            return View();
+            //meestgekochtekabel         
+            var meestgekochtekabel = _context.Kabels.Max( p => p.Aantal_gekocht);
+            var getkabel = _context.Kabels.Where( p => p.Aantal_gekocht == meestgekochtekabel);
+
+            //meestgekochtedrone
+            var meestgekochtedrone = _context.Drones.Max( p => p.Aantal_gekocht);
+            var getdrone = _context.Drones.Where( p => p.Aantal_gekocht == meestgekochtedrone);
+
+            //meestgekochtefotocamera
+            var meestgekochtefotocamera = _context.Fotocameras.Max( p => p.Aantal_gekocht);
+            var getfotocamera = _context.Fotocameras.Where( p => p.Aantal_gekocht == meestgekochtefotocamera);
+
+            //meestgekochtehorloge
+            var meestgekochtehorloge = _context.Horloges.Max( p => p.Aantal_gekocht);
+            var gethorloge = _context.Horloges.Where( p => p.Aantal_gekocht == meestgekochtehorloge);
+
+            //meestgekochteschoen
+            var meestgekochteschoen = _context.Schoenen.Max( p => p.Aantal_gekocht);
+            var getschoen = _context.Schoenen.Where( p => p.Aantal_gekocht == meestgekochteschoen);
+
+            //meestgekochtespelcomputer
+            var meestgekochtespelcomputer = _context.Spelcomputers.Max( p => p.Aantal_gekocht);
+            var getspelcomputer = _context.Spelcomputers.Where( p => p.Aantal_gekocht == meestgekochtespelcomputer);
+
+            var wrapper = new Categorie();
+            
+            wrapper.Kabels = getkabel.ToList();
+            wrapper.Drones = getdrone.ToList();
+            wrapper.Fotocameras = getfotocamera.ToList();
+            wrapper.Horloges = gethorloge.ToList();
+            wrapper.Schoenen = getschoen.ToList();
+            wrapper.Spelcomputers = getspelcomputer.ToList();
+
+            return View(wrapper);
         }
         //  public async Task<IActionResult> Browse(int categorieId, int Id, string searchString, string sortOrder)
         public IActionResult Browse(string searchString)
@@ -67,28 +98,30 @@ namespace login2.Controllers
             ViewData["Message"] = "Your Browse page .";
             if (searchString == null)
             {
-                return View("Index");
+                return RedirectToAction("Index");
             }
             else
             {
-
-                var kabels = _context.Kabels.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()));
-                var drones = _context.Drones.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()));
-                var spelcomputers = _context.Spelcomputers.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()));
-                var horloges = _context.Horloges.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()));
-                var fotocameras = _context.Fotocameras.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()));
-                var schoenen = _context.Schoenen.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()));
+                var kabelresultaat = _context.Kabels.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()) || searchString.Contains("kabel"));
+                var droneresultaat = _context.Drones.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()) || searchString.Contains("drone"));
+                var spelcomputerresultaat = _context.Spelcomputers.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()) || searchString.Contains("spelcomputer"));
+                var horlogeresultaat = _context.Horloges.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()) || searchString.Contains("horloge"));
+                var fotocameraresultaat = _context.Fotocameras.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()) || searchString.Contains("fotocamera"));
+                var schoenresultaat = _context.Schoenen.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()) || searchString.Contains("schoen"));
+                
                 var wrapper = new Categorie();
-                wrapper.Kabels = kabels.ToList();
-                wrapper.Drones = drones.ToList();
-                wrapper.Spelcomputers = spelcomputers.ToList();
-                wrapper.Horloges = horloges.ToList();
-                wrapper.Fotocameras = fotocameras.ToList();
-                wrapper.Schoenen = schoenen.ToList();
+                
+                wrapper.Kabels = kabelresultaat.ToList();
+                wrapper.Drones = droneresultaat.ToList();
+                wrapper.Spelcomputers = spelcomputerresultaat.ToList();
+                wrapper.Horloges = horlogeresultaat.ToList();
+                wrapper.Fotocameras = fotocameraresultaat.ToList();
+                wrapper.Schoenen = schoenresultaat.ToList();
 
                 return View(wrapper);
             }
         }
+
         [Authorize]
         public async Task<IActionResult> Cart(string model_name)
         {
@@ -153,6 +186,7 @@ namespace login2.Controllers
                          {
                              Totaal = items.Sum(x => x.Prijs * x.Aantal)
                          };
+                         
             foreach (var item in totaal)
             {
                 ViewBag.Totaal = item.Totaal;
