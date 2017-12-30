@@ -98,7 +98,7 @@ namespace login2.Controllers
             ViewData["Message"] = "Your Browse page .";
             if (searchString == null)
             {
-                return View("Index");
+                return RedirectToAction("Index");
             }
             else
             {
