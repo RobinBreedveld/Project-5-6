@@ -8,7 +8,7 @@
 
 @if (this.User.IsInRole("Admin"))
 {
-<p><a asp-action="Create">Create New</a></p>
+    <p><a asp-action="Create">Create New</a></p>
 }
 
 <table class="table">
@@ -142,7 +142,7 @@
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <p> @Html.TextBox("aantal", 1)
                         @Html.TextBox("product", @item.Id, new {style = "display: none;"})
-                        @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+                        @Html.TextBox("model", "Drone", new {style = "display: none;"})
                         @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
                         <input class="aantal" type="submit" value="Add to cart" />
                     </p>

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Alle horloges</h2>
 @if (this.User.IsInRole("Admin")) { 
 <p>
     <a asp-action="Create">Create New</a>
@@ -44,42 +44,123 @@
             <th></th>
         </tr>
     </thead>
+
+
     <tbody>
+    <tr>
+    <th>
+        <!-- filters -->
+
+    <div id="filter" style="float:left; margin-right:5px;"> 
         <form  asp-controller="Horloge" asp-action="Index" method="GET">
             <label for="type">Type</label></br>
             <select id="type" name="type" multiple="multiple">
                 <option  value = null selected="selected">
                     Alle Types
                 </option>
-                @foreach(var item in @ViewBag.AllesTypes){
+                @foreach(var item in @ViewBag.AllesTypes) 
+                {
                     <option value="@item.Type">@item.Type</option>
-                }
-           </select>
+                }                       
+            </select>
+
+            </br>
+            </br>            
+
             <label for="merk">Merken</label></br>
             <select id="merk" name="merk" multiple="multiple">
                 <option  value = null selected="selected">
                     Alle Merken
                 </option>
-                @foreach(var item in @ViewBag.AllesMerken){
+                @foreach(var item in @ViewBag.AllesMerken) 
+                {
                     <option value="@item.Merk">@item.Merk</option>
                 }
-           </select></br>
-           <label for="kleur">Kleuren</label></br>
+            </select>
+            
+            </br>
+            </br>
+
+            <label for="kleur">Kleuren</label></br>
             <select id="kleur" name="kleur" multiple="multiple">
-                <option value = null  selected="selected">
-                    Alle Kleuren
-                </option>
-                @foreach(var item in @ViewBag.AllesKleuren){
+                <option value = null  selected="selected">Alle Kleuren</option>
+                @foreach(var item in @ViewBag.AllesKleuren) 
+                {
                     <option value="@item.Kleur">@item.Kleur</option>
                 }
-           </select>
-           <label for="min">Min prijs</label>
-           <input id="min" type="number" name="min_prijs" />
-           <label for="max">Max prijs</label>
-           <input id="max" type="number" name="max_prijs" />
-           <input class="Filter" type="submit" value="Filter" />
+            </select>
+
+            </br>
+            </br>
+           
+            <label for="min">Prijs</label>
+
+            </br>
+           
+            <label for="min">Min prijs</label>
+            <input id="min" type="number" name="min_prijs" style="width:55px;"/>
+
+            </br>
+            
+            <label for="max">Max prijs</label>
+            <input id="max" type="number" name="max_prijs" style="width:55px;" />
+
+            </br>
+            </br>            
+
+            <input class="Filter" type="submit" value="Voeg filters toe"/>
         </form>
+        </br>
+        </br>
+    </div>
+
+<!-- productdata         -->
 @foreach (var item in Model) {
+
+    @if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="float:left; margin-right:2%; margin-bottom:2%; border:1px solid #ddd;"><a asp-action="Details" asp-route-id="@item.Id">
+            <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@item.Naam</h4>                
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Type: @item.Type</li></a>
+                <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Merk: @item.Merk</li></a>
+                <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Prijs: @item.Prijs</li></a>
+                </a>
+
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @item.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Horloge", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to cart" />
+                    </p>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @item.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Horloge", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to wishlist" />
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
+
+        @if (this.User.IsInRole("Admin"))
+        {
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
@@ -96,9 +177,6 @@
             <td>
                  <img class="test" src="@Url.Content(@item.Afbeelding)" width="200px" height= "100px" />
             </td>
-
-        @if (this.User.IsInRole("Admin")) 
-            {
             <td>
                 @Html.DisplayFor(modelItem => item.Kleur)
             </td>
@@ -108,15 +186,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Aantal_gekocht)
             </td>
-            }
+            
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
-                @if (this.User.IsInRole("Admin")) { 
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>                
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                }
+                <button type="button"0><a asp-action="Details" asp-route-id="@item.Id">Item Page</a></button> 
+                <br>
+                <br>
+                <button type="button"0><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></button> 
+                <br>
+                <br>             
+                <button type="button"0><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
+            
             </td>
         </tr>
-}
+        }
+ 
+    }
+    </th>
+    </tr>
     </tbody>
+
 </table>

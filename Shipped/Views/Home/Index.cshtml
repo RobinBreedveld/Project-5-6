@@ -6,28 +6,271 @@
 
 <h3>Dit zijn onze best verkochte producten:</h3>
 
-
 @foreach (var kabels in Model.Kabels)
 {
-  <a asp-controller="kabel" asp-action="Details" asp-route-id="@kabels.Id"><h1>@kabels.Naam</h1></a>
+@if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="float:left; margin:40px; border:1px solid #ddd;"><a asp-controller="Kabel" asp-action="Details" asp-route-id="@kabels.Id">
+            <img class="card-img-top" src="@Url.Content(kabels.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@kabels.Naam</h4>                
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <a asp-controller="Kabel" asp-action="Details" asp-route-id="@kabels.Id"><li class="list-group-item">Type: @kabels.Type</li></a>
+                <a asp-controller="Kabel" asp-action="Details" asp-route-id="@kabels.Id"><li class="list-group-item">Merk: @kabels.Merk</li></a>
+                <a asp-controller="Kabel" asp-action="Details" asp-route-id="@kabels.Id"><li class="list-group-item">Prijs: @kabels.Prijs</li></a>
+                </a>
+
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @kabels.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @kabels.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to cart" />
+                    </p>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @kabels.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Drone", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @kabels.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to wishlist" />
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
 }
+
+
 @foreach (var drones in Model.Drones)
 {
-  <a asp-controller="drone" asp-action="Details" asp-route-id="@drones.Id"><h1>@drones.Naam</h1></a>
+@if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="float:left; margin:40px; border:1px solid #ddd;"><a asp-controller="Drone" asp-action="Details" asp-route-id="@drones.Id">
+            <img class="card-img-top" src="@Url.Content(drones.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@drones.Naam</h4>                
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <a asp-controller="Drone" asp-action="Details" asp-route-id="@drones.Id"><li class="list-group-item">Type: @drones.Type</li></a>
+                <a asp-controller="Drone" asp-action="Details" asp-route-id="@drones.Id"><li class="list-group-item">Merk: @drones.Merk</li></a>
+                <a asp-controller="Drone" asp-action="Details" asp-route-id="@drones.Id"><li class="list-group-item">Prijs: @drones.Prijs</li></a>
+                </a>
+
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @drones.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @drones.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to cart" />
+                    </p>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @drones.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Drone", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @drones.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to wishlist" />
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
 }
+
+
 @foreach (var spelcomputers in Model.Spelcomputers)
 {
-  <a asp-controller="spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><h1>@spelcomputers.Naam</h1></a>
+  @if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="float:left; margin:40px; border:1px solid #ddd;"><a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id">
+            <img class="card-img-top" src="@Url.Content(spelcomputers.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@spelcomputers.Naam</h4>                
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><li class="list-group-item">Type: @spelcomputers.Type</li></a>
+                <a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><li class="list-group-item">Merk: @spelcomputers.Merk</li></a>
+                <a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><li class="list-group-item">Prijs: @spelcomputers.Prijs</li></a>
+                </a>
+
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @spelcomputers.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @spelcomputers.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to cart" />
+                    </p>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @spelcomputers.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Drone", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @spelcomputers.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to wishlist" />
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
 }
+
+
 @foreach (var horloges in Model.Horloges)
 {
-  <a asp-controller="horloge" asp-action="Details" asp-route-id="@horloges.Id"><h1>@horloges.Naam</h1></a>
+  @if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="float:left; margin:40px; border:1px solid #ddd;"><a asp-controller="Horloge" asp-action="Details" asp-route-id="@horloges.Id">
+            <img class="card-img-top" src="@Url.Content(horloges.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@horloges.Naam</h4>                
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <a asp-controller="Horloge" asp-action="Details" asp-route-id="@horloges.Id"><li class="list-group-item">Type: @horloges.Type</li></a>
+                <a asp-controller="Horloge" asp-action="Details" asp-route-id="@horloges.Id"><li class="list-group-item">Merk: @horloges.Merk</li></a>
+                <a asp-controller="Horloge" asp-action="Details" asp-route-id="@horloges.Id"><li class="list-group-item">Prijs: @horloges.Prijs</li></a>
+                </a>
+
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @horloges.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @horloges.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to cart" />
+                    </p>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @horloges.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Horloge", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @horloges.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to wishlist" />
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
 }
+
+
 @foreach (var fotocameras in Model.Fotocameras)
 {
-  <a asp-controller="fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id"><h1>@fotocameras.Naam</h1></a>
+  @if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="float:left; margin:40px; border:1px solid #ddd;"><a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id">
+            <img class="card-img-top" src="@Url.Content(fotocameras.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@fotocameras.Naam</h4>                
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id"><li class="list-group-item">Type: @fotocameras.Type</li></a>
+                <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id"><li class="list-group-item">Merk: @fotocameras.Merk</li></a>
+                <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id"><li class="list-group-item">Prijs: @fotocameras.Prijs</li></a>
+                </a>
+
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @fotocameras.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @fotocameras.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to cart" />
+                    </p>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @fotocameras.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @fotocameras.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to wishlist" />
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
 }
+
+
 @foreach (var schoenen in Model.Schoenen)
 {
-  <a asp-controller="schoen" asp-action="Details" asp-route-id="@schoenen.Id"><h1>@schoenen.Naam</h1></a>
+  @if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="float:left; margin:40px; border:1px solid #ddd;"><a asp-controller="Schoen" asp-action="Details" asp-route-id="@schoenen.Id">
+            <img class="card-img-top" src="@Url.Content(schoenen.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@schoenen.Naam</h4>                
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <a asp-controller="Schoen" asp-action="Details" asp-route-id="@schoenen.Id"><li class="list-group-item">Type: @schoenen.Type</li></a>
+                <a asp-controller="Schoen" asp-action="Details" asp-route-id="@schoenen.Id"><li class="list-group-item">Merk: @schoenen.Merk</li></a>
+                <a asp-controller="Schoen" asp-action="Details" asp-route-id="@schoenen.Id"><li class="list-group-item">Prijs: @schoenen.Prijs</li></a>
+                </a>
+
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @schoenen.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @schoenen.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to cart" />
+                    </p>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <p> @Html.TextBox("aantal", 1)
+                        @Html.TextBox("product", @schoenen.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Schoen", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @schoenen.Prijs, new {style = "display: none;"})
+                        <input class="aantal" type="submit" value="Add to wishlist" />
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
 }
