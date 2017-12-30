@@ -410,89 +410,10 @@ namespace login2.Controllers
             }
             return View(ordersinid);
         }
-        [Authorize(Roles = "Admin")]
         public IActionResult Statistics()
         {
-            //Chart 1 & 2
-            //A list with all aantalverkocht values in it. | Main list 
-            List<int> allverkocht = new List<int>();
-            //Queries to get the total of aantalverkocht per categorie | Queries categories
-            var getkabels = from a in _context.Kabels group a by a.Aantal_gekocht into items select new { Totaal = items.Sum(x => x.Aantal_gekocht) };
-            var getschoenen = from a in _context.Schoenen group a by a.Aantal_gekocht into items select new { Totaal = items.Sum(x => x.Aantal_gekocht) };
-            var getdrones = from a in _context.Drones group a by a.Aantal_gekocht into items select new { Totaal = items.Sum(x => x.Aantal_gekocht) };
-            var getspelcomputer = from a in _context.Spelcomputers group a by a.Aantal_gekocht into items select new { Totaal = items.Sum(x => x.Aantal_gekocht) };
-            var gethorloges = from a in _context.Horloges group a by a.Aantal_gekocht into items select new { Totaal = items.Sum(x => x.Aantal_gekocht) };
-            var getfotocameras = from a in _context.Fotocameras group a by a.Aantal_gekocht into items select new { Totaal = items.Sum(x => x.Aantal_gekocht) };
-            //Foreach loops that create a total value per categorie | Loops total sold
-            //Kabels
-            int aantalkabels = 0;
-            foreach (var item in getkabels){aantalkabels = aantalkabels + item.Totaal;}
-            //Schoenen
-            int aantalschoenen = 0;
-            foreach (var item in getschoenen){aantalschoenen = aantalschoenen + item.Totaal;}
-            //Drones
-            int aantaldrones = 0;
-            foreach (var item in getdrones){aantaldrones = aantaldrones + item.Totaal;}
-            //Spelcomputers
-            int aantalspelcomputers = 0;
-            foreach (var item in getspelcomputer)
-            {aantalspelcomputers = aantalspelcomputers + item.Totaal;}
-            //Horloges
-            int aantalhorloges = 0;
-            foreach (var item in gethorloges){aantalhorloges = aantalhorloges + item.Totaal;}
-            //Fotocameras
-            int aantalfotocameras = 0;
-            foreach (var item in getfotocameras){aantalfotocameras = aantalfotocameras + item.Totaal;}
-            //Adds the total value to the main list | Creating main list
-            allverkocht.Add(aantalkabels); 
-            allverkocht.Add(aantalschoenen); 
-            allverkocht.Add(aantaldrones); 
-            allverkocht.Add(aantalspelcomputers);
-            allverkocht.Add(aantalhorloges); 
-            allverkocht.Add(aantalfotocameras); 
-            //Sends the main list to the view | Returning main list
-            ViewBag.RepAll = allverkocht; 
-            //Chart 3 
-            //A list with all aantalverkocht values in it. | Main list 
-            List<int> allvoorraad = new List<int>();  
-            //Queries to get the total of aantalverkocht per categorie | Queries categories
-            var getvoorraadkabels = from a in _context.Kabels group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            var getvoorraadschoenen  = from a in _context.Schoenen group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            var getvoorraaddrones  = from a in _context.Drones group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            var getvoorraadspelcomputer  = from a in _context.Spelcomputers group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            var getvoorraadhorloges  = from a in _context.Horloges group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            var getvoorraadfotocameras  = from a in _context.Fotocameras group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            //Foreach loops that create a total value per categorie | Loops total sold
-            //Kabels
-            int voorraadkabels = 0;
-            foreach (var item in getvoorraadkabels){voorraadkabels = voorraadkabels + item.Totaal;}
-            //Schoenen
-            int voorraadschoenen = 0;
-            foreach (var item in getvoorraadschoenen){voorraadschoenen = voorraadschoenen + item.Totaal;}
-            //Drones
-            int voorraaddrones = 0;
-            foreach (var item in getvoorraaddrones){voorraaddrones = voorraaddrones + item.Totaal;}
-            //Spelcomputers
-            int voorraadspelcomputers = 0;
-            foreach (var item in getvoorraadspelcomputer)
-            {voorraadspelcomputers = voorraadspelcomputers + item.Totaal;}
-            //Horloges
-            int voorraadhorloges = 0;
-            foreach (var item in getvoorraadhorloges){voorraadhorloges = voorraadhorloges + item.Totaal;}
-            //Fotocameras
-            int voorraadfotocameras = 0;
-            foreach (var item in getvoorraadfotocameras){voorraadfotocameras = voorraadfotocameras + item.Totaal;}
-            //Adds the total value to the main list | Creating main list
-            allvoorraad.Add(voorraadkabels); 
-            allvoorraad.Add(voorraadschoenen); 
-            allvoorraad.Add(voorraaddrones); 
-            allvoorraad.Add(voorraadspelcomputers);
-            allvoorraad.Add(voorraadhorloges); 
-            allvoorraad.Add(voorraadfotocameras); 
-            //Sends the main list to the view | Returning main list
-            ViewBag.RepVoorraad = allvoorraad;    
-              
-
+            ViewBag.ChartData = "Value,Value1,Value2,Value3";
+            ViewBag.ChartLabels = "Test,Test1,Test2,Test3";
             return View();
         }
         private bool cartExists(int id)

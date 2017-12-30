@@ -1,169 +1,38 @@
-@using Newtonsoft.Json;
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>
-<h1>Combinatie diagram</h1>
-    <div style="width: 100%;height: auto;float:left;margin-bottom: 30px ;">
-        <canvas id="chart3" width="800px" height="200px"></canvas>  
-    <p>De bovenstaande staafdiagram laat de voorraad en aantal verkochte producten per categorie zien. </p>
-    </div>
-<h1>Verkochte producten per categorie</h1>
-    <div style="width: 50%;height: auto;float:left;margin-bottom: 30px ;">
-        <canvas id="chart" width="500px" height="500px"></canvas>
-        <p>Een staafdiagram die het aantal verkochte producten per categorie weergeeft.</p>
-    </div>
-    <div style="padding: 6%;width: 50%;height: auto;float:left;margin-bottom: 30px ;">
-        <canvas id="piechart" width="500px" height="500px"></canvas>
-        <p>Een cirkeldiagram die het aantal verkochte producten per categorie weergeeft.</p>  
-    </div> 
-<h1>Voorraad per categorie</h1>
-    <div style="width: 100%;height: auto;float:left;margin-bottom: 30px ;">
-        <canvas id="chart2" width="800px" height="200px"></canvas>  
-        <p>Een staafdiagram die de voorraad per categorie weergeeft.</p> 
-    </div>
-
-<script>
-var repall = @Html.Raw(Json.Serialize(ViewBag.RepAll));
-var repvoorraad =  @Html.Raw(Json.Serialize(ViewBag.RepVoorraad));
-var c = document.getElementById("chart");
-var c2 = document.getElementById("piechart");
-var c3 = document.getElementById("chart2");
-var c4 = document.getElementById("chart3");
-<!-- Alle data -->
-var data = {
-	labels:  ["Kabels","Schoenen","Drones","Spelcomputers","Horloges","Fotocameras"],
-    datasets: [{
-        label: "Verkochte producten",
-    	data: [],
-        backgroundColor: 'rgba(255, 0, 0, 0.7)',
-        hoverBackgroundColor: [],        
-    }
-    ]
-};
-var data2 = {
-    datasets: [{
-        label: "Verkochte producten",
-        data: [],
-        backgroundColor: ['rgba(255, 0, 0, 0.7)','rgba(65,105,225, 0.7)','rgba(34,139,34, 0.7)','rgba(119,136,153, 0.7)','rgba(165,42,42, 0.7)','rgba(244,164,96, 0.7)']
-    }],
-    labels:["Verkochte Kabels","Verkochte Schoenen","Verkochte Drones","Verkochte Spelcomputers","Verkochte Horloges","Verkochte Fotocameras"]
-};
-var data3 = {
-	labels:  ["Kabels","Schoenen","Drones","Spelcomputers","Horloges","Fotocameras"],
-    datasets: [{
-        label: "Voorraad producten",
-    	data: [],
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        hoverBackgroundColor: [],        
-    }
-    ]
-};
-var data4 = {
-	labels:  ["Kabels","Schoenen","Drones","Spelcomputers","Horloges","Fotocameras"],
-    datasets: [{
-        label: "Verkochte producten",
-    	data: [],
-        backgroundColor: 'rgba(255, 0, 0, 0.7)',
-        hoverBackgroundColor: [],        
-    },{
-        label: "Voorraad producten",
-    	data: [],
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        hoverBackgroundColor: [],        
-    }
-    ]
-};
-
-<!-- Alle options -->
-var options = {
-    cutoutPercentage: 0,
-    rotation: -0.5 * Math.PI,
-    circumference: 2 * Math.PI,
-    scales : {
-        yAxes : [{
-        ticks : {
-        beginAtZero : true
-        }   
-        }]
-    } 
-};
-var options2 = {
-    cutoutPercentage: 0,
-    rotation: -0.5 * Math.PI,
-    circumference: 2 * Math.PI
-};
-var options3 = {
-    cutoutPercentage: 0,
-    rotation: -0.5 * Math.PI,
-    circumference: 2 * Math.PI,
-    scales : {
-        yAxes : [{
-        ticks : {
-        beginAtZero : true
-        }   
-        }]
-    } 
-};
-var options4 = {
-    cutoutPercentage: 0,
-    rotation: -0.5 * Math.PI,
-    circumference: 2 * Math.PI,
-    scales : {
-        yAxes : [{
-        ticks : {
-        beginAtZero : true
-        }   
-        }]
-    } 
-};
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>  
+    <script>  
+        var LineChartData =  
+            {  
+                labels: [@Html.Raw(ViewBag.Productname_List)],  
+                datasets: [{  
+                    label: 'Best',  
+                    backgroundColor: "rgba(75,192,192,0.4)",  
+                    borderWidth: 2,  
+                    data: [@ViewBag.MobileCount_List]  
+                }]  
+            };  
+  
+            window.onload = function () {  
+                var ctx1 = document.getElementById("Linecanvas").getContext("2d");  
+                window.myBar = new Chart(ctx1,  
+                    {  
+                        type: 'line',  
+                        data: LineChartData,  
+                        options:  
+                            {  
+                                title:  
+                                {  
+                                    display: true,  
+                                    text: "ProductWise Sales Count"  
+                                },  
+                                responsive: true,  
+                                maintainAspectRatio: true  
+                            }  
+                    });  
+            }  
+    </script>  
 
 
-var opt = {	
-    type: "bar",
-    data: data,
-    options: options
-};
-var opt2 = {	
-    type: "pie",
-    data: data2,
-    options: options2
-};
-var opt3 = {	
-    type: "bar",
-    data: data3,
-    options: options3
-};
-var opt4 = {	
-    type: "bar",
-    data: data4,
-    options: options4
-};
-
-var barchart = new Chart(c,opt);
-var myPieChart = new Chart(c2,opt2);
-var barchart2 = new Chart(c3,opt3);
-var barchart3 = new Chart(c4,opt4);
-
-for (var i = 0; i < repall.length; i++) {
-        barchart.config.data.datasets[0].data.push(repall[i]);        
-} 
-for (var i = 0; i < repall.length; i++) {
-        myPieChart.config.data.datasets[0].data.push(repall[i]);        
-}
-for (var i = 0; i < repvoorraad.length; i++) {
-        barchart2.config.data.datasets[0].data.push(repvoorraad[i]);        
-} 
-for (var i = 0; i < repall.length; i++) {
-        barchart3.config.data.datasets[0].data.push(repall[i]);        
-} 
-for (var i = 0; i < repvoorraad.length; i++) {
-        barchart3.config.data.datasets[1].data.push(repvoorraad[i]);        
-} 
-
-
-barchart.update();
-myPieChart.update();
-barchart2.update();
-barchart3.update();
-</script>  
-
-
+    <div style="text-align: center">  
+        <canvas id="Linecanvas"></canvas>  
+    </div>   
 
