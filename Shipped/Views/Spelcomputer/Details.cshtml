@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Itempagina</h2>
 
 <div>
-    <h4>Spelcomputer</h4>
+    <h4>@Model.Naam</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -50,7 +50,7 @@
             @Html.DisplayNameFor(model => model.Afbeelding)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Afbeelding)
+            <img class="test" src="@Url.Content(@Model.Afbeelding)" width="200px" height= "100px" />
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Aantal_gekocht)
@@ -67,6 +67,9 @@
     </dl>
 </div>
 <div>
+
+    @if (!this.User.IsInRole("Admin"))
+    {
     <!-- @Html.ActionLink("Add to shoppingcart","AddToShoppingCart","Home", new { product =  @Model.Id, model = "Spelcomputer"}) -->
     <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
         <p> @Html.TextBox("aantal", 1)
@@ -84,7 +87,11 @@
             <input class="aantal" type="submit" value="Add to wishlist" />
         </p>
     </form>
-     @if (this.User.IsInRole("Admin")) { 
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> }
-    <a asp-action="Index">Back to List</a>
+    }
+
+    @if (this.User.IsInRole("Admin"))
+    {
+    <button type="button"><a asp-action="Edit" asp-route-id="@Model.Id">Edit</a></button>
+    }
+    <button type="button"><a asp-action="Index">Back to List</a></button>
 </div>

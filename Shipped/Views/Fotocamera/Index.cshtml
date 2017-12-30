@@ -48,53 +48,54 @@
 
 
     <tbody>
-    <tr>
-    <th>
-        <!-- filters -->
+        <tr>
+        <th>
+            <!-- filters         -->
+        <div id="filter" style="float:left; margin-right:5px;"> 
+            <form  asp-controller="Fotocamera" asp-action="Index" method="GET">
+                    <label for="type">Type</label></br>
+                    <select id="type" name="type" multiple="multiple">
+                        <option  value = null selected="selected">
+                            Alle Types
+                        </option>
+                        @foreach(var item in @ViewBag.AllesTypes)
+                        {
+                            <option value="@item.Type">@item.Type</option>
+                        }
+                </select>
+                
+                    </br>
+                    </br>
 
-    <div id="filter" style="float:left; margin-right:5px;"> 
-        <form  asp-controller="Fotocamera" asp-action="Index" method="GET">
-            <label for="type">Type</label></br>
-            <select id="type" name="type" multiple="multiple">
-                <option  value = null selected="selected">
-                    Alle Types
-                </option>
-                @foreach(var item in @ViewBag.AllesTypes) 
-                {
-                    <option value="@item.Type">@item.Type</option>
-                }                       
-            </select>
+                    <label for="merk">Merken</label></br>
+                    <select id="merk" name="merk" multiple="multiple">
+                        <option  value = null selected="selected">
+                            Alle Merken
+                        </option>
+                        @foreach(var item in @ViewBag.AllesMerken)
+                        {
+                            <option value="@item.Merk">@item.Merk</option>
+                        }
+                </select>
+                
+                </br>
+                </br>
 
-            </br>
-            </br>            
+                <label for="megapixels">Megapixels</label></br>
+                    <select id="megapixels" name="megapixels" multiple="multiple">
+                        <option value = null  selected="selected">
+                            Alle Megapixels
+                        </option>
+                        @foreach(var item in @ViewBag.AllesMegapixels)
+                        {
+                            <option value="@item.Megapixels">@item.Megapixels</option>
+                        }
+                </select>
 
-            <label for="merk">Merken</label></br>
-            <select id="merk" name="merk" multiple="multiple">
-                <option  value = null selected="selected">
-                    Alle Merken
-                </option>
-                @foreach(var item in @ViewBag.AllesMerken) 
-                {
-                    <option value="@item.Merk">@item.Merk</option>
-                }
-            </select>
-            
-            </br>
-            </br>
-
-            <label for="kleur">Kleuren</label></br>
-            <select id="kleur" name="kleur" multiple="multiple">
-                <option value = null  selected="selected">Alle Kleuren</option>
-                @foreach(var item in @ViewBag.AllesKleuren) 
-                {
-                    <option value="@item.Kleur">@item.Kleur</option>
-                }
-            </select>
-
-            </br>
-            </br>
-           
-            <label for="min">Prijs</label>
+                </br>
+                </br>
+                
+             <label for="min">Prijs</label>
 
             </br>
            
@@ -115,7 +116,6 @@
         </br>
     </div>
 
-    
 <!-- productdata -->
 @foreach (var item in Model) 
 {
