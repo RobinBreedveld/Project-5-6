@@ -128,57 +128,14 @@ namespace login2.Controllers
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
-            // var kabel_cart_items = from kabel in _context.Kabels
-            // from cart in _context.Cart
-            // where kabel.Id == cart.Product_Id && cart.User_Id == gotuserId && cart.Model_naam == "Kabel"
-            // select new Kabel{
-            //         Naam = kabel.Naam,
-            //         Id = kabel.Id
-            // };
-            // var drone_cart_items = from drones in _context.Drones
-            //             from cart in _context.Cart
-            //             where drones.Id == cart.Product_Id && cart.User_Id == gotuserId  && cart.Model_naam == "Drone"
-            //             select new Drone{
-            //                     Naam = drones.Naam,
-            //                     Id = drones.Id
-            //             };
-            // var spelcomputer_cart_items = from spelcomputer in _context.Spelcomputers
-            // from cart in _context.Cart
-            // where spelcomputer.Id == cart.Product_Id && cart.User_Id == gotuserId && cart.Model_naam == "Spelcomputer"
-            // select new Spelcomputer{
-            //         Naam = spelcomputer.Naam,
-            //         Id = spelcomputer.Id
-            // };
-            // var horloge_cart_items = from horloge in _context.Horloges
-            // from cart in _context.Cart
-            // where horloge.Id == cart.Product_Id && cart.User_Id == gotuserId && cart.Model_naam == "Horloge"
-            // select new Horloge{
-            //         Naam = horloge.Naam,
-            //         Id = horloge.Id
-            // };
-            // var fotocamera_cart_items = from fotocamera in _context.Fotocameras
-            // from cart in _context.Cart
-            // where fotocamera.Id == cart.Product_Id && cart.User_Id == gotuserId && cart.Model_naam == "Fotocamera"
-            // select new Fotocamera{
-            //         Naam = fotocamera.Naam,
-            //         Id = fotocamera.Id
-            // };
-            // var schoen_cart_items = from schoen in _context.Schoenen
-            // from cart in _context.Cart
-            // where schoen.Id == cart.Product_Id && cart.User_Id == gotuserId && cart.Model_naam == "Schoen"
-            // select new Schoen{
-            //         Naam = schoen.Naam,
-            //         Id = schoen.Id
-            // };
-            // var wrappert = new  Categorie();
-            // //add all the items to the wrapper
-            // wrappert.Drones = drone_cart_items.ToList();
-            // wrappert.Kabels = kabel_cart_items.ToList();
-            // wrappert.Spelcomputers = spelcomputer_cart_items.ToList();
-            // wrappert.Horloges = horloge_cart_items.ToList();
-            // wrappert.Fotocameras = fotocamera_cart_items.ToList();
-            // wrappert.Schoenen = schoen_cart_items.ToList();
             var cart_items = from s in _context.Cart where s.User_Id == gotuserId select s;
+            var drones = from s in _context.Drones select s;
+            var kabels = from s in _context.Kabels select s;
+            var fotocameras = from s in _context.Fotocameras select s;
+            var horloges = from s in _context.Horloges select s;
+            var schoenen = from s in _context.Schoenen select s;
+            var spelcomputers = from s in _context.Spelcomputers select s;
+            
             var totaal = from item in _context.Cart
                          where item.User_Id == gotuserId
                          group item by item.User_Id into items
@@ -191,7 +148,16 @@ namespace login2.Controllers
             {
                 ViewBag.Totaal = item.Totaal;
             }
-            return View(cart_items);
+            var wrapper = new Categorie();
+            wrapper.Carts = cart_items.ToList();
+            wrapper.Drones = drones.ToList();
+            wrapper.Kabels = kabels.ToList();
+            wrapper.Fotocameras = fotocameras.ToList();
+            wrapper.Horloges = horloges.ToList();
+            wrapper.Schoenen = schoenen.ToList();
+            wrapper.Spelcomputers = spelcomputers.ToList();
+            
+            return View(wrapper);
         }
 
         [Authorize]
@@ -219,8 +185,13 @@ namespace login2.Controllers
 
                 return RedirectToAction("Cart");
             }
-            //goes to cart if product is already added
-            return RedirectToAction("Cart");
+            else {
+                foreach (Cart cart in check) {
+                cart.Aantal = cart.Aantal + aantal;
+                }
+                _context.SaveChanges();
+                return RedirectToAction("Cart");
+            }
         }
 
         [Authorize]

@@ -38,31 +38,22 @@ namespace login2.Controllers
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
-                //makes sure that the lists are empty by searching a -1 id ( == NULL)
-                var wishlist = from s in _context.Wishlist where s.User_Id == gotuserId select s;
-                var kabels = _context.Kabels.Where( m => m.Id == -1);
-                var drones = _context.Drones.Where( m => m.Id == -1);
-                var spelcomputers = _context.Spelcomputers.Where( m => m.Id == -1);
-                var horloges = _context.Horloges.Where( m => m.Id == -1);
-                var fotocameras = _context.Fotocameras.Where( m => m.Id == -1);
-                var schoenen = _context.Schoenen.Where( m => m.Id == -1);
-                //adds all items from the wishlist in the wrapper
-                foreach(var item in wishlist) {
-                    kabels = _context.Kabels.Where( p => p.Id == item.Product_Id && item.Model_naam == "Kabel");
-                    drones = _context.Drones.Where(p => p.Id == item.Product_Id && item.Model_naam == "Drone");
-                    spelcomputers = _context.Spelcomputers.Where(p => p.Id == item.Product_Id && item.Model_naam == "Spelcomputer");
-                    horloges = _context.Horloges.Where(p => p.Id == item.Product_Id && item.Model_naam == "Horloge");
-                    fotocameras = _context.Fotocameras.Where(p => p.Id == item.Product_Id && item.Model_naam == "Fotocamera");
-                    schoenen = _context.Schoenen.Where(p => p.Id == item.Product_Id && item.Model_naam == "Schoen");
-                }
-                var wrapper = new Categorie();
-                wrapper.Kabels = kabels.ToList();
-                wrapper.Drones = drones.ToList();
-                wrapper.Spelcomputers = spelcomputers.ToList();
-                wrapper.Horloges = horloges.ToList();
-                wrapper.Fotocameras = fotocameras.ToList();
-                wrapper.Schoenen = schoenen.ToList();
-                wrapper.Wishlists = wishlist.ToList();
+            //makes sure that the lists are empty by searching a -1 id ( == NULL)
+            var wishlist = from s in _context.Wishlist where s.User_Id == gotuserId select s;
+            var drones = from s in _context.Drones select s;
+            var kabels = from s in _context.Kabels select s;
+            var fotocameras = from s in _context.Fotocameras select s;
+            var horloges = from s in _context.Horloges select s;
+            var schoenen = from s in _context.Schoenen select s;
+            var spelcomputers = from s in _context.Spelcomputers select s;
+            var wrapper = new Categorie();
+            wrapper.Kabels = kabels.ToList();
+            wrapper.Drones = drones.ToList();
+            wrapper.Spelcomputers = spelcomputers.ToList();
+            wrapper.Horloges = horloges.ToList();
+            wrapper.Fotocameras = fotocameras.ToList();
+            wrapper.Schoenen = schoenen.ToList();
+            wrapper.Wishlists = wishlist.ToList();
             return View(wrapper);
         }
 
@@ -91,8 +82,13 @@ namespace login2.Controllers
 
                 return RedirectToAction("Index");
             }
-            //goes to Wishlist if product is already added
-            return RedirectToAction("Index");
+            else {
+                foreach (Wishlist Wishlist in check) {
+                Wishlist.Aantal = Wishlist.Aantal + aantal;
+                }
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
 
         [Authorize]
@@ -147,6 +143,41 @@ namespace login2.Controllers
                 // Provide for exceptions.
             }
             return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> AddToCart(int product, string model, int aantal, int prijs)
+        {
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var gotuserId = claim.Value;
+            //Get the current users cart
+            var getwishlist = _context.Wishlist.Where(m => m.User_Id == gotuserId);
+            //Loop all items from the cart in the OrderHistory model
+            
+            foreach (var item in getwishlist)
+            {
+                var check = from s in _context.Cart where s.Product_Id == item.Product_Id && s.Model_naam == item.Model_naam && s.User_Id == gotuserId select s;
+                if (check.Count() == 0)
+                {
+                Cart cart = new Cart
+                {
+                    User_Id = item.User_Id,
+                    Aantal = item.Aantal,
+                    Model_naam = item.Model_naam,
+                    Prijs = item.Prijs,
+                    Product_Id = item.Product_Id
+                };              
+                _context.Cart.Add(cart);
+                _context.Wishlist.RemoveRange(getwishlist);
+                await _context.SaveChangesAsync();
+                }
+                else {
+
+                    check.First().Aantal = check.First().Aantal + item.Aantal;
+                    _context.Wishlist.RemoveRange(getwishlist);
+                    await _context.SaveChangesAsync();
+                }            
+            }
+            return RedirectToAction("Cart","Home");
         }
        
     }
