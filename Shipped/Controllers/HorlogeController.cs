@@ -41,15 +41,15 @@ namespace login2.Controllers
             ViewBag.KleurSortParm = sortOrder == "kleur" ? "kleur_desc" : "kleur";
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
-            ViewBag.AllesTypes = _context.Horloges.GroupBy(p => new { p.Type})
+            ViewBag.AllesTypes = _context.Horloges.GroupBy(p => new { p.Type })
                             .Select(g => g.First())
                             .ToList();
-            ViewBag.AllesMerken = _context.Horloges.GroupBy(p => new {p.Merk})
+            ViewBag.AllesMerken = _context.Horloges.GroupBy(p => new { p.Merk })
                             .Select(g => g.First())
                             .ToList();
-             ViewBag.AllesKleuren = _context.Horloges.GroupBy(p => new {p.Kleur })
-                            .Select(g => g.First())
-                            .ToList();
+            ViewBag.AllesKleuren = _context.Horloges.GroupBy(p => new { p.Kleur })
+                           .Select(g => g.First())
+                           .ToList();
             var horloges = from a in _context.Horloges.Include(d => d.Categorie) select a;
             //Als alles leeg is
             if (merk == null && min_prijs == 0 && max_prijs == null && kleur == null && type == null)

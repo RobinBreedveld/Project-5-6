@@ -1,8 +1,66 @@
-@model IEnumerable<login2.Models.OrderHistory>
-   
-@foreach (var item in Model) {
-     <h1>Ordernummer: @item.Order_nummer</h1>
-     <h1>Product: @item.Id</h1>
-     <h1>Totaalprijs: @item.Prijs</h1>
-     <h1>Aantal: @item.Aantal</h1>
+@model login2.Models.Categorie
+
+<ul class="list-inline">
+<li class="list-inline-item"><h1>Ordernummer:</h1></li>
+
+<li class="list-inline-item"><h1>@Model.OrderHistory.First().Order_nummer</h1></li>
+
+</ul>
+
+<h1>Producten:</h1>
+@foreach (var items in Model.OrderHistory) {     
+     @foreach (var item in Model.Drones) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Drone") {
+          <div style="height: 100px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+          <h1>@item.Naam | Aantal: @item.Aantal | Prijs: @item.Prijs </h1> 
+          </div>
+          }
+     }
+     @foreach (var item in Model.Kabels) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Kabel") {
+          <div style="height: 100px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+          <h1>@item.Naam | Aantal: @item.Aantal | Prijs: @item.Prijs </h1>
+          </div>
+          }
+     }
+     @foreach (var item in Model.Fotocameras) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Fotocamera") {
+          <div style="height: 100px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+          <h1>@item.Naam | Aantal: @item.Aantal | Prijs: @item.Prijs </h1>
+          </div>
+          }
+     }
+     @foreach (var item in Model.Horloges) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Horloge") {
+          <div style="height: 100px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+          <h1>@item.Naam | Aantal: @item.Aantal | Prijs: @item.Prijs </h1>
+          </div>
+          }
+     }
+     @foreach (var item in Model.Spelcomputers) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Spelcomputer") {
+          <div style="height: 100px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+          <h1>@item.Naam | Aantal: @item.Aantal | Prijs: @item.Prijs </h1>
+          </div>
+          }
+     }
+     @foreach (var item in Model.Schoenen) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Schoen") {
+          <div style="height: 100px;width: 100% ;">
+           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+          <h1>@item.Naam | Aantal: @item.Aantal | Prijs: @item.Prijs </h1>
+          </div>
+          }
+     }
+
 }
+
+<ul class="list-inline">
+<li class="list-inline-item"><h1>Totaalprijs:</h1></li>
+<li class="list-inline-item"><h1> @ViewBag.Totaal</h1></li>
+</ul>

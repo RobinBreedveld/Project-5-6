@@ -4,7 +4,7 @@
     ViewData["Title"] = "Winkelwagen"; 
 }
 <h1>Uw winkelwagen</h1>
-
+<div class="alert alert-info" role="alert">@ViewBag.Popup</div>
  @foreach (var items in Model.Carts) {
       @foreach (var item in Model.Drones) {
         @if (item.Id == items.Product_Id && items.Model_naam == "Drone") {
@@ -104,7 +104,6 @@
       }
 }
 @if(Model.Carts.Count() != 0) {
-  
 <h1>Uw totale prijs: @ViewBag.Totaal</h1>
 <ul class="nav nav-pills" role="tablist">
   <li role="presentation" class="active"><a href="/Home/Buy">Afrekenen <span aria-hidden="true">&rarr;</span</a></li>

@@ -58,31 +58,31 @@ namespace login2.Controllers
         public IActionResult Index()
         {
             //meestgekochtekabel         
-            var meestgekochtekabel = _context.Kabels.Max( p => p.Aantal_gekocht);
-            var getkabel = _context.Kabels.Where( p => p.Aantal_gekocht == meestgekochtekabel);
+            var meestgekochtekabel = _context.Kabels.Max(p => p.Aantal_gekocht);
+            var getkabel = _context.Kabels.Where(p => p.Aantal_gekocht == meestgekochtekabel);
 
             //meestgekochtedrone
-            var meestgekochtedrone = _context.Drones.Max( p => p.Aantal_gekocht);
-            var getdrone = _context.Drones.Where( p => p.Aantal_gekocht == meestgekochtedrone);
+            var meestgekochtedrone = _context.Drones.Max(p => p.Aantal_gekocht);
+            var getdrone = _context.Drones.Where(p => p.Aantal_gekocht == meestgekochtedrone);
 
             //meestgekochtefotocamera
-            var meestgekochtefotocamera = _context.Fotocameras.Max( p => p.Aantal_gekocht);
-            var getfotocamera = _context.Fotocameras.Where( p => p.Aantal_gekocht == meestgekochtefotocamera);
+            var meestgekochtefotocamera = _context.Fotocameras.Max(p => p.Aantal_gekocht);
+            var getfotocamera = _context.Fotocameras.Where(p => p.Aantal_gekocht == meestgekochtefotocamera);
 
             //meestgekochtehorloge
-            var meestgekochtehorloge = _context.Horloges.Max( p => p.Aantal_gekocht);
-            var gethorloge = _context.Horloges.Where( p => p.Aantal_gekocht == meestgekochtehorloge);
+            var meestgekochtehorloge = _context.Horloges.Max(p => p.Aantal_gekocht);
+            var gethorloge = _context.Horloges.Where(p => p.Aantal_gekocht == meestgekochtehorloge);
 
             //meestgekochteschoen
-            var meestgekochteschoen = _context.Schoenen.Max( p => p.Aantal_gekocht);
-            var getschoen = _context.Schoenen.Where( p => p.Aantal_gekocht == meestgekochteschoen);
+            var meestgekochteschoen = _context.Schoenen.Max(p => p.Aantal_gekocht);
+            var getschoen = _context.Schoenen.Where(p => p.Aantal_gekocht == meestgekochteschoen);
 
             //meestgekochtespelcomputer
-            var meestgekochtespelcomputer = _context.Spelcomputers.Max( p => p.Aantal_gekocht);
-            var getspelcomputer = _context.Spelcomputers.Where( p => p.Aantal_gekocht == meestgekochtespelcomputer);
+            var meestgekochtespelcomputer = _context.Spelcomputers.Max(p => p.Aantal_gekocht);
+            var getspelcomputer = _context.Spelcomputers.Where(p => p.Aantal_gekocht == meestgekochtespelcomputer);
 
             var wrapper = new Categorie();
-            
+
             wrapper.Kabels = getkabel.ToList();
             wrapper.Drones = getdrone.ToList();
             wrapper.Fotocameras = getfotocamera.ToList();
@@ -108,9 +108,9 @@ namespace login2.Controllers
                 var horlogeresultaat = _context.Horloges.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()) || searchString.Contains("horloge"));
                 var fotocameraresultaat = _context.Fotocameras.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()) || searchString.Contains("fotocamera"));
                 var schoenresultaat = _context.Schoenen.Where(p => p.Naam.ToUpper().StartsWith(searchString.ToUpper()) || p.Merk.ToUpper().StartsWith(searchString.ToUpper()) || p.Type.ToUpper().StartsWith(searchString.ToUpper()) || searchString.Contains("schoen"));
-                
+
                 var wrapper = new Categorie();
-                
+
                 wrapper.Kabels = kabelresultaat.ToList();
                 wrapper.Drones = droneresultaat.ToList();
                 wrapper.Spelcomputers = spelcomputerresultaat.ToList();
@@ -123,7 +123,7 @@ namespace login2.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Cart(string model_name)
+        public async Task<IActionResult> Cart(string popup)
         {
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
@@ -135,7 +135,7 @@ namespace login2.Controllers
             var horloges = from s in _context.Horloges select s;
             var schoenen = from s in _context.Schoenen select s;
             var spelcomputers = from s in _context.Spelcomputers select s;
-            
+
             var totaal = from item in _context.Cart
                          where item.User_Id == gotuserId
                          group item by item.User_Id into items
@@ -143,7 +143,7 @@ namespace login2.Controllers
                          {
                              Totaal = items.Sum(x => x.Prijs * x.Aantal)
                          };
-                         
+
             foreach (var item in totaal)
             {
                 ViewBag.Totaal = item.Totaal;
@@ -156,7 +156,7 @@ namespace login2.Controllers
             wrapper.Horloges = horloges.ToList();
             wrapper.Schoenen = schoenen.ToList();
             wrapper.Spelcomputers = spelcomputers.ToList();
-            
+            ViewBag.Popup = popup;
             return View(wrapper);
         }
 
@@ -185,9 +185,11 @@ namespace login2.Controllers
 
                 return RedirectToAction("Cart");
             }
-            else {
-                foreach (Cart cart in check) {
-                cart.Aantal = cart.Aantal + aantal;
+            else
+            {
+                foreach (Cart cart in check)
+                {
+                    cart.Aantal = cart.Aantal + aantal;
                 }
                 _context.SaveChanges();
                 return RedirectToAction("Cart");
@@ -260,6 +262,9 @@ namespace login2.Controllers
 
             int totaalprijs = 0;
             Boolean empty = true;
+
+            var voorraadproduct = "";
+            var naamproduct = "";
             //Loop all items from the cart in the OrderHistory model
             foreach (var item in getcart)
             {
@@ -272,6 +277,7 @@ namespace login2.Controllers
                     Product_Id = item.Product_Id,
                     Model_naam = item.Model_naam,
                     Prijs = item.Prijs,
+                    Aantal = item.Aantal,
                     Order_nummer = _context.OrderHistory.Count().ToString()
 
                 };
@@ -280,73 +286,137 @@ namespace login2.Controllers
                 {
                     case "Kabel":
                         var getkabel = _context.Kabels.Where(m => m.Id == item.Product_Id && item.Model_naam == "Kabel");
-                        getkabel.First().Aantal = getkabel.First().Aantal - item.Aantal;
-                        getkabel.First().Aantal_gekocht = getkabel.First().Aantal_gekocht + item.Aantal;
-                        product = product + getkabel.First().Naam + ",";
-                        totaalprijs = totaalprijs + getkabel.First().Prijs;
-                        empty = false;
+                        voorraadproduct = getkabel.First().Aantal.ToString();
+                        naamproduct = getkabel.First().Naam.ToString();
+                        var checkkabel = getkabel.First().Aantal - item.Aantal;
+
+                        if (checkkabel >= 0)
+                        {
+                            getkabel.First().Aantal = getkabel.First().Aantal - item.Aantal;
+                            getkabel.First().Aantal_gekocht = getkabel.First().Aantal_gekocht + item.Aantal;
+                            product = product + getkabel.First().Naam + ",";
+                            totaalprijs = totaalprijs + getkabel.First().Prijs;
+                            empty = false;
+                        }
+                        else
+                        {
+                            empty = true;
+                        }
                         break;
                     case "Drone":
                         var getdrone = _context.Drones.Where(m => m.Id == item.Product_Id && item.Model_naam == "Drone");
-                        getdrone.First().Aantal = getdrone.First().Aantal - item.Aantal;
-                        getdrone.First().Aantal_gekocht = getdrone.First().Aantal_gekocht + item.Aantal;
-                        product = product + getdrone.First().Naam + ",";
-                        totaalprijs = totaalprijs + getdrone.First().Prijs;
-                        empty = false;
+                        voorraadproduct = getdrone.First().Aantal.ToString();
+                        naamproduct = getdrone.First().Naam.ToString();
+                        var checkdrone = getdrone.First().Aantal - item.Aantal;
 
+                        if (checkdrone >= 0)
+                        {
+                            getdrone.First().Aantal = getdrone.First().Aantal - item.Aantal;
+                            getdrone.First().Aantal_gekocht = getdrone.First().Aantal_gekocht + item.Aantal;
+                            product = product + getdrone.First().Naam + ",";
+                            totaalprijs = totaalprijs + getdrone.First().Prijs;
+                            empty = false;
+                        }
+                        else
+                        {
+                            empty = true;
+                        }
                         break;
                     case "Spelcomputer":
                         var getspelcomputer = _context.Spelcomputers.Where(m => m.Id == item.Product_Id && item.Model_naam == "Spelcomputer");
-                        getspelcomputer.First().Aantal = getspelcomputer.First().Aantal - item.Aantal;
-                        getspelcomputer.First().Aantal_gekocht = getspelcomputer.First().Aantal_gekocht + item.Aantal;
-                        product = product + "," + getspelcomputer.First().Naam;
-                        totaalprijs = totaalprijs + getspelcomputer.First().Prijs;
-                        empty = false;
+                        voorraadproduct = getspelcomputer.First().Aantal.ToString();
+                        naamproduct = getspelcomputer.First().Naam.ToString();
+                        var checkspelcomputer = getspelcomputer.First().Aantal - item.Aantal;
+
+                        if (checkspelcomputer >= 0)
+                        {
+                            getspelcomputer.First().Aantal = getspelcomputer.First().Aantal - item.Aantal;
+                            getspelcomputer.First().Aantal_gekocht = getspelcomputer.First().Aantal_gekocht + item.Aantal;
+                            product = product + "," + getspelcomputer.First().Naam;
+                            totaalprijs = totaalprijs + getspelcomputer.First().Prijs;
+                            empty = false;
+                        }
+                        else
+                        {
+                            empty = true;
+                        }
                         break;
                     case "Horloge":
                         var gethorloge = _context.Horloges.Where(m => m.Id == item.Product_Id && item.Model_naam == "Horloge");
-                        gethorloge.First().Aantal = gethorloge.First().Aantal - item.Aantal;
-                        gethorloge.First().Aantal_gekocht = gethorloge.First().Aantal_gekocht + item.Aantal;
-                        product = product + gethorloge.First().Naam + ",";
-                        totaalprijs = totaalprijs + gethorloge.First().Prijs;
-                        empty = false;
+                        voorraadproduct = gethorloge.First().Aantal.ToString();
+                        naamproduct = gethorloge.First().Naam.ToString();
+                        var checkhorloge = gethorloge.First().Aantal - item.Aantal;
 
+                        if (checkhorloge >= 0)
+                        {
+                            gethorloge.First().Aantal = gethorloge.First().Aantal - item.Aantal;
+                            gethorloge.First().Aantal_gekocht = gethorloge.First().Aantal_gekocht + item.Aantal;
+                            product = product + gethorloge.First().Naam + ",";
+                            totaalprijs = totaalprijs + gethorloge.First().Prijs;
+                            empty = false;
+                        }
+                        else
+                        {
+                            empty = true;
+                        }
                         break;
                     case "Fotocamera":
                         var getfotocamera = _context.Fotocameras.Where(m => m.Id == item.Product_Id && item.Model_naam == "Fotocamera");
-                        getfotocamera.First().Aantal = getfotocamera.First().Aantal - item.Aantal;
-                        getfotocamera.First().Aantal_gekocht = getfotocamera.First().Aantal_gekocht + item.Aantal;
-                        product = product + getfotocamera.First().Naam + ",";
-                        totaalprijs = totaalprijs + getfotocamera.First().Prijs;
-                        empty = false;
-
+                        voorraadproduct = getfotocamera.First().Aantal.ToString();
+                        naamproduct = getfotocamera.First().Naam.ToString();
+                        var checkfotocamera = getfotocamera.First().Aantal - item.Aantal;
+                        if (checkfotocamera >= 0)
+                        {
+                            getfotocamera.First().Aantal = getfotocamera.First().Aantal - item.Aantal;
+                            getfotocamera.First().Aantal_gekocht = getfotocamera.First().Aantal_gekocht + item.Aantal;
+                            product = product + getfotocamera.First().Naam + ",";
+                            totaalprijs = totaalprijs + getfotocamera.First().Prijs;
+                            empty = false;
+                        }
+                        else
+                        {
+                            empty = true;
+                        }
                         break;
                     case "Schoen":
                         var getschoen = _context.Schoenen.Where(m => m.Id == item.Product_Id && item.Model_naam == "Schoen");
-                        getschoen.First().Aantal = getschoen.First().Aantal - item.Aantal;
-                        getschoen.First().Aantal_gekocht = getschoen.First().Aantal_gekocht + item.Aantal;
-                        product = product + getschoen.First().Naam + ",";
-                        totaalprijs = totaalprijs + getschoen.First().Prijs;
-                        empty = false;
-
+                        naamproduct = getschoen.First().Naam.ToString();
+                        voorraadproduct = getschoen.First().Aantal.ToString();
+                        var checkschoen = getschoen.First().Aantal - item.Aantal;
+                        if (checkschoen >= 0)
+                        {
+                            getschoen.First().Aantal = getschoen.First().Aantal - item.Aantal;
+                            getschoen.First().Aantal_gekocht = getschoen.First().Aantal_gekocht + item.Aantal;
+                            product = product + getschoen.First().Naam + ",";
+                            totaalprijs = totaalprijs + getschoen.First().Prijs;
+                            empty = false;
+                        }
+                        else
+                        {
+                            empty = true;
+                        }
                         break;
                     default:
                         Console.WriteLine("Error");
                         break;
                 }
-                //Product Aantal - Cart Aantal    
-                _context.OrderHistory.Add(order);
-                _context.Cart.RemoveRange(getcart);
-
-
+                if (empty == false)
+                {
+                    _context.OrderHistory.Add(order);
+                }
+                else
+                {
+                    return RedirectToAction("Cart", new { popup = "De voorraad van " + naamproduct + "is " + voorraadproduct + ", koop een kleiner aantal van dit product" });
+                }
             }
             if (empty == false)
             {
+                _context.Cart.RemoveRange(getcart);
                 await _emailSender.SendEmailAsync($"{claimsIdentity.Name}", $"Purchase confirmation of order  ", $"Your order with order  has been confirmd and will be send! {product} <br/> Totaal prijs: {totaalprijs}");
                 await _context.SaveChangesAsync();
+                return RedirectToAction("Cart", new { popup = "Succes" });
             }
-            return RedirectToAction("Cart");
-
+            return RedirectToAction("Cart", new { popup = "De voorraad van " + naamproduct + "is " + voorraadproduct + ", koop een kleiner aantal van dit product" });
         }
 
 
@@ -358,9 +428,9 @@ namespace login2.Controllers
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
-            var OrderHistory = from m in _context.OrderHistory
-                               where m.User_Id == gotuserId
-                               select m;
+            var OrderHistory = _context.OrderHistory.GroupBy(p => new { p.Order_nummer})
+                            .Select(g => g.First())
+                            .ToList();
             return View(OrderHistory);
         }
 
@@ -375,11 +445,38 @@ namespace login2.Controllers
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
             var ordersinid = _context.OrderHistory.Where(m => m.Order_nummer == order_nummer && m.User_Id == gotuserId);
+            var drones = from s in _context.Drones select s;
+            var kabels = from s in _context.Kabels select s;
+            var fotocameras = from s in _context.Fotocameras select s;
+            var horloges = from s in _context.Horloges select s;
+            var schoenen = from s in _context.Schoenen select s;
+            var spelcomputers = from s in _context.Spelcomputers select s;
+
+            var totaal = from item in _context.OrderHistory
+                         where item.User_Id == gotuserId
+                         group item by item.User_Id into items
+                         select new
+                         {
+                             Totaal = items.Sum(x => x.Prijs * x.Aantal)
+                         };
+
+            foreach (var item in totaal)
+            {
+                ViewBag.Totaal = item.Totaal;
+            }
             if (ordersinid == null)
             {
                 return NotFound();
             }
-            return View(ordersinid);
+            var wrapper = new Categorie();
+            wrapper.OrderHistory = ordersinid.ToList();
+            wrapper.Drones = drones.ToList();
+            wrapper.Kabels = kabels.ToList();
+            wrapper.Fotocameras = fotocameras.ToList();
+            wrapper.Horloges = horloges.ToList();
+            wrapper.Schoenen = schoenen.ToList();
+            wrapper.Spelcomputers = spelcomputers.ToList();
+            return View(wrapper);
         }
         [Authorize(Roles = "Admin")]
         public IActionResult Statistics()
@@ -397,72 +494,72 @@ namespace login2.Controllers
             //Foreach loops that create a total value per categorie | Loops total sold
             //Kabels
             int aantalkabels = 0;
-            foreach (var item in getkabels){aantalkabels = aantalkabels + item.Totaal;}
+            foreach (var item in getkabels) { aantalkabels = aantalkabels + item.Totaal; }
             //Schoenen
             int aantalschoenen = 0;
-            foreach (var item in getschoenen){aantalschoenen = aantalschoenen + item.Totaal;}
+            foreach (var item in getschoenen) { aantalschoenen = aantalschoenen + item.Totaal; }
             //Drones
             int aantaldrones = 0;
-            foreach (var item in getdrones){aantaldrones = aantaldrones + item.Totaal;}
+            foreach (var item in getdrones) { aantaldrones = aantaldrones + item.Totaal; }
             //Spelcomputers
             int aantalspelcomputers = 0;
             foreach (var item in getspelcomputer)
-            {aantalspelcomputers = aantalspelcomputers + item.Totaal;}
+            { aantalspelcomputers = aantalspelcomputers + item.Totaal; }
             //Horloges
             int aantalhorloges = 0;
-            foreach (var item in gethorloges){aantalhorloges = aantalhorloges + item.Totaal;}
+            foreach (var item in gethorloges) { aantalhorloges = aantalhorloges + item.Totaal; }
             //Fotocameras
             int aantalfotocameras = 0;
-            foreach (var item in getfotocameras){aantalfotocameras = aantalfotocameras + item.Totaal;}
+            foreach (var item in getfotocameras) { aantalfotocameras = aantalfotocameras + item.Totaal; }
             //Adds the total value to the main list | Creating main list
-            allverkocht.Add(aantalkabels); 
-            allverkocht.Add(aantalschoenen); 
-            allverkocht.Add(aantaldrones); 
+            allverkocht.Add(aantalkabels);
+            allverkocht.Add(aantalschoenen);
+            allverkocht.Add(aantaldrones);
             allverkocht.Add(aantalspelcomputers);
-            allverkocht.Add(aantalhorloges); 
-            allverkocht.Add(aantalfotocameras); 
+            allverkocht.Add(aantalhorloges);
+            allverkocht.Add(aantalfotocameras);
             //Sends the main list to the view | Returning main list
-            ViewBag.RepAll = allverkocht; 
+            ViewBag.RepAll = allverkocht;
             //Chart 3 
             //A list with all aantalverkocht values in it. | Main list 
-            List<int> allvoorraad = new List<int>();  
+            List<int> allvoorraad = new List<int>();
             //Queries to get the total of aantalverkocht per categorie | Queries categories
             var getvoorraadkabels = from a in _context.Kabels group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            var getvoorraadschoenen  = from a in _context.Schoenen group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            var getvoorraaddrones  = from a in _context.Drones group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            var getvoorraadspelcomputer  = from a in _context.Spelcomputers group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            var getvoorraadhorloges  = from a in _context.Horloges group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
-            var getvoorraadfotocameras  = from a in _context.Fotocameras group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
+            var getvoorraadschoenen = from a in _context.Schoenen group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
+            var getvoorraaddrones = from a in _context.Drones group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
+            var getvoorraadspelcomputer = from a in _context.Spelcomputers group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
+            var getvoorraadhorloges = from a in _context.Horloges group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
+            var getvoorraadfotocameras = from a in _context.Fotocameras group a by a.Aantal into items select new { Totaal = items.Sum(x => x.Aantal) };
             //Foreach loops that create a total value per categorie | Loops total sold
             //Kabels
             int voorraadkabels = 0;
-            foreach (var item in getvoorraadkabels){voorraadkabels = voorraadkabels + item.Totaal;}
+            foreach (var item in getvoorraadkabels) { voorraadkabels = voorraadkabels + item.Totaal; }
             //Schoenen
             int voorraadschoenen = 0;
-            foreach (var item in getvoorraadschoenen){voorraadschoenen = voorraadschoenen + item.Totaal;}
+            foreach (var item in getvoorraadschoenen) { voorraadschoenen = voorraadschoenen + item.Totaal; }
             //Drones
             int voorraaddrones = 0;
-            foreach (var item in getvoorraaddrones){voorraaddrones = voorraaddrones + item.Totaal;}
+            foreach (var item in getvoorraaddrones) { voorraaddrones = voorraaddrones + item.Totaal; }
             //Spelcomputers
             int voorraadspelcomputers = 0;
             foreach (var item in getvoorraadspelcomputer)
-            {voorraadspelcomputers = voorraadspelcomputers + item.Totaal;}
+            { voorraadspelcomputers = voorraadspelcomputers + item.Totaal; }
             //Horloges
             int voorraadhorloges = 0;
-            foreach (var item in getvoorraadhorloges){voorraadhorloges = voorraadhorloges + item.Totaal;}
+            foreach (var item in getvoorraadhorloges) { voorraadhorloges = voorraadhorloges + item.Totaal; }
             //Fotocameras
             int voorraadfotocameras = 0;
-            foreach (var item in getvoorraadfotocameras){voorraadfotocameras = voorraadfotocameras + item.Totaal;}
+            foreach (var item in getvoorraadfotocameras) { voorraadfotocameras = voorraadfotocameras + item.Totaal; }
             //Adds the total value to the main list | Creating main list
-            allvoorraad.Add(voorraadkabels); 
-            allvoorraad.Add(voorraadschoenen); 
-            allvoorraad.Add(voorraaddrones); 
+            allvoorraad.Add(voorraadkabels);
+            allvoorraad.Add(voorraadschoenen);
+            allvoorraad.Add(voorraaddrones);
             allvoorraad.Add(voorraadspelcomputers);
-            allvoorraad.Add(voorraadhorloges); 
-            allvoorraad.Add(voorraadfotocameras); 
+            allvoorraad.Add(voorraadhorloges);
+            allvoorraad.Add(voorraadfotocameras);
             //Sends the main list to the view | Returning main list
-            ViewBag.RepVoorraad = allvoorraad;    
-              
+            ViewBag.RepVoorraad = allvoorraad;
+
 
             return View();
         }

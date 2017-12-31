@@ -16,6 +16,7 @@ namespace login2.Models
     public List<Schoen> Schoenen { get; set;}
     public List<Cart> Carts {get;set;}
     public List<Wishlist> Wishlists {get;set;}
+    public List<OrderHistory> OrderHistory {get;set;}
   }
   public class Cart
     {

@@ -82,9 +82,11 @@ namespace login2.Controllers
 
                 return RedirectToAction("Index");
             }
-            else {
-                foreach (Wishlist Wishlist in check) {
-                Wishlist.Aantal = Wishlist.Aantal + aantal;
+            else
+            {
+                foreach (Wishlist Wishlist in check)
+                {
+                    Wishlist.Aantal = Wishlist.Aantal + aantal;
                 }
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -152,34 +154,35 @@ namespace login2.Controllers
             //Get the current users cart
             var getwishlist = _context.Wishlist.Where(m => m.User_Id == gotuserId);
             //Loop all items from the cart in the OrderHistory model
-            
+
             foreach (var item in getwishlist)
             {
                 var check = from s in _context.Cart where s.Product_Id == item.Product_Id && s.Model_naam == item.Model_naam && s.User_Id == gotuserId select s;
                 if (check.Count() == 0)
                 {
-                Cart cart = new Cart
-                {
-                    User_Id = item.User_Id,
-                    Aantal = item.Aantal,
-                    Model_naam = item.Model_naam,
-                    Prijs = item.Prijs,
-                    Product_Id = item.Product_Id
-                };              
-                _context.Cart.Add(cart);
-                _context.Wishlist.RemoveRange(getwishlist);
-                await _context.SaveChangesAsync();
+                    Cart cart = new Cart
+                    {
+                        User_Id = item.User_Id,
+                        Aantal = item.Aantal,
+                        Model_naam = item.Model_naam,
+                        Prijs = item.Prijs,
+                        Product_Id = item.Product_Id
+                    };
+                    _context.Cart.Add(cart);
+                    _context.Wishlist.RemoveRange(getwishlist);
+                    await _context.SaveChangesAsync();
                 }
-                else {
+                else
+                {
 
                     check.First().Aantal = check.First().Aantal + item.Aantal;
                     _context.Wishlist.RemoveRange(getwishlist);
                     await _context.SaveChangesAsync();
-                }            
+                }
             }
-            return RedirectToAction("Cart","Home");
+            return RedirectToAction("Cart", "Home");
         }
-       
+
     }
 }
 
