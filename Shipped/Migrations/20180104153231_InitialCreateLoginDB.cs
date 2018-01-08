@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace login2.Migrations
 {
-    public partial class InitialCreateLoginDb : Migration
+    public partial class InitialCreateLoginDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,27 +58,6 @@ namespace login2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrderHistory",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int4", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Aantal = table.Column<int>(type: "int4", nullable: false),
-                    Beschrijving = table.Column<string>(type: "text", nullable: true),
-                    Merk = table.Column<string>(type: "text", nullable: true),
-                    Model_naam = table.Column<string>(type: "text", nullable: true),
-                    Order_nummer = table.Column<string>(type: "text", nullable: true),
-                    Prijs = table.Column<int>(type: "int4", nullable: false),
-                    Product_Id = table.Column<int>(type: "int4", nullable: false),
-                    Status = table.Column<string>(type: "text", nullable: true),
-                    User_Id = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderHistory", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -323,6 +302,34 @@ namespace login2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Aantal = table.Column<int>(type: "int4", nullable: false),
+                    Beschrijving = table.Column<string>(type: "text", nullable: true),
+                    CategorieId = table.Column<int>(type: "int4", nullable: true),
+                    Merk = table.Column<string>(type: "text", nullable: true),
+                    Model_naam = table.Column<string>(type: "text", nullable: true),
+                    Order_nummer = table.Column<string>(type: "text", nullable: true),
+                    Prijs = table.Column<int>(type: "int4", nullable: false),
+                    Product_Id = table.Column<int>(type: "int4", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: true),
+                    User_Id = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderHistory_Categories_CategorieId",
+                        column: x => x.CategorieId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Schoenen",
                 columns: table => new
                 {
@@ -464,6 +471,11 @@ namespace login2.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Kabels_CategorieId",
                 table: "Kabels",
+                column: "CategorieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderHistory_CategorieId",
+                table: "OrderHistory",
                 column: "CategorieId");
 
             migrationBuilder.CreateIndex(

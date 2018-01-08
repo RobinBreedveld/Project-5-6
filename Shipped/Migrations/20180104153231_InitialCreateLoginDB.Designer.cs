@@ -11,8 +11,8 @@ using System;
 namespace login2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171227210149_InitialCreateLoginDb")]
-    partial class InitialCreateLoginDb
+    [Migration("20180104153231_InitialCreateLoginDB")]
+    partial class InitialCreateLoginDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -240,6 +240,8 @@ namespace login2.Migrations
 
                     b.Property<string>("Beschrijving");
 
+                    b.Property<int?>("CategorieId");
+
                     b.Property<string>("Merk");
 
                     b.Property<string>("Model_naam");
@@ -255,6 +257,8 @@ namespace login2.Migrations
                     b.Property<string>("User_Id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
 
                     b.ToTable("OrderHistory");
                 });
@@ -495,6 +499,13 @@ namespace login2.Migrations
                         .WithMany("Kabels")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("login2.Models.OrderHistory", b =>
+                {
+                    b.HasOne("login2.Models.Categorie")
+                        .WithMany("OrderHistory")
+                        .HasForeignKey("CategorieId");
                 });
 
             modelBuilder.Entity("login2.Models.Schoen", b =>
