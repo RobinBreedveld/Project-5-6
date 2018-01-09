@@ -1,5 +1,5 @@
 <div>
-<form method="post" enctype="multipart/form-data" asp-controller="Parser" asp-action="Index" asp-route-id="@ViewBag.listofitems" >
+<form method="post" enctype="multipart/form-data" asp-controller="Parser" asp-action="PostSwitch" asp-route-id="@ViewBag.listofitems" >
         <div class="col-md-10">
             <h2>Upload multiple products at once!</h2> 
            <select name="typeOfUploading" asp-items="@(new SelectList(@ViewBag.listofitems ))"></select> 
