@@ -1,5 +1,5 @@
 <div>
-<form method="post" enctype="multipart/form-data" asp-controller="Parser" asp-action="PostSwitch" asp-route-id="@ViewBag.listofitems" >
+<form method="post" enctype="multipart/form-data" asp-controller="Parser" asp-action="Index" asp-route-id="@ViewBag.listofitems" >
         <div class="col-md-10">
             <h2>Upload multiple products at once!</h2> 
            <select name="typeOfUploading" asp-items="@(new SelectList(@ViewBag.listofitems ))"></select> 
@@ -10,9 +10,17 @@
     <div class="form-group">
         <div class="col-md-10">
             <br/>
-            <input type="submit" value="Upload" />
+            <input type="submit" value="Upload" onclick="myFunction()"/>
            
         </div>
     </div>
 </form>
 </div>
+
+
+
+<script>
+function myFunction() {
+    alert("Het bestand is succelvol geüpload")
+}
+</script>

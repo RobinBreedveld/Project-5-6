@@ -39,6 +39,8 @@ namespace login2.Controllers
 
 
 
+
+
             return View();
         }
         public IActionResult Kabel()
@@ -132,6 +134,7 @@ namespace login2.Controllers
         }
 
 
+
         [HttpPost("")]
         public async Task<IActionResult> PostSwitch(List<IFormFile> files, string typeOfUploading)
         {
@@ -141,8 +144,9 @@ namespace login2.Controllers
 
                 case "PostDrone":
                     await PostDrone(files);
+                    ViewBag.Message = string.Format("U heeft {0} bestanden succesvol geüpload", files.Count().ToString());
                     break;
-                
+
                 case "PostFotocamera":
                     await PostFotocamera(files);
                     break;
@@ -154,7 +158,7 @@ namespace login2.Controllers
                 case "PostKabel":
                     await PostKabel(files);
                     break;
-                
+
                 case "PostSchoen":
                     await PostSchoen(files);
                     break;
@@ -162,37 +166,14 @@ namespace login2.Controllers
                 case "PostSpelcomputer":
                     await PostSpelcomputer(files);
                     break;
-                
-                
+
+
             }
 
 
-            // if (typeOfUploading == "PostDrone")
-            // {
-            //     await PostDrone(files);
+            //return Ok(new { count = files.Count });
 
-            // }
-
-            // else if (typeOfUploading == "PostSpelcomputer")
-            // {
-            //     await PostSpelcomputer(files);
-            // }
-
-            // else if (typeOfUploading == "PostHorloge")
-            // {
-            //     await PostHorloge(files);
-            // }
-
-            // else if (typeOfUploading == "PostSchoen"){
-            //     await PostSchoen(files);
-            // }
-
-
-
-
-
-            return Ok(new { count = files.Count });
-            
+            return RedirectToAction("Index");
         }
 
 
