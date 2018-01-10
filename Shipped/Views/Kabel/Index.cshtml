@@ -114,8 +114,14 @@
             <input class="Filter" type="submit" value="Voeg filters toe"/>
         </form>
         </br>
-        </br>
+<div>
+    <form method="post" asp-controller="Kabel" asp-action="Index" >
+            <input type="submit" value="Verwijder Filter" />
+    </form>
+
+</div>
     </div>
+
 
 <!-- productdata -->
 @foreach (var item in Model) 
