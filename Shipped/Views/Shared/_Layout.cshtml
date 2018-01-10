@@ -43,11 +43,11 @@
                     <li style="margin-right: 13px;"> @await Html.PartialAsync("_LoginPartial")</li>
                     
                     @if(!User.IsInRole("Admin")) {
-                    <li> <a asp-area="" asp-controller="Wishlist" asp-action="Index"><img class="img-responsive" src="~/images/like.png" width= "30"  ></a></li>
-	                <li> <a asp-area="" asp-controller="Home" asp-action="Cart"><img class="img-responsive" src="~/images/shoppingcart.png"  width= "30"></a></li>
+                    <li> <a asp-area="" asp-controller="Wishlist" asp-action="Index"><img class="img-responsive" src="/images/like.png" width= "30"></a></li>
+	                <li> <a asp-area="" asp-controller="Home" asp-action="Cart"><img class="img-responsive" src="/images/shoppingcart.png"  width= "30"></a></li>
                     }
 
-                    <li><form  asp-controller="Home" asp-action="Browse" method="GET" style="margin-left: 50px; margin-top:12px;">
+                    <li><form  asp-controller="Home" asp-action="Browse" method="GET" style="margin-left: 50px; margin-top:16px;">
                      @Html.TextBox("SearchString")
                         <input    type="submit" value="Search" />
                         </form> 
@@ -61,7 +61,7 @@
         
     <footer>
             <hr />
-            <p>&copy; 2017 - Shipped.nl</p>
+            <p>&copy; 2018 - Shipped.nl</p>
         </footer>
     </div>
         
