@@ -429,8 +429,8 @@ namespace login2.Controllers
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
-            var OrderHistory = _context.OrderHistory.GroupBy(p => new { p.Order_nummer})
-                            .Where( p => p.First().User_Id == gotuserId)
+            var OrderHistory = _context.OrderHistory.GroupBy(p => new { p.Order_nummer })
+                            .Where(p => p.First().User_Id == gotuserId)
                             .Select(g => g.First())
                             .ToList();
             return View(OrderHistory);
@@ -572,7 +572,7 @@ namespace login2.Controllers
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
-            var OrderHistory = _context.OrderHistory.GroupBy(p => new { p.Order_nummer})
+            var OrderHistory = _context.OrderHistory.GroupBy(p => new { p.Order_nummer })
                             .Select(g => g.First())
                             .ToList();
             return View(OrderHistory);
@@ -669,6 +669,14 @@ namespace login2.Controllers
             ViewData["Message"] = "Your contact page.";
 
             return View();
+        }
+
+        public IActionResult SendContactMail(string name, string email, string subject, string description)
+        {
+
+            _emailSender.SendEmailAsync("project3informatica@gmail.com", $"{subject}", $"Naam: {name} <br/> Email: {email} <br/> Onderwerp: {subject} <br/> Omschrijving: <br/> {description} ");
+
+            return RedirectToAction("Contact");
         }
     }
 }
