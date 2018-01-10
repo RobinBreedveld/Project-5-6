@@ -82,7 +82,7 @@
             @Html.TextBox("product", @Model.Id, new {style = "display: none;"})
             @Html.TextBox("model", "Schoen", new {style = "display: none;"})
             @Html.TextBox("prijs", @Model.Prijs, new {style = "display: none;"})
-            <input class="aantal" type="submit" value="Add to shoppingcart" />
+            <input class="aantal" type="submit" value="Add to shoppingcart" onclick="myCart()"/>
         </p>
     </form>
     <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
@@ -90,9 +90,17 @@
             @Html.TextBox("product", @Model.Id, new {style = "display: none;"})
             @Html.TextBox("model", "Schoen", new {style = "display: none;"})
             @Html.TextBox("prijs", @Model.Prijs, new {style = "display: none;"})
-            <input class="aantal" type="submit" value="Add to wishlist" />
+            <input class="aantal" type="submit" value="Add to wishlist" onclick="myWishlist()"/>
         </p>
     </form>
+                              <script>
+function myCart() {
+    alert("Toegevoegd aan uw shoppingcart")
+}
+function myWishlist() {
+    alert("Toegevoegd aan uw wishlist")
+}
+</script>
     }
 
     @if (this.User.IsInRole("Admin"))

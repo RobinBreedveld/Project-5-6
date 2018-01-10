@@ -144,7 +144,7 @@
                         @Html.TextBox("product", @item.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Spelcomputer", new {style = "display: none;"})
                         @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
-                        <input class="aantal" type="submit" value="Add to cart" />
+                        <input class="aantal" type="submit" value="Add to cart" onclick="myCart()"/>
                     </p>
                 </form>
 
@@ -153,7 +153,7 @@
                         @Html.TextBox("product", @item.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Spelcomputer", new {style = "display: none;"})
                         @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
-                        <input class="aantal" type="submit" value="Add to wishlist" />
+                        <input class="aantal" type="submit" value="Add to wishlist" onclick="myWishlist()"/>
                     </p>
                 </form>
             </div>
@@ -201,6 +201,14 @@
             </td>
         </tr>
         }
+               <script>
+function myCart() {
+    alert("Toegevoegd aan uw shoppingcart")
+}
+function myWishlist() {
+    alert("Toegevoegd aan uw wishlist")
+}
+</script>
  
     }
     </th>

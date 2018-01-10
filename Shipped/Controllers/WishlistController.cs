@@ -79,8 +79,7 @@ namespace login2.Controllers
 
                 _context.Wishlist.Add(m);
                 _context.SaveChanges();
-
-                return RedirectToAction("Index");
+                return Redirect(Request.Headers["Referer"].ToString());
             }
             else
             {
@@ -89,7 +88,7 @@ namespace login2.Controllers
                     Wishlist.Aantal = Wishlist.Aantal + aantal;
                 }
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return Redirect(Request.Headers["Referer"].ToString());
             }
         }
 

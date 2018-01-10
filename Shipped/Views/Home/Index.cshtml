@@ -32,7 +32,7 @@
                         @Html.TextBox("product", @kabels.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Kabel", new {style = "display: none;"})
                         @Html.TextBox("prijs", @kabels.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to cart" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="myKabelsCart()"/>
                     </p>
                     </div>
                 </form>
@@ -41,14 +41,21 @@
                         @Html.TextBox("product", @kabels.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Kabel", new {style = "display: none;"})
                         @Html.TextBox("prijs", @kabels.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" onclick="myKabelsWishlist()" />
                     </p>
                 </form>
             </div>
         </div>
     </div>
     }
-
+<script>
+function myKabelsCart() {
+    alert("@kabels.Naam" + " is toegevoegd aan uw shoppingcart")
+}
+function myKabelsWishlist() {
+    alert("@kabels.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
 }
 
 
@@ -70,7 +77,7 @@
                         @Html.TextBox("product", @drones.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Drone", new {style = "display: none;"})
                         @Html.TextBox("prijs", @drones.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to cart" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="myDronesCart()"/>
                     </p>
                     </div>
                 </form>
@@ -81,7 +88,7 @@
                         @Html.TextBox("product", @drones.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Drone", new {style = "display: none;"})
                         @Html.TextBox("prijs", @drones.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" onclick="myDronesWishlist()" />
                     </p>
                     </div>
                 </form>
@@ -89,6 +96,14 @@
         </div>
     </div>
     }
+    <script>
+function myDronesCart() {
+    alert("@drones.Naam" + " is toegevoegd aan uw shoppingcart")
+}
+function myDronesWishlist() {
+    alert("@drones.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
 }
 
 
@@ -109,7 +124,7 @@
                         @Html.TextBox("product", @spelcomputers.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Spelcomputer", new {style = "display: none;"})
                         @Html.TextBox("prijs", @spelcomputers.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to cart" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="mySpelcomputersCart()"/>
                     </p>
                     </div>
                 </form>
@@ -120,7 +135,7 @@
                         @Html.TextBox("product", @spelcomputers.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Spelcomputer", new {style = "display: none;"})
                         @Html.TextBox("prijs", @spelcomputers.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" onclick="mySpelcomputersWishlist()" />
                     </p>
                     </div>
                 </form>
@@ -128,6 +143,14 @@
         </div>
     </div>
     }
+    <script>
+function mySpelcomputersCart() {
+    alert("@spelcomputers.Naam" + " is toegevoegd aan uw shoppingcart")
+}
+function mySpelcomputersWishlist() {
+    alert("@spelcomputers.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
 }
 
 
@@ -148,7 +171,7 @@
                         @Html.TextBox("product", @horloges.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Horloge", new {style = "display: none;"})
                         @Html.TextBox("prijs", @horloges.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to cart" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="myHorlogesCart()"/>
                     </p>
                     </div>
                 </form>
@@ -159,7 +182,7 @@
                         @Html.TextBox("product", @horloges.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Horloge", new {style = "display: none;"})
                         @Html.TextBox("prijs", @horloges.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" onclick="myHorlogesWishlist()" />
                     </p>
                     </div>
                 </form>
@@ -167,6 +190,14 @@
         </div>
     </div>
     }
+    <script>
+function myHorlogesCart() {
+    alert("@horloges.Naam" + " is toegevoegd aan uw shoppingcart")
+}
+function myHorlogesWishlist() {
+    alert("@horloges.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
 }
 
 
@@ -187,7 +218,7 @@
                         @Html.TextBox("product", @fotocameras.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
                         @Html.TextBox("prijs", @fotocameras.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to cart" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="myFotocamerasCart()"/>
                     </p>
                     </div>
                 </form>
@@ -198,7 +229,7 @@
                         @Html.TextBox("product", @fotocameras.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
                         @Html.TextBox("prijs", @fotocameras.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default"  class="aantal" type="submit" value="Add to wishlist" />
+                        <input  class="btn btn-default"  class="aantal" type="submit" value="Add to wishlist"  onclick="myFotocamerasFunction()"/>
                     </p>
                     </div>
                 </form>
@@ -206,6 +237,14 @@
         </div>
     </div>
     }
+    <script>
+function myFotocamerasCart() {
+    alert("@fotocameras.Naam" + " is toegevoegd aan uw shoppingcart")
+}
+function myFotocamerasWishlist() {
+    alert("@fotocameras.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
 }
 
 
@@ -226,7 +265,7 @@
                         @Html.TextBox("product", @schoenen.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Schoen", new {style = "display: none;"})
                         @Html.TextBox("prijs", @schoenen.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to cart" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="mySchoenenCart()"/>
                     </p>
                     </div>
                 </form>
@@ -237,7 +276,7 @@
                         @Html.TextBox("product", @schoenen.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Schoen", new {style = "display: none;"})
                         @Html.TextBox("prijs", @schoenen.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" onclick="mySchoenenWishlist()" />
                     </p>
                     </div>
                 </form>
@@ -245,5 +284,13 @@
         </div>
     </div>
     }
+    <script>
+function mySchoenenCart() {
+    alert("@schoenen.Naam" + " is toegevoegd aan uw shoppingcart")
+}
+function mySchoenenWishlist() {
+    alert("@schoenen.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
 }
 </div>
