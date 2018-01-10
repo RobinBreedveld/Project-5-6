@@ -9,7 +9,10 @@
     <p class="lead">Alle gadgets uit China, lage prijzen en binnen 3 werkdagen bezorgd!</p>
   </div>
 </div>
+
+@if (!User.IsInRole("Admin")) {
 <h3>Populaire producten:</h3>
+}
 </ul>
 <div class="products" style="float:left;width:100%;height: auto;">
 @foreach (var kabels in Model.Kabels)
