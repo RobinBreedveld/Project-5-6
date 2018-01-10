@@ -1,5 +1,8 @@
 @model login2.Models.Categorie
 
+<h2>Pas hier de orderstatus aan</h2>
+<hr/>
+
 <ul class="list-inline">
 <li class="list-inline-item"><h1>Ordernummer:</h1></li>
 
@@ -17,7 +20,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Drone") {
           <div style="height: 100px;width: 100% ;">
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-          <h1>@item.Naam | Aantal: @items.Aantal | Prijs: @item.Prijs | Status: @items.Status </h1> 
+        <h1><a asp-controller="Drone" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
           </div>
           <form  asp-controller="Home" asp-action="EditOrder" method="POST">
                 @Html.TextBox("new_status")
@@ -33,7 +36,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Kabel") {
           <div style="height: 100px;width: 100% ;">
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-          <h1>@item.Naam | Aantal: @items.Aantal | Prijs: @item.Prijs | Status: @items.Status </h1>
+        <h1><a asp-controller="Kabel" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
           </div>
           <form  asp-controller="Home" asp-action="EditOrder" method="POST">
                 @Html.TextBox("new_status")
@@ -49,7 +52,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Fotocamera") {
           <div style="height: 100px;width: 100% ;">
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-          <h1>@item.Naam | Aantal: @items.Aantal | Prijs: @item.Prijs | Status: @items.Status</h1>
+        <h1><a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
           </div>
           <form  asp-controller="Home" asp-action="EditOrder" method="POST">
                 @Html.TextBox("new_status")
@@ -65,7 +68,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Horloge") {
           <div style="height: 100px;width: 100% ;">
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-          <h1>@item.Naam | Aantal: @items.Aantal | Prijs: @item.Prijs | Status: @items.Status</h1>
+        <h1><a asp-controller="Horloge" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
           </div>
           <form  asp-controller="Home" asp-action="EditOrder" method="POST">
                 @Html.TextBox("new_status")
@@ -81,7 +84,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Spelcomputer") {
           <div style="height: 100px;width: 100% ;">
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-          <h1>@item.Naam | Aantal: @items.Aantal | Prijs: @item.Prijs | Status: @items.Status </h1>
+        <h1><a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
           </div>
           <form  asp-controller="Home" asp-action="EditOrder" method="POST">
                 @Html.TextBox("new_status")
@@ -97,7 +100,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Schoen") {
           <div style="height: 100px;width: 100% ;">
            <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-          <h1>@item.Naam | Aantal: @items.Aantal | Prijs: @item.Prijs | Status: @items.Status</h1>
+        <h1><a asp-controller="Schoen" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
           </div>
           <form  asp-controller="Home" asp-action="EditOrder" method="POST">
                 @Html.TextBox("new_status")

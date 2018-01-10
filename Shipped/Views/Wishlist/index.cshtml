@@ -4,13 +4,14 @@
     ViewData["Title"] = "Wishlist"; 
 }
 <h1>Uw wishlist</h1>
+<hr/>
 
  @foreach (var items in Model.Wishlists) {
       @foreach (var item in Model.Drones) {
         @if (item.Id == items.Product_Id && items.Model_naam == "Drone") {
         <div style="margin: 10px;width: 100% ;">
         <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-        <h1><a asp-controller="Drone" asp-action="Details" asp-route-id="@item.Id">@item.Naam</a> | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</h1>
+        <h1><a asp-controller="Drone" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Home" asp-action="Edit" method="POST">
                 @Html.TextBox("new_aantal")
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
@@ -27,7 +28,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Kabel") {
             <div style="margin: 10px;width: 100% ;">
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-        <h1><a asp-controller="Kabel" asp-action="Details" asp-route-id="@item.Id">@item.Naam</a> | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</h1>
+        <h1><a asp-controller="Kabel" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
                 @Html.TextBox("new_aantal")
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
@@ -44,7 +45,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Fotocamera") {
             <div style="margin: 10px;width: 100% ;">
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-        <h1><a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@item.Id">@item.Naam</a> | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</h1>
+        <h1><a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
                 @Html.TextBox("new_aantal")
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
@@ -61,7 +62,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Horloge") {
             <div style="margin: 10px;width: 100% ;">
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-        <h1><a asp-controller="Horloge" asp-action="Details" asp-route-id="@item.Id">@item.Naam</a> | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</h1>
+        <h1><a asp-controller="Horloge" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
                 @Html.TextBox("new_aantal")
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
@@ -78,7 +79,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Schoen") {
              <div style="margin: 10px;width: 100% ;">
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-        <h1><a asp-controller="Schoen" asp-action="Details" asp-route-id="@item.Id">@item.Naam</a> | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</h1>
+        <h1><a asp-controller="Schoen" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
                 @Html.TextBox("new_aantal")
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
@@ -95,7 +96,7 @@
         @if (item.Id == items.Product_Id && items.Model_naam == "Spelcomputer") {
             <div style="margin: 10px;width: 100% ;">
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-       <h1><a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@item.Id">@item.Naam</a> | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</h1>
+       <h1><a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
                 @Html.TextBox("new_aantal")
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
@@ -116,5 +117,5 @@
 </ul>
 }
 else {
-<div class="alert alert-info" role="alert">Voeg producten toe aan uw wishlist. Producten kunt u vinden op de Home of Categorie pagina.</div>
+<div class="alert alert-info" role="alert">Voeg producten toe aan uw wishlist. Producten kunt u vinden op de Home of Categoriepagina.</div>
 }

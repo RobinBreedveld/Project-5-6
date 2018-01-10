@@ -1,7 +1,7 @@
 <div>
 <form method="post" enctype="multipart/form-data" asp-controller="Parser" asp-action="PostSwitch" asp-route-id="@ViewBag.listofitems" >
         <div class="col-md-10">
-            <h2>Upload multiple products at once!</h2> 
+            <h2>Upload hier één of meerdere bestanden</h2>
            <select name="typeOfUploading" asp-items="@(new SelectList(@ViewBag.listofitems ))"></select> 
                  </select> 
             <input type="file" name="files" multiple />
@@ -11,13 +11,10 @@
         <div class="col-md-10">
             <br/>
             <input type="submit" value="Upload" onclick="myFunction()"/>
-           
         </div>
     </div>
 </form>
 </div>
-
-
 
 <script>
 function myFunction() {

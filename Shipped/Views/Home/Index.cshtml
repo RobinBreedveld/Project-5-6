@@ -21,10 +21,10 @@
     {
     <div class="products" style="float:left;">
         <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
-            <img class="card-img-top" src="@Url.Content(kabels.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left;";>
+            <a asp-controller="Kabel" asp-action="Details" asp-route-id="@kabels.Id"><img class="card-img-top" src="@Url.Content(kabels.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left;";>
             <div class="card-block">
-                <a asp-controller="Kabel" asp-action="Details" asp-route-id="@kabels.Id"><h4 class="card-title" style="text-align:center; vertical-align:middle;">@kabels.Naam</h4></a>                
-            </div>
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@kabels.Naam</h4>              
+            </div></a>  
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
@@ -32,7 +32,7 @@
                         @Html.TextBox("product", @kabels.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Kabel", new {style = "display: none;"})
                         @Html.TextBox("prijs", @kabels.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="myKabelsCart()"/>
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan cart" onclick="myKabelsCart()"/>
                     </p>
                     </div>
                 </form>
@@ -41,7 +41,7 @@
                         @Html.TextBox("product", @kabels.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Kabel", new {style = "display: none;"})
                         @Html.TextBox("prijs", @kabels.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" onclick="myKabelsWishlist()" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myKabelsWishlist()" />
                     </p>
                 </form>
             </div>
@@ -66,10 +66,10 @@ function myKabelsWishlist() {
     {
     <div class="products" style="float:left;">
         <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
-            <img class="card-img-top" src="@Url.Content(drones.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <a asp-controller="Drone" asp-action="Details" asp-route-id="@drones.Id"><img class="card-img-top" src="@Url.Content(drones.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
             <div class="card-block">
-               <a asp-controller="Drone" asp-action="Details" asp-route-id="@drones.Id"><h4 class="card-title" style="text-align:center; vertical-align:middle;">@drones.Naam</h4>    </a>             
-            </div>
+               <h4 class="card-title" style="text-align:center; vertical-align:middle;">@drones.Naam</h4>             
+            </div>    </a>
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
@@ -77,7 +77,7 @@ function myKabelsWishlist() {
                         @Html.TextBox("product", @drones.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Drone", new {style = "display: none;"})
                         @Html.TextBox("prijs", @drones.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="myDronesCart()"/>
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan cart" onclick="myDronesCart()"/>
                     </p>
                     </div>
                 </form>
@@ -88,7 +88,7 @@ function myKabelsWishlist() {
                         @Html.TextBox("product", @drones.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Drone", new {style = "display: none;"})
                         @Html.TextBox("prijs", @drones.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" onclick="myDronesWishlist()" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myDronesWishlist()" />
                     </p>
                     </div>
                 </form>
@@ -113,10 +113,10 @@ function myDronesWishlist() {
     {
     <div class="products" style="float:left;">
         <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
-            <img class="card-img-top" src="@Url.Content(spelcomputers.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><img class="card-img-top" src="@Url.Content(spelcomputers.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
             <div class="card-block">
-                <a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><h4 class="card-title" style="text-align:center; vertical-align:middle;">@spelcomputers.Naam</h4></a>          
-            </div>
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@spelcomputers.Naam</h4>        
+            </div></a>  
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
@@ -124,7 +124,7 @@ function myDronesWishlist() {
                         @Html.TextBox("product", @spelcomputers.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Spelcomputer", new {style = "display: none;"})
                         @Html.TextBox("prijs", @spelcomputers.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="mySpelcomputersCart()"/>
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan cart" onclick="mySpelcomputersCart()"/>
                     </p>
                     </div>
                 </form>
@@ -135,7 +135,7 @@ function myDronesWishlist() {
                         @Html.TextBox("product", @spelcomputers.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Spelcomputer", new {style = "display: none;"})
                         @Html.TextBox("prijs", @spelcomputers.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" onclick="mySpelcomputersWishlist()" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="mySpelcomputersWishlist()" />
                     </p>
                     </div>
                 </form>
@@ -160,10 +160,10 @@ function mySpelcomputersWishlist() {
     {
     <div class="products" style="float:left;">
         <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
-            <img class="card-img-top" src="@Url.Content(horloges.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <a asp-controller="Horloge" asp-action="Details" asp-route-id="@horloges.Id"><img class="card-img-top" src="@Url.Content(horloges.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
             <div class="card-block">
-            <a asp-controller="Horloge" asp-action="Details" asp-route-id="@horloges.Id"><h4 class="card-title" style="text-align:center; vertical-align:middle;">@horloges.Naam</h4></a>                 
-            </div>
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@horloges.Naam</h4>               
+            </div></a>  
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
@@ -171,7 +171,7 @@ function mySpelcomputersWishlist() {
                         @Html.TextBox("product", @horloges.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Horloge", new {style = "display: none;"})
                         @Html.TextBox("prijs", @horloges.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="myHorlogesCart()"/>
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan cart" onclick="myHorlogesCart()"/>
                     </p>
                     </div>
                 </form>
@@ -182,7 +182,7 @@ function mySpelcomputersWishlist() {
                         @Html.TextBox("product", @horloges.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Horloge", new {style = "display: none;"})
                         @Html.TextBox("prijs", @horloges.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" onclick="myHorlogesWishlist()" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myHorlogesWishlist()" />
                     </p>
                     </div>
                 </form>
@@ -207,10 +207,10 @@ function myHorlogesWishlist() {
     {
     <div class="products" style="float:left;">
         <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
-            <img class="card-img-top" src="@Url.Content(fotocameras.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id"><img class="card-img-top" src="@Url.Content(fotocameras.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
             <div class="card-block">
-            <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id"><h4 class="card-title" style="text-align:center; vertical-align:middle;">@fotocameras.Naam</h4></a>                
-            </div>
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@fotocameras.Naam</h4>                
+            </div></a>
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
@@ -218,7 +218,7 @@ function myHorlogesWishlist() {
                         @Html.TextBox("product", @fotocameras.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
                         @Html.TextBox("prijs", @fotocameras.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="myFotocamerasCart()"/>
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan cart" onclick="myFotocamerasCart()"/>
                     </p>
                     </div>
                 </form>
@@ -229,7 +229,7 @@ function myHorlogesWishlist() {
                         @Html.TextBox("product", @fotocameras.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
                         @Html.TextBox("prijs", @fotocameras.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default"  class="aantal" type="submit" value="Add to wishlist"  onclick="myFotocamerasFunction()"/>
+                        <input  class="btn btn-default"  class="aantal" type="submit" value="Voeg toe aan wishlist"  onclick="myFotocamerasFunction()"/>
                     </p>
                     </div>
                 </form>
@@ -254,10 +254,10 @@ function myFotocamerasWishlist() {
     {
     <div class="products" style="float:left;">
         <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
-            <img class="card-img-top" src="@Url.Content(schoenen.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <a asp-controller="Schoen" asp-action="Details" asp-route-id="@schoenen.Id"><img class="card-img-top" src="@Url.Content(schoenen.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
             <div class="card-block">
-               <a asp-controller="Schoen" asp-action="Details" asp-route-id="@schoenen.Id"><h4 class="card-title" style="text-align:center; vertical-align:middle;">@schoenen.Naam</h4>    </a>             
-            </div>
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@schoenen.Naam</h4>            
+            </div>    </a> 
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
@@ -265,7 +265,7 @@ function myFotocamerasWishlist() {
                         @Html.TextBox("product", @schoenen.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Schoen", new {style = "display: none;"})
                         @Html.TextBox("prijs", @schoenen.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to cart" onclick="mySchoenenCart()"/>
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan cart" onclick="mySchoenenCart()"/>
                     </p>
                     </div>
                 </form>
@@ -276,7 +276,7 @@ function myFotocamerasWishlist() {
                         @Html.TextBox("product", @schoenen.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Schoen", new {style = "display: none;"})
                         @Html.TextBox("prijs", @schoenen.Prijs, new {style = "display: none;"})
-                        <input  class="btn btn-default" class="aantal" type="submit" value="Add to wishlist" onclick="mySchoenenWishlist()" />
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="mySchoenenWishlist()" />
                     </p>
                     </div>
                 </form>
@@ -293,4 +293,16 @@ function mySchoenenWishlist() {
 }
 </script>
 }
+
+
+    @if (this.User.IsInRole("Admin")) 
+    {
+        <h3>Dit zijn de snelfuncties voor de admin. U kunt deze ook vinden onder het kopje 'mijn account'.</h3>
+        <hr/>
+        <li style="float:left; clear:both;"><a asp-area="" asp-controller="Parser" asp-action="Index"><button><h5>Upload bestanden</h5></button></a></li>
+        <li style="float:left; clear:both; margin-top:8px;"><a asp-area="" asp-controller="User" asp-action="Index"><button><h5>Gebruikersmanagement</h5></button></a></li>
+        <li style="float:left; clear:both; margin-top:8px;"><a asp-area="" asp-controller="Home" asp-action="statistics"><button><h5>Statistieken</h5></button></a></li>
+        <li style="float:left; clear:both; margin: 8px 0px 8px 0px;"><a asp-area="" asp-controller="Home" asp-action="orders"><button><h5>Bestellingen</h5></button></a></li>
+    }
+    
 </div>

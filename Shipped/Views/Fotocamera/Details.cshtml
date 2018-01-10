@@ -76,7 +76,7 @@
             @Html.TextBox("product", @Model.Id, new {style = "display: none;"})
             @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
             @Html.TextBox("prijs", @Model.Prijs, new {style = "display: none;"})
-            <input class="aantal" type="submit" value="Add to shoppingcart" onclick="myCart()" />
+            <input class="aantal" type="submit" value="Voeg toe aan shoppingcart" onclick="myCart()" />
         </p>
     </form>
     <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
@@ -84,7 +84,7 @@
             @Html.TextBox("product", @Model.Id, new {style = "display: none;"})
             @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
             @Html.TextBox("prijs", @Model.Prijs, new {style = "display: none;"})
-            <input class="aantal" type="submit" value="Add to wishlist" onclick="myWishlist()"/>
+            <input class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myWishlist()"/>
         </p>
     </form>
                       <script>
@@ -101,5 +101,5 @@ function myWishlist() {
     {
     <button type="button"><a asp-action="Edit" asp-route-id="@Model.Id">Edit</a></button>
     }
-    <button type="button"><a asp-action="Index">Back to List</a></button>
+    <button type="button"><a asp-action="Index">Terug naar de lijst</a></button>
 </div>

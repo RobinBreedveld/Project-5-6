@@ -1,23 +1,26 @@
 @using Newtonsoft.Json;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>
 <h1>Combinatie diagram</h1>
-    <div style="width: 100%;height: auto;float:left;margin-bottom: 30px ;">
+    <div style="width: 100%;height: auto;float:left; clear:both; margin-bottom: 30px ;">
         <canvas id="chart3" width="800px" height="200px"></canvas>  
-    <p>De bovenstaande staafdiagram laat de voorraad en aantal verkochte producten per categorie zien. </p>
+    <p>Staafdiagram dat de voorraad en het aantal verkochte producten per categorie laat zien.</p>
     </div>
+
 <h1>Verkochte producten per categorie</h1>
-    <div style="width: 50%;height: auto;float:left;margin-bottom: 30px ;">
+    <div style="width: 50%;height: auto;float:left; margin-bottom: 30px ;">
         <canvas id="chart" width="500px" height="500px"></canvas>
-        <p>Een staafdiagram die het aantal verkochte producten per categorie weergeeft.</p>
+        <p>Staafdiagram dat het aantal verkochte producten per categorie weergeeft.</p>
     </div>
-    <div style="padding: 6%;width: 50%;height: auto;float:left;margin-bottom: 30px ;">
+
+    <div style="padding: 6%;width: 50%;height:auto; float:left;  margin-bottom: 30px ;">
         <canvas id="piechart" width="500px" height="500px"></canvas>
-        <p>Een cirkeldiagram die het aantal verkochte producten per categorie weergeeft.</p>  
+        <p>Cirkeldiagram dat het aantal verkochte producten per categorie weergeeft.</p>  
     </div> 
+
 <h1>Voorraad per categorie</h1>
-    <div style="width: 100%;height: auto;float:left;margin-bottom: 30px ;">
+    <div style="width: 100%;height: auto;float:left; clear:both; margin-bottom: 30px ;">
         <canvas id="chart2" width="800px" height="200px"></canvas>  
-        <p>Een staafdiagram die de voorraad per categorie weergeeft.</p> 
+        <p>Staafdiagram dat de voorraad per categorie weergeeft.</p> 
     </div>
 
 <script>
