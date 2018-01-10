@@ -278,6 +278,7 @@ namespace login2.Controllers
                     Model_naam = item.Model_naam,
                     Prijs = item.Prijs,
                     Aantal = item.Aantal,
+                    Status = "Besteld",
                     Order_nummer = _context.OrderHistory.Count().ToString()
 
                 };
@@ -429,6 +430,7 @@ namespace login2.Controllers
             var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
             var gotuserId = claim.Value;
             var OrderHistory = _context.OrderHistory.GroupBy(p => new { p.Order_nummer})
+                            .Where( p => p.First().User_Id == gotuserId)
                             .Select(g => g.First())
                             .ToList();
             return View(OrderHistory);
@@ -562,6 +564,93 @@ namespace login2.Controllers
 
 
             return View();
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult Orders()
+        {
+
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var gotuserId = claim.Value;
+            var OrderHistory = _context.OrderHistory.GroupBy(p => new { p.Order_nummer})
+                            .Select(g => g.First())
+                            .ToList();
+            return View(OrderHistory);
+        }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> OrderItem(string order_nummer)
+        {
+            if (order_nummer == null)
+            {
+                return View("Index");
+            }
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var gotuserId = claim.Value;
+            var ordersinid = _context.OrderHistory.Where(m => m.Order_nummer == order_nummer);
+            var drones = from s in _context.Drones select s;
+            var kabels = from s in _context.Kabels select s;
+            var fotocameras = from s in _context.Fotocameras select s;
+            var horloges = from s in _context.Horloges select s;
+            var schoenen = from s in _context.Schoenen select s;
+            var spelcomputers = from s in _context.Spelcomputers select s;
+
+            var totaal = from item in _context.OrderHistory
+                         where item.User_Id == gotuserId
+                         group item by item.User_Id into items
+                         select new
+                         {
+                             Totaal = items.Sum(x => x.Prijs * x.Aantal)
+                         };
+
+            foreach (var item in totaal)
+            {
+                ViewBag.Totaal = item.Totaal;
+            }
+            if (ordersinid == null)
+            {
+                return NotFound();
+            }
+            var wrapper = new Categorie();
+            wrapper.OrderHistory = ordersinid.ToList();
+            wrapper.Drones = drones.ToList();
+            wrapper.Kabels = kabels.ToList();
+            wrapper.Fotocameras = fotocameras.ToList();
+            wrapper.Horloges = horloges.ToList();
+            wrapper.Schoenen = schoenen.ToList();
+            wrapper.Spelcomputers = spelcomputers.ToList();
+            return View(wrapper);
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditOrder(int id, string old_status, string new_status, string model, string user_id)
+        {
+            // Query the database for the row to be updated.
+            var queryorder =
+                from order in _context.OrderHistory
+                where order.Id == id && order.Model_naam == model && order.User_Id == user_id
+                select order;
+
+            // Execute the query, and change the column values
+            // you want to change.
+            foreach (OrderHistory order in queryorder)
+            {
+                order.Status = new_status;
+                // Insert any additional changes to column values.
+            }
+
+            // Submit the changes to the database.
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                // Provide for exceptions.
+            }
+            return RedirectToAction("OrderItem", new { order_nummer = queryorder.First().Order_nummer });
         }
         private bool cartExists(int id)
         {
