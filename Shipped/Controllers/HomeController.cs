@@ -55,7 +55,7 @@ namespace login2.Controllers
 
 
         //public async Task<IActionResult> Index()
-        public IActionResult Index()
+        public IActionResult Index(string added)
         {
             //meestgekochtekabel         
             var meestgekochtekabel = _context.Kabels.Max(p => p.Aantal_gekocht);
@@ -89,6 +89,7 @@ namespace login2.Controllers
             wrapper.Horloges = gethorloge.ToList();
             wrapper.Schoenen = getschoen.ToList();
             wrapper.Spelcomputers = getspelcomputer.ToList();
+            ViewBag.AddToCart = added;
 
             return View(wrapper);
         }
@@ -182,8 +183,8 @@ namespace login2.Controllers
 
                 _context.Cart.Add(m);
                 _context.SaveChanges();
-
-                return RedirectToAction("Cart");
+                return Redirect(Request.Headers["Referer"].ToString());
+                // return RedirectToAction("Cart");
             }
             else
             {
@@ -192,7 +193,8 @@ namespace login2.Controllers
                     cart.Aantal = cart.Aantal + aantal;
                 }
                 _context.SaveChanges();
-                return RedirectToAction("Cart");
+                return Redirect(Request.Headers["Referer"].ToString());
+                // return RedirectToAction("Cart");
             }
         }
 
@@ -432,6 +434,7 @@ namespace login2.Controllers
             var OrderHistory = _context.OrderHistory.GroupBy(p => new { p.Order_nummer })
                             .Where(p => p.First().User_Id == gotuserId)
                             .Select(g => g.First())
+                            .OrderBy(v => v.Id)
                             .ToList();
             return View(OrderHistory);
         }
@@ -455,7 +458,7 @@ namespace login2.Controllers
             var spelcomputers = from s in _context.Spelcomputers select s;
 
             var totaal = from item in _context.OrderHistory
-                         where item.User_Id == gotuserId
+                         where item.User_Id == gotuserId &&  item.Order_nummer == order_nummer
                          group item by item.User_Id into items
                          select new
                          {
