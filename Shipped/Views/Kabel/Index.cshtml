@@ -55,7 +55,7 @@
 {
     <div id="filter" style="float:left; margin-right:5px;"> 
         <form  asp-controller="Kabel" asp-action="Index" method="GET">
-            <label for="type">Type</label><br></br>
+            <label for="type">Type</label><br>
             <select id="type" name="type" multiple="multiple">
                 <option  value = null selected="selected">
                     Alle Types
@@ -66,10 +66,10 @@
                 }                       
             </select>
 
-            <br></br>
-            <br></br>            
+            <br>
+            <br>            
 
-            <label for="merk">Merken</label><br></br>
+            <label for="merk">Merken</label><br>
             <select id="merk" name="merk" multiple="multiple">
                 <option  value = null selected="selected">
                     Alle Merken
@@ -80,10 +80,10 @@
                 }
             </select>
             
-            <br></br>
-            <br></br>
+            <br>
+            <br>
 
-            <label for="lengte">Lengte</label><br></br>
+            <label for="lengte">Lengte</label><br>
             <select id="lengte" name="lengte" multiple="multiple">
                 <option value = null  selected="selected">
                     Alle Lengtes
@@ -94,27 +94,27 @@
                 }
            </select>
 
-            <br></br>
-            <br></br>
+            <br>
+            <br>
            
             <label for="min">Prijs</label>
 
-            <br></br>
+            <br>
            
             <label for="min">Min prijs</label>
             <input id="min" type="number" name="min_prijs" style="width:55px;"/>
 
-            <br></br>
+            <br>
             
             <label for="max">Max prijs</label>
             <input id="max" type="number" name="max_prijs" style="width:55px;" />
 
-            <br></br>
-            <br></br>            
+            <br>
+            <br>            
 
             <input class="Filter" type="submit" value="Voeg filters toe"/>
         </form>
-        <br></br>
+        <br>
 <div>
     <form method="post" asp-controller="Kabel" asp-action="Index" >
             <input type="submit" value="Verwijder Filter" />

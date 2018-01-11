@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Home";
 }
-<br></br>
+<br>
 <div class="jumbotron jumbotron-fluid" style="background-color: skyblue;">
   <div class="container" >
     <h1 class="display-4">Shipped.nl <span class="badge badge-light"> We shipped it!</span></h1> 
@@ -12,6 +12,7 @@
 
 @if (!User.IsInRole("Admin")) {
 <h3>Populaire producten:</h3>
+<hr/>
 }
 </ul>
 <div class="products" style="float:left;width:100%;height: auto;">
