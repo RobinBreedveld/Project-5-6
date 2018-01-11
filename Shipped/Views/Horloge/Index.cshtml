@@ -25,12 +25,12 @@
                 <th>
                     @Html.ActionLink("Merk", "Index", new { sortOrder = ViewBag.MerkSortParm })
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Afbeelding)
-                </th>
 
             @if (this.User.IsInRole("Admin"))
                 {
+                <th>
+                    @Html.DisplayNameFor(model => model.Afbeelding)
+                </th>
                 <th>
                     @Html.ActionLink("Kleur", "Index", new { sortOrder = ViewBag.KleurSortParm })
                 </th>
