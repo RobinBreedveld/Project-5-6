@@ -55,13 +55,13 @@
                     <li><a style="color:white;" asp-area="" asp-controller="Home" asp-action="About">Over ons</a></li>
                     <li><a style="color:white;" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li style="margin-right: 13px;"> @await Html.PartialAsync("_LoginPartial")</li>
-                    
+                    <li style="color:rgba(0, 0, 0, 0)">empty</li>
                     @if(!User.IsInRole("Admin")) {
                     <li> <a asp-area="" asp-controller="Wishlist" asp-action="Index"><img class="img-responsive" src="/images/like.png" width= "30"></a></li>
 	                <li> <a asp-area="" asp-controller="Home" asp-action="Cart"><img class="img-responsive" src="/images/shoppingcart.png"  width= "30"></a></li>
                     }
 
-                    <li><form  class="fancySearch" asp-controller="Home" asp-action="Browse" method="GET" style="margin-left: 50px; margin-top:16px;">
+                    <li><form  class="fancySearch" asp-controller="Home" asp-action="Browse" method="GET" style="margin-left: 50px; margin-top:14px;">
                         <input type="text" name="searchString" placeholder="Search..">
                         </form> 
                     </li>  
