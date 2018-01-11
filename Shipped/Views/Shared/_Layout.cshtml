@@ -45,7 +45,7 @@
                     <a href="/Kabel">Kabels</a>
                     <a href="/Drone">Drones</a>
                     <a href="/Spelcomputer">Spelcomputers</a>
-                    <a href="Horloge">Horloges 3</a>
+                    <a href="Horloge">Horloges</a>
                     <a href="Fotocamera">Fotocamera's</a>
                     
                     </div>
@@ -61,9 +61,8 @@
 	                <li> <a asp-area="" asp-controller="Home" asp-action="Cart"><img class="img-responsive" src="/images/shoppingcart.png"  width= "30"></a></li>
                     }
 
-                    <li><form  asp-controller="Home" asp-action="Browse" method="GET" style="margin-left: 50px; margin-top:16px;">
-                     @Html.TextBox("SearchString")
-                        <input    type="submit" value="Search" />
+                    <li><form  class="fancySearch" asp-controller="Home" asp-action="Browse" method="GET" style="margin-left: 50px; margin-top:16px;">
+                        <input type="text" name="searchString" placeholder="Search..">
                         </form> 
                     </li>  
                     </ul>
