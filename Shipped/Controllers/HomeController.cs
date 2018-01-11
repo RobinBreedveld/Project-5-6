@@ -417,7 +417,7 @@ namespace login2.Controllers
                 _context.Cart.RemoveRange(getcart);
                 await _emailSender.SendEmailAsync($"{claimsIdentity.Name}", $"Purchase confirmation of order  ", $"Your order with order  has been confirmd and will be send! {product} <br/> Totaal prijs: {totaalprijs}");
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Cart", new { popup = "Succes" });
+                return RedirectToAction("Cart", new { popup = "Uw bestelling is met succes geplaatst! Bekijk uw bestelling in de ordergeschiedenis voor de huidige status." });
             }
             return RedirectToAction("Cart", new { popup = "De voorraad van " + naamproduct + "is " + voorraadproduct + ", koop een kleiner aantal van dit product" });
         }
@@ -577,6 +577,7 @@ namespace login2.Controllers
             var gotuserId = claim.Value;
             var OrderHistory = _context.OrderHistory.GroupBy(p => new { p.Order_nummer })
                             .Select(g => g.First())
+                            .OrderBy(v => v.Id)
                             .ToList();
             return View(OrderHistory);
         }

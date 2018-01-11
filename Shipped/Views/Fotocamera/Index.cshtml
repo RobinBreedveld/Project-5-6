@@ -51,9 +51,11 @@
         <tr>
         <th>
             <!-- filters         -->
+            @if(!this.User.IsInRole("Admin"))
+{
         <div id="filter" style="float:left; margin-right:5px;"> 
             <form  asp-controller="Fotocamera" asp-action="Index" method="GET">
-                    <label for="type">Type</label></br>
+                    <label for="type">Type</label><br></br>
                     <select id="type" name="type" multiple="multiple">
                         <option  value = null selected="selected">
                             Alle Types
@@ -64,10 +66,10 @@
                         }
                 </select>
                 
-                    </br>
-                    </br>
+                    <br></br>
+                    <br></br>
 
-                    <label for="merk">Merken</label></br>
+                    <label for="merk">Merken</label><br></br>
                     <select id="merk" name="merk" multiple="multiple">
                         <option  value = null selected="selected">
                             Alle Merken
@@ -78,10 +80,10 @@
                         }
                 </select>
                 
-                </br>
-                </br>
+                <br></br>
+                <br></br>
 
-                <label for="megapixels">Megapixels</label></br>
+                <label for="megapixels">Megapixels</label><br></br>
                     <select id="megapixels" name="megapixels" multiple="multiple">
                         <option value = null  selected="selected">
                             Alle Megapixels
@@ -92,27 +94,27 @@
                         }
                 </select>
 
-                </br>
-                </br>
+                <br></br>
+                <br></br>
                 
              <label for="min">Prijs</label>
 
-            </br>
+            <br></br>
            
             <label for="min">Min prijs</label>
             <input id="min" type="number" name="min_prijs" style="width:55px;"/>
 
-            </br>
+            <br></br>
             
             <label for="max">Max prijs</label>
             <input id="max" type="number" name="max_prijs" style="width:55px;" />
 
-            </br>
-            </br>            
+            <br></br>
+            <br></br>            
 
             <input class="Filter" type="submit" value="Voeg filters toe"/>
         </form>
-        </br>
+        <br></br>
         <div>
                 <form method="post" asp-controller="Fotocamera" asp-action="Index" >
                     <input type="submit" value="Verwijder Filter" />
@@ -120,7 +122,7 @@
 
         </div>    
     </div>
-
+} 
 <!-- productdata -->
 @foreach (var item in Model) 
 {

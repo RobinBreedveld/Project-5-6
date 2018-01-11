@@ -21,6 +21,7 @@
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
         <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <hr/>
         </div>
         }
       }
@@ -38,6 +39,7 @@
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
         <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <hr/>
         </div>
         }
       }
@@ -55,6 +57,7 @@
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
         <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <hr/>
         </div>
         }
       }
@@ -72,6 +75,7 @@
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
         <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <hr/>
         </div>
         }
       }
@@ -89,6 +93,7 @@
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
         <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <hr/>
         </div>
         }
       }
@@ -106,10 +111,12 @@
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
         <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <hr/>
         </div>
         }
       }
 }
+
 @if(Model.Wishlists.Count() != 0) {
   
 <ul class="nav nav-pills" role="tablist">

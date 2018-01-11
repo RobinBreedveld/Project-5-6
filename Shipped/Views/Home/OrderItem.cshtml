@@ -15,6 +15,7 @@
 </ul>
 
 <h1>Producten:</h1>
+<hr/>
 @foreach (var items in Model.OrderHistory) {     
      @foreach (var item in Model.Drones) {
         @if (item.Id == items.Product_Id && items.Model_naam == "Drone") {
@@ -28,8 +29,9 @@
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
                 @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
-                <input class="Status" type="submit" value="Status" />
+                <input class="Status" type="submit" value="Update status" />
             </form>
+            <hr/>
           }
      }
      @foreach (var item in Model.Kabels) {
@@ -44,8 +46,9 @@
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
                 @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
-                <input class="Status" type="submit" value="Status" />
+                <input class="Status" type="submit" value="Update status" />
             </form>
+            <hr/>
           }
      }
      @foreach (var item in Model.Fotocameras) {
@@ -60,8 +63,9 @@
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
                 @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
-                <input class="Status" type="submit" value="Status" />
+                <input class="Status" type="submit" value="Update status" />
             </form>
+            <hr/>
           }
      }
      @foreach (var item in Model.Horloges) {
@@ -76,8 +80,9 @@
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
                 @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
-                <input class="Status" type="submit" value="Status" />
+                <input class="Status" type="submit" value="Update status" />
             </form>
+            <hr/>
           }
      }
      @foreach (var item in Model.Spelcomputers) {
@@ -92,8 +97,9 @@
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
                 @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
-                <input class="Status" type="submit" value="Status" />
+                <input class="Status" type="submit" value="Update status" />
             </form>
+            <hr/>
           }
      }
      @foreach (var item in Model.Schoenen) {
@@ -108,8 +114,9 @@
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
                 @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
-                <input class="Status" type="submit" value="Status" />
+                <input class="Status" type="submit" value="Update status" />
             </form>
+            <hr/>
           }
      }
 }
