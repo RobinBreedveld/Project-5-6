@@ -260,6 +260,8 @@ namespace login2.Controllers
             var gotuserId = claim.Value;
             //Get the current users cart
             var getcart = _context.Cart.Where(m => m.User_Id == gotuserId);
+
+            var getordernummer = _context.OrderHistory.Where(m => m.User_Id == gotuserId);
             string product = "";
 
             int totaalprijs = 0;
@@ -320,7 +322,6 @@ namespace login2.Controllers
                             totaalprijs = totaalprijs + getdrone.First().Prijs;
                             empty = false;
                         }
-                        else
                         {
                             empty = true;
                         }
@@ -414,8 +415,10 @@ namespace login2.Controllers
             }
             if (empty == false)
             {
+                var ordernummer = _context.OrderHistory.Count().ToString();
+                
                 _context.Cart.RemoveRange(getcart);
-                await _emailSender.SendEmailAsync($"{claimsIdentity.Name}", $"Purchase confirmation of order  ", $"Your order with order  has been confirmd and will be send! {product} <br/> Totaal prijs: {totaalprijs}");
+                await _emailSender.SendEmailAsync($"{claimsIdentity.Name}", $"Aankoopbevestiging van order: {ordernummer}  ", $"Beste meneer/mevrouw, <br> <br>Uw order met order nummer {ordernummer}  is bevestigd en zal verzonden worden! <br> <br> Besteld product: {product} <br/> Totaal prijs: {totaalprijs} <br> <br> Met vriendelijke groet, <br> Shipped.nl");
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Cart", new { popup = "Uw bestelling is met succes geplaatst! Bekijk uw bestelling in de ordergeschiedenis voor de huidige status." });
             }
@@ -458,7 +461,7 @@ namespace login2.Controllers
             var spelcomputers = from s in _context.Spelcomputers select s;
 
             var totaal = from item in _context.OrderHistory
-                         where item.User_Id == gotuserId &&  item.Order_nummer == order_nummer
+                         where item.User_Id == gotuserId && item.Order_nummer == order_nummer
                          group item by item.User_Id into items
                          select new
                          {
@@ -647,6 +650,15 @@ namespace login2.Controllers
             // Submit the changes to the database.
             try
             {
+
+                var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+                var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+                var userName = claimsIdentity.Name;
+                var status = queryorder.First().Status;
+
+
+                await _emailSender.SendEmailAsync($"{userName}", "Order status", $"Beste meneer/mevrouw, <br/> Uw status is veranderd naar {status} <br> <br> Met vriendelijke groet, <br> <br> Shipped.nl");
+
                 _context.SaveChanges();
             }
             catch (Exception e)
