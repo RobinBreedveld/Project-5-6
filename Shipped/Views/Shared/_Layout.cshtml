@@ -37,7 +37,18 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li ><a style="color:white;" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a style="color:white;" asp-area="" asp-controller="Categorie" asp-action="Index">Categorieën</a></li>
+                    <!-- <li><a style="color:white;" asp-area="" asp-controller="Categorie" asp-action="Index">Categorieën</a></li> -->
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn">Categorieën</a>
+                    <div class="dropdown-content">
+                        <a href="/Schoen">Schoenen</a>
+                        <a href="/Kabel">Kabels</a>
+                        <a href="/Drone">Drones</a>
+                        <a href="/Spelcomputer">Spelcomputers</a>
+                        <a href="/Horloge">Horloges</a>
+                        <a href="/Fotocamera">Fotocamera's</a>
+                        
+                    </div>
                     <li><a style="color:white;" asp-area="" asp-controller="Home" asp-action="About">Over ons</a></li>
                     <li><a style="color:white;" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li style="margin-right: 13px;"> @await Html.PartialAsync("_LoginPartial")</li>
