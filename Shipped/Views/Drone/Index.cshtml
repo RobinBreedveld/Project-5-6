@@ -12,8 +12,8 @@
 }
 
 <table class="table">
-    <thead>
-        <tr>
+    <thead >
+        <tr >
                 <th>
                     @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParm })
                 </th>
@@ -45,15 +45,14 @@
             <th></th>
         </tr>
     </thead>
+</table>
 
-
-    <tbody>
-    <tr>
-    <th>
+    
+<div id="wrapper" style="width:100%;float:left;">
         <!-- filters -->
 @if(!this.User.IsInRole("Admin"))
 {
-    <div id="filter" style="float:left; height:100vh; width:15%"> 
+    <div id="filter" style="float:left; margin-right:5px;height:100%;"> 
         <form  asp-controller="Drone" asp-action="Index" method="GET">
             <label for="type">Type</label><br>
             <select id="type" name="type" multiple="multiple">
@@ -122,53 +121,54 @@
  
 
 <!-- productdata -->
-<div class="products" style="float:left; clear:right; width:85%;">
+<div id="products" style="width:100%">
+    
 @foreach (var item in Model) 
 {
+
     @if (!this.User.IsInRole("Admin"))
     {
-        <div class="card" style="float:left; border:1px solid #ddd; width:40%;"><a asp-action="Details" asp-route-id="@item.Id">
-            <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-            <div class="card-block">
-                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@item.Naam</h4>                
-                <br>
-                <br>
-                <br>
-            </div>
-
+        <div class="card" style="padding:1%;float:left;margin:40px;border:1px solid grey;border-radius: 5px ;">
+            <a asp-action="Details" asp-route-id="@item.Id">
+                <div class="card-block" >
+                    <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left;padding: 5px;";>
+                    <h4 class="card-title" style="text-align:center; vertical-align:middle;">@item.Naam</h4>            
+                </div>
+            </a>
+            
             <ul class="list-group list-group-flush">
                 <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Type: @item.Type</li></a>
                 <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Merk: @item.Merk</li></a>
                 <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Prijs: @item.Prijs</li></a>
-                </a>
-
+            </ul>
+            
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
-                    <p> @Html.TextBox("aantal", 1)
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
                         @Html.TextBox("product", @item.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Drone", new {style = "display: none;"})
                         @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
-                        <input class="aantal" type="submit" value="Voeg toe aan cart" onclick="myCart()" />
+                        <input class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan cart" onclick="myCart()" />
                     </p>
+                    </div>
                 </form>
 
                 <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
-                    <p> @Html.TextBox("aantal", 1)
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
                         @Html.TextBox("product", @item.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Drone", new {style = "display: none;"})
                         @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
-                        <input class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myWishlist()"/>
+                        <input class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myWishlist()"/>
                     </p>
+                    </div>
                 </form>
             </div>
         </div>
-    
     }
-}
-</div>
 
-@foreach (var item in Model) 
-{
+
         @if (this.User.IsInRole("Admin"))
         {
         <tr>
@@ -210,6 +210,7 @@
             </td>
         </tr>
         }
+    
          <script>
 function myCart() {
     alert("Toegevoegd aan uw shoppingcart")
@@ -218,9 +219,10 @@ function myWishlist() {
     alert("Toegevoegd aan uw wishlist")
 }
 </script>
-}
-    </th>
-    </tr>
-    </tbody>
+    }
+</div>
 
-</table>
+</div>
+    
+    
+    
