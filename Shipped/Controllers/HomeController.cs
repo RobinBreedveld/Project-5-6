@@ -322,6 +322,7 @@ namespace login2.Controllers
                             totaalprijs = totaalprijs + getdrone.First().Prijs;
                             empty = false;
                         }
+                        else
                         {
                             empty = true;
                         }
