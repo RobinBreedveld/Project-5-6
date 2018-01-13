@@ -15,6 +15,9 @@
     <thead>
         <tr>
                 <th>
+                    @Html.Label("Sorteer op:")
+                </th>
+                <th>
                     @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParm })
                 </th>
                 <th>
@@ -46,13 +49,12 @@
             <th></th>
         </tr>
     </thead>
+</table>
 
+<!-- filters -->
+<div id="wrapper" style="width:100%;float:left;">
 
-    <tbody>
-        <tr>
-        <th>
-            <!-- filters         -->
-            @if(!this.User.IsInRole("Admin"))
+@if(!this.User.IsInRole("Admin"))
 {
         <div id="filter" style="float:left; height:100vh; width:15%"> 
             <form  asp-controller="Fotocamera" asp-action="Index" method="GET">
@@ -103,12 +105,12 @@
             <br>
            
             <label for="min">Min prijs</label>
-            <input id="min" type="number" name="min_prijs" style="width:55px;"/>
+            <input id="min" type="number" name="min_prijs" style="width:55px;" min="0"/>
 
             <br>
             
             <label for="max">Max prijs</label>
-            <input id="max" type="number" name="max_prijs" style="width:55px;" />
+            <input id="max" type="number" name="max_prijs" style="width:55px;" min="0"/>
 
             <br>
             <br>            
@@ -124,55 +126,59 @@
         </div>    
     </div>
 }
+ 
 
 <!-- productdata -->
-<div class="products" style="float:left; clear:right; width:85%;">
+<div id="products" style="width:100%">
+    
 @foreach (var item in Model) 
 {
+
     @if (!this.User.IsInRole("Admin"))
     {
-        <div class="card" style="float:left; border:1px solid #ddd; width:40%;"><a asp-action="Details" asp-route-id="@item.Id">
-            <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
-            <div class="card-block">
-                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@item.Naam</h4>                
-                <br>
-                <br>
-                <br>
-            </div>
-
+        <div class="card" style="padding:1%;float:left;margin:40px;border:1px solid grey;border-radius: 5px ;">
+            <a asp-action="Details" asp-route-id="@item.Id">
+                <div class="card-block" >
+                    <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left;padding: 5px;";>
+                    <h4 class="card-title" style="text-align:center; vertical-align:middle;">@item.Naam</h4>            
+                </div>
+            </a>
+            
             <ul class="list-group list-group-flush">
                 <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Type: @item.Type</li></a>
                 <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Merk: @item.Merk</li></a>
                 <a asp-action="Details" asp-route-id="@item.Id"><li class="list-group-item">Prijs: @item.Prijs</li></a>
-                </a>
-
-            <div>       
+            </ul>
+            
+            <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
-                    <p> @Html.TextBox("aantal", 1)
+                    <div class="form-group">
+                    
+                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
                         @Html.TextBox("product", @item.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
                         @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
-                        <input class="aantal" type="submit" value="Voeg toe aan cart" onclick="myCart()"/>
+                        <input class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan cart" onclick="myCart()" />
                     </p>
+                    </div>
                 </form>
 
                 <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
-                    <p> @Html.TextBox("aantal", 1)
+                    <div class="form-group">
+                    <p>
+                        @Html.TextBox("aantal", 1,new { @class= "form-control"})
                         @Html.TextBox("product", @item.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
                         @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
-                        <input class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myWishlist()" />
+                        <input class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myWishlist()"/>
                     </p>
+                    </div>
                 </form>
             </div>
         </div>
     }
-}
-</div>
 
 
-@foreach (var item in Model) 
-{
     @if (this.User.IsInRole("Admin"))
     {
         <tr>
@@ -218,8 +224,7 @@ function myWishlist() {
     alert("Toegevoegd aan uw wishlist")
 }
 </script>
-}
-    </th>
-    </tr>
-    </tbody>
-</table>
+    }
+</div>
+
+</div>
