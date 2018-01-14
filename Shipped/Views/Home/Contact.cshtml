@@ -25,20 +25,20 @@
 
  <div class="contactForm">
     <form method="post" asp-controller="Home" asp-action="SendContactMail">
-
-
+    
+    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
     <label for="fname">Voor- en achternaam</label>
     <input type="text" id="name" name="name" placeholder="Bijvoorbeeld: Hans Linzen">
 
-    
+    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> 
     <label for="lname">E-Mail </label>
     <input type="text" id="Email" name="email" placeholder="Bijvoorbeeld: yourmail@something.com">
 
-
+    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
     <label for="lname">Onderwerp </label>
     <input type="text" id="Subject" name="subject" placeholder="Bijvoorbeeld: Pakket bezorgtijden">
 
-
+    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
     <label for="subject">Omschrijving</label>
     <textarea id="subject" name="description" placeholder="Typ hier uw vraag, probleem en of klacht in." style="height:200px"></textarea>
 
