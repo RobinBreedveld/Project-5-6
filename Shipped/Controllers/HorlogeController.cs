@@ -57,7 +57,7 @@ namespace login2.Controllers
                 horloges = from a in _context.Horloges.Include(d => d.Categorie) select a;
             }
             //Als alles niet leeg is
-            if (merk != null && min_prijs > 0 && max_prijs != null && kleur != null && type == null)
+            if (merk != null && min_prijs > 0 && max_prijs != null && kleur != null && type != null)
             {
                 horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
             }

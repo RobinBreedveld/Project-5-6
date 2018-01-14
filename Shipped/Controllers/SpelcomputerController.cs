@@ -59,7 +59,7 @@ namespace login2.Controllers
                 spelcomputers = from a in _context.Spelcomputers.Include(d => d.Categorie) select a;
             }
             //Als alles niet leeg is
-            if (merk != null && min_prijs > 0 && max_prijs != null && geheugen != null && type == null)
+            if (merk != null && min_prijs > 0 && max_prijs != null && geheugen != null && type != null)
             {
                 spelcomputers = _context.Spelcomputers.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Geheugen.ToString() == geheugen && p.Type == type);
             }

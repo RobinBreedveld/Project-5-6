@@ -58,7 +58,7 @@ namespace login2.Controllers
                 fotocameras = from a in _context.Fotocameras.Include(d => d.Categorie) select a;
             }
             //Als alles niet leeg is
-            if (merk != null && min_prijs > 0 && max_prijs != null && megapixels != null && type == null)
+            if (merk != null && min_prijs > 0 && max_prijs != null && megapixels != null && type != null)
             {
                 fotocameras = _context.Fotocameras.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Megapixels == megapixels && p.Type == type);
             }

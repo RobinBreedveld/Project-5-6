@@ -57,7 +57,7 @@ namespace login2.Controllers
                 kabels = from a in _context.Kabels.Include(d => d.Categorie) select a;
             }
             //Als alles niet leeg is
-            if (merk != null && min_prijs > 0 && max_prijs != null && lengte != null && type == null)
+            if (merk != null && min_prijs > 0 && max_prijs != null && lengte != null && type != null)
             {
                 kabels = _context.Kabels.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Lengte.ToString() == lengte && p.Type == type);
             }

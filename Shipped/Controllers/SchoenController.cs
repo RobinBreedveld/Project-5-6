@@ -59,7 +59,7 @@ namespace login2.Controllers
                 schoenen = from a in _context.Schoenen.Include(d => d.Categorie) select a;
             }
             //Als alles niet leeg is
-            if (merk != null && min_prijs > 0 && max_prijs != null && kleur != null && type == null)
+            if (merk != null && min_prijs > 0 && max_prijs != null && kleur != null && type != null)
             {
                 schoenen = _context.Schoenen.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
             }
