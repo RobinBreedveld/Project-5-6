@@ -155,7 +155,7 @@
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
                     
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@item.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @item.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Schoen", new {style = "display: none;"})
                         @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
@@ -167,7 +167,7 @@
                 <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
                     <div class="form-group">
                     <p>
-                        @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                        <input type="number" min="0" max=@item.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @item.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Schoen", new {style = "display: none;"})
                         @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})

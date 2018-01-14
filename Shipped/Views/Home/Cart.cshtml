@@ -120,10 +120,11 @@
         }
       }
 }
+ 
 @if(Model.Carts.Count() != 0) {
 <h1>Uw totale prijs: @ViewBag.Totaal</h1>
 <ul class="nav nav-pills" role="tablist">
-  <li role="presentation" class="active"><a href="/Home/Buy">Afrekenen <span aria-hidden="true">&rarr;</span</a></li>
+  <li role="presentation" class="active"><a href="/Home/Buy">Afrekenen <span aria-hidden="true">&rarr;</span></a></li>
 </ul>
 }
 else {

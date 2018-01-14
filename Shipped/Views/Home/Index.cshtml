@@ -29,7 +29,7 @@
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1, new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@kabels.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @kabels.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Kabel", new {style = "display: none;"})
                         @Html.TextBox("prijs", @kabels.Prijs, new {style = "display: none;"})
@@ -38,7 +38,7 @@
                     </div>
                 </form>
                 <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@kabels.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @kabels.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Kabel", new {style = "display: none;"})
                         @Html.TextBox("prijs", @kabels.Prijs, new {style = "display: none;"})
@@ -74,7 +74,7 @@ function myKabelsWishlist() {
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@drones.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @drones.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Drone", new {style = "display: none;"})
                         @Html.TextBox("prijs", @drones.Prijs, new {style = "display: none;"})
@@ -85,7 +85,7 @@ function myKabelsWishlist() {
 
                 <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@drones.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @drones.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Drone", new {style = "display: none;"})
                         @Html.TextBox("prijs", @drones.Prijs, new {style = "display: none;"})
@@ -121,7 +121,7 @@ function myDronesWishlist() {
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@spelcomputers.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @spelcomputers.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Spelcomputer", new {style = "display: none;"})
                         @Html.TextBox("prijs", @spelcomputers.Prijs, new {style = "display: none;"})
@@ -132,7 +132,7 @@ function myDronesWishlist() {
 
                 <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@spelcomputers.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @spelcomputers.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Spelcomputer", new {style = "display: none;"})
                         @Html.TextBox("prijs", @spelcomputers.Prijs, new {style = "display: none;"})
@@ -168,7 +168,7 @@ function mySpelcomputersWishlist() {
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@horloges.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @horloges.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Horloge", new {style = "display: none;"})
                         @Html.TextBox("prijs", @horloges.Prijs, new {style = "display: none;"})
@@ -179,7 +179,7 @@ function mySpelcomputersWishlist() {
 
                 <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@horloges.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @horloges.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Horloge", new {style = "display: none;"})
                         @Html.TextBox("prijs", @horloges.Prijs, new {style = "display: none;"})
@@ -215,7 +215,7 @@ function myHorlogesWishlist() {
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@fotocameras.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @fotocameras.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
                         @Html.TextBox("prijs", @fotocameras.Prijs, new {style = "display: none;"})
@@ -226,7 +226,7 @@ function myHorlogesWishlist() {
 
                 <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@fotocameras.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @fotocameras.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
                         @Html.TextBox("prijs", @fotocameras.Prijs, new {style = "display: none;"})
@@ -262,7 +262,7 @@ function myFotocamerasWishlist() {
             <div>
                 <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@schoenen.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @schoenen.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Schoen", new {style = "display: none;"})
                         @Html.TextBox("prijs", @schoenen.Prijs, new {style = "display: none;"})
@@ -273,7 +273,7 @@ function myFotocamerasWishlist() {
 
                 <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
                     <div class="form-group">
-                    <p> @Html.TextBox("aantal", 1,new { @class= "form-control"})
+                    <p> <input type="number" min="0" max=@schoenen.Aantal name="aantal" class="form-control" value="1">
                         @Html.TextBox("product", @schoenen.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Schoen", new {style = "display: none;"})
                         @Html.TextBox("prijs", @schoenen.Prijs, new {style = "display: none;"})
