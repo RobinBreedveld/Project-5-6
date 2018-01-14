@@ -168,14 +168,50 @@ namespace login2.Controllers
                         Product_Id = item.Product_Id
                     };
                     _context.Cart.Add(cart);
-                    _context.Wishlist.RemoveRange(getwishlist);
+                    // _context.Wishlist.RemoveRange(getwishlist);
                     await _context.SaveChangesAsync();
                 }
                 else
                 {
 
                     check.First().Aantal = check.First().Aantal + item.Aantal;
-                    _context.Wishlist.RemoveRange(getwishlist);
+                    // _context.Wishlist.RemoveRange(getwishlist);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            return RedirectToAction("Cart", "Home");
+        }
+        public async Task<IActionResult> AddSingleToCart(int product, string model)
+        {
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var gotuserId = claim.Value;
+            //Get the current users cart
+            var getwishlist = _context.Wishlist.Where(m => m.User_Id == gotuserId && m.Model_naam == model && m.Id == product);
+            //Loop all items from the cart in the OrderHistory model
+
+            foreach (var item in getwishlist)
+            {
+                var check = from s in _context.Cart where s.Product_Id == item.Product_Id && s.Model_naam == item.Model_naam && s.User_Id == gotuserId select s;
+                if (check.Count() == 0)
+                {
+                    Cart cart = new Cart
+                    {
+                        User_Id = item.User_Id,
+                        Aantal = item.Aantal,
+                        Model_naam = item.Model_naam,
+                        Prijs = item.Prijs,
+                        Product_Id = item.Product_Id
+                    };
+                    _context.Cart.Add(cart);
+                    // _context.Wishlist.RemoveRange(getwishlist);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+
+                    check.First().Aantal = check.First().Aantal + item.Aantal;
+                    // _context.Wishlist.RemoveRange(getwishlist);
                     await _context.SaveChangesAsync();
                 }
             }

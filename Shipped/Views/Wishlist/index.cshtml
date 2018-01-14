@@ -20,8 +20,12 @@
                 <input class="Aantal" type="submit" value="Update aantal" />
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
-        <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
-        <hr/>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
+        <hr>
         </div>
         }
       }
@@ -38,7 +42,11 @@
                 <input class="Aantal" type="submit" value="Update aantal" />
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
-        <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
         <hr/>
         </div>
         }
@@ -56,7 +64,11 @@
                 <input class="Aantal" type="submit" value="Update aantal" />
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
-        <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
         <hr/>
         </div>
         }
@@ -74,7 +86,11 @@
                 <input class="Aantal" type="submit" value="Update aantal" />
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
-        <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
         <hr/>
         </div>
         }
@@ -92,7 +108,11 @@
                 <input class="Aantal" type="submit" value="Update aantal" />
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
-        <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
         <hr/>
         </div>
         }
@@ -110,7 +130,11 @@
                 <input class="Aantal" type="submit" value="Update aantal" />
         </form>
         <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
-        <button type="button" style="margin:4px;"><a href="/Wishlist/AddToCart">Voeg toe aan winkelwagen</a></button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
         <hr/>
         </div>
         }
