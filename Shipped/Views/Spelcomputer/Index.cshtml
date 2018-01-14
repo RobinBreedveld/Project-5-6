@@ -46,6 +46,48 @@
                 }
             <th></th>
         </tr>
+        @foreach(var item in Model) {
+            @if (this.User.IsInRole("Admin"))
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prijs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Merk)
+            </td>
+            <td>
+                 <img class="test" src="@Url.Content(@item.Afbeelding)" width="200px" height= "100px" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Geheugen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aantal_gekocht)
+            </td>
+
+            <td>
+                <button type="button"><a asp-action="Details" asp-route-id="@item.Id">Item Page</a></button> 
+                <br>
+                <br>
+                <button type="button"><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></button> 
+                <br>
+                <br>             
+                <button type="button"><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
+            
+            </td>
+        </tr>
+        }
+        }
     </thead>
 </table>
 
@@ -177,47 +219,6 @@
         </div>
     }
 
-
-        @if (this.User.IsInRole("Admin"))
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Naam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prijs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Merk)
-            </td>
-            <td>
-                 <img class="test" src="@Url.Content(@item.Afbeelding)" width="200px" height= "100px" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Geheugen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aantal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aantal_gekocht)
-            </td>
-
-            <td>
-                <button type="button"><a asp-action="Details" asp-route-id="@item.Id">Item Page</a></button> 
-                <br>
-                <br>
-                <button type="button"><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></button> 
-                <br>
-                <br>             
-                <button type="button"><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></button>
-            
-            </td>
-        </tr>
-        }
                <script>
 function myCart() {
     alert("Toegevoegd aan uw shoppingcart")
