@@ -20,7 +20,7 @@ using login2.Services;
 
 namespace login2.Controllers
 {
-    //[Authorize(Roles="Admin")]
+    [Authorize(Roles = "Admin")]
     public class ParserController : Controller
     {
 
@@ -104,24 +104,32 @@ namespace login2.Controllers
                             await formFile.CopyToAsync(stream);
                         }
                         var sr = new StreamReader(formFile.OpenReadStream());
-                        while (!sr.EndOfStream)
+                        try
                         {
-                            var line = sr.ReadLine();
-                            var data = line.Split(new[] { ',' });
-                            var kabel = new Kabel()
+                            while (!sr.EndOfStream)
                             {
+                                var line = sr.ReadLine();
+                                var data = line.Split(new[] { ',' });
+                                var kabel = new Kabel()
+                                {
 
-                                Type = data[0],
-                                Naam = data[1],
-                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
-                                Merk = data[3],
-                                Lengte = int.Parse(data[4]),
-                                Aantal = int.Parse(data[5]),
-                                Afbeelding = data[6],
-                                Aantal_gekocht = int.Parse(data[7]),
-                                CategorieId = 1
-                            };
-                            _context.Kabels.Add(kabel);
+                                    Type = data[0],
+                                    Naam = data[1],
+                                    Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                    Merk = data[3],
+                                    Lengte = int.Parse(data[4]),
+                                    Aantal = int.Parse(data[5]),
+                                    Afbeelding = data[6],
+                                    Aantal_gekocht = int.Parse(data[7]),
+                                    CategorieId = 1
+                                };
+                                _context.Kabels.Add(kabel);
+                            }
+                        }
+                        catch (FormatException ex)
+                        {
+                            System.Console.WriteLine(ex.Message);
+                            System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
                         }
                         _context.SaveChanges();
                     }
@@ -144,7 +152,6 @@ namespace login2.Controllers
 
                 case "PostDrone":
                     await PostDrone(files);
-                    ViewBag.Message = string.Format("U heeft {0} bestanden succesvol geüpload", files.Count().ToString());
                     break;
 
                 case "PostFotocamera":
@@ -199,25 +206,36 @@ namespace login2.Controllers
                             await formFile.CopyToAsync(stream);
                         }
                         var sr = new StreamReader(formFile.OpenReadStream());
-                        while (!sr.EndOfStream)
+                        try
                         {
-                            var line = sr.ReadLine();
-                            var data = line.Split(new[] { ',' });
-                            var drone = new Drone()
-                            {
-                                Type = data[0],
-                                Naam = data[1],
-                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
-                                Merk = data[3],
-                                Kleur = data[4],
-                                Aantal = int.Parse(data[5]),
-                                Afbeelding = data[6],
-                                Aantal_gekocht = int.Parse(data[7]),
-                                CategorieId = 1
-                            };
 
-                            _context.Drones.Add(drone);
+
+                            while (!sr.EndOfStream)
+                            {
+                                var line = sr.ReadLine();
+                                var data = line.Split(new[] { ',' });
+                                var drone = new Drone()
+                                {
+                                    Type = data[0],
+                                    Naam = data[1],
+                                    Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                    Merk = data[3],
+                                    Kleur = data[4],
+                                    Aantal = int.Parse(data[5]),
+                                    Afbeelding = data[6],
+                                    Aantal_gekocht = int.Parse(data[7]),
+                                    CategorieId = 1
+                                };
+
+                                _context.Drones.Add(drone);
+                            }
                         }
+                        catch (FormatException ex)
+                        {
+                            System.Console.WriteLine(ex.Message);
+                            System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
+                        }
+
 
                         _context.SaveChanges();
                     }
@@ -251,25 +269,37 @@ namespace login2.Controllers
                             await formFile.CopyToAsync(stream);
                         }
                         var sr = new StreamReader(formFile.OpenReadStream());
-                        while (!sr.EndOfStream)
+                        try
                         {
-                            var line = sr.ReadLine();
-                            var data = line.Split(new[] { ',' });
-                            var spelcomputer = new Spelcomputer()
-                            {
-                                Type = data[0],
-                                Naam = data[1],
-                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
-                                Merk = data[3],
-                                Geheugen = int.Parse(data[4]),
-                                Aantal = int.Parse(data[5]),
-                                Afbeelding = data[6],
-                                Aantal_gekocht = int.Parse(data[7]),
-                                CategorieId = 1
-                            };
 
-                            _context.Spelcomputers.Add(spelcomputer);
+
+                            while (!sr.EndOfStream)
+                            {
+                                var line = sr.ReadLine();
+                                var data = line.Split(new[] { ',' });
+                                var spelcomputer = new Spelcomputer()
+                                {
+                                    Type = data[0],
+                                    Naam = data[1],
+                                    Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                    Merk = data[3],
+                                    Geheugen = int.Parse(data[4]),
+                                    Aantal = int.Parse(data[5]),
+                                    Afbeelding = data[6],
+                                    Aantal_gekocht = int.Parse(data[7]),
+                                    CategorieId = 1
+                                };
+
+                                _context.Spelcomputers.Add(spelcomputer);
+                            }
                         }
+
+                        catch (FormatException ex)
+                        {
+                            System.Console.WriteLine(ex.Message);
+                            System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
+                        }
+
 
                         _context.SaveChanges();
                     }
@@ -301,25 +331,36 @@ namespace login2.Controllers
                             await formFile.CopyToAsync(stream);
                         }
                         var sr = new StreamReader(formFile.OpenReadStream());
-                        while (!sr.EndOfStream)
+                        try
                         {
-                            var line = sr.ReadLine();
-                            var data = line.Split(new[] { ',' });
-                            var horloge = new Horloge()
+
+
+                            while (!sr.EndOfStream)
                             {
+                                var line = sr.ReadLine();
+                                var data = line.Split(new[] { ',' });
+                                var horloge = new Horloge()
+                                {
 
-                                Type = data[0],
-                                Naam = data[1],
-                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
-                                Merk = data[3],
-                                Kleur = data[4],
-                                Aantal = int.Parse(data[5]),
-                                Afbeelding = data[6],
-                                Aantal_gekocht = int.Parse(data[7]),
-                                CategorieId = 1
-                            };
+                                    Type = data[0],
+                                    Naam = data[1],
+                                    Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                    Merk = data[3],
+                                    Kleur = data[4],
+                                    Aantal = int.Parse(data[5]),
+                                    Afbeelding = data[6],
+                                    Aantal_gekocht = int.Parse(data[7]),
+                                    CategorieId = 1
+                                };
 
-                            _context.Horloges.Add(horloge);
+                                _context.Horloges.Add(horloge);
+                            }
+                        }
+
+                        catch (FormatException ex)
+                        {
+                            System.Console.WriteLine(ex.Message);
+                            System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
                         }
 
                         _context.SaveChanges();
@@ -352,24 +393,35 @@ namespace login2.Controllers
                             await formFile.CopyToAsync(stream);
                         }
                         var sr = new StreamReader(formFile.OpenReadStream());
-                        while (!sr.EndOfStream)
+                        try
                         {
-                            var line = sr.ReadLine();
-                            var data = line.Split(new[] { ',' });
-                            var fotocamera = new Fotocamera()
-                            {
-                                Type = data[0],
-                                Naam = data[1],
-                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
-                                Merk = data[3],
-                                Megapixels = data[4],
-                                Aantal = int.Parse(data[5]),
-                                Afbeelding = data[6],
-                                Aantal_gekocht = int.Parse(data[7]),
-                                CategorieId = 1
-                            };
 
-                            _context.Fotocameras.Add(fotocamera);
+
+                            while (!sr.EndOfStream)
+                            {
+                                var line = sr.ReadLine();
+                                var data = line.Split(new[] { ',' });
+                                var fotocamera = new Fotocamera()
+                                {
+                                    Type = data[0],
+                                    Naam = data[1],
+                                    Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                    Merk = data[3],
+                                    Megapixels = data[4],
+                                    Aantal = int.Parse(data[5]),
+                                    Afbeelding = data[6],
+                                    Aantal_gekocht = int.Parse(data[7]),
+                                    CategorieId = 1
+                                };
+
+                                _context.Fotocameras.Add(fotocamera);
+                            }
+                        }
+
+                        catch (FormatException ex)
+                        {
+                            System.Console.WriteLine(ex.Message);
+                            System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
                         }
 
                         _context.SaveChanges();
@@ -406,25 +458,36 @@ namespace login2.Controllers
                             await formFile.CopyToAsync(stream);
                         }
                         var sr = new StreamReader(formFile.OpenReadStream());
-                        while (!sr.EndOfStream)
+                        try
                         {
-                            var line = sr.ReadLine();
-                            var data = line.Split(new[] { ',' });
-                            var schoen = new Schoen()
-                            {
-                                Type = data[0],
-                                Naam = data[1],
-                                Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
-                                Merk = data[3],
-                                Kleur = data[4],
-                                Aantal = int.Parse(data[5]),
-                                Afbeelding = data[6],
-                                Aantal_gekocht = int.Parse(data[7]),
-                                Maat = int.Parse(data[8]),
-                                CategorieId = 1
-                            };
 
-                            _context.Schoenen.Add(schoen);
+
+                            while (!sr.EndOfStream)
+                            {
+                                var line = sr.ReadLine();
+                                var data = line.Split(new[] { ',' });
+                                var schoen = new Schoen()
+                                {
+                                    Type = data[0],
+                                    Naam = data[1],
+                                    Prijs = /* Veranderen naar Float?*/int.Parse(data[2]),
+                                    Merk = data[3],
+                                    Kleur = data[4],
+                                    Aantal = int.Parse(data[5]),
+                                    Afbeelding = data[6],
+                                    Aantal_gekocht = int.Parse(data[7]),
+                                    Maat = int.Parse(data[8]),
+                                    CategorieId = 1
+                                };
+
+                                _context.Schoenen.Add(schoen);
+                            }
+                        }
+
+                        catch (FormatException ex)
+                        {
+                            System.Console.WriteLine(ex.Message);
+                            System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
                         }
 
                         _context.SaveChanges();
