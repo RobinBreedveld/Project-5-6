@@ -417,7 +417,7 @@ namespace login2.Controllers
             if (empty == false)
             {
                 var ordernummer = _context.OrderHistory.Count().ToString();
-                
+
                 _context.Cart.RemoveRange(getcart);
                 await _emailSender.SendEmailAsync($"{claimsIdentity.Name}", $"Aankoopbevestiging van order: {ordernummer}  ", $"Beste meneer/mevrouw, <br> <br>Uw order met order nummer {ordernummer}  is bevestigd en zal verzonden worden! <br> <br> Besteld product: {product} <br/> Totaal prijs: {totaalprijs} <br> <br> Met vriendelijke groet, <br> Shipped.nl");
                 await _context.SaveChangesAsync();
@@ -687,13 +687,19 @@ namespace login2.Controllers
 
             return View();
         }
+        public IActionResult ContactSucces()
+        {
+            ViewData["Message"] = "Your contact page.";
+
+            return View();
+        }
 
         public IActionResult SendContactMail(string name, string email, string subject, string description)
         {
-
+            
             _emailSender.SendEmailAsync("project3informatica@gmail.com", $"{subject}", $"Naam: {name} <br/> Email: {email} <br/> Onderwerp: {subject} <br/> Omschrijving: <br/> {description} ");
 
-            return RedirectToAction("Contact");
+            return RedirectToAction("ContactSucces");
         }
     }
 }
