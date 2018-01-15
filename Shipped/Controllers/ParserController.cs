@@ -43,27 +43,31 @@ namespace login2.Controllers
 
             return View();
         }
-        public IActionResult Kabel()
+        public IActionResult Error()
         {
+            List<string> li = new List<string>() { "PostKabel", "PostDrone", "PostSpelcomputer", "PostHorloge", "PostFotocamera", "PostSchoen" };
 
+            ViewBag.listofitems = li.ToList();
             return View();
         }
 
-        public IActionResult Drone()
+        public IActionResult Succes()
         {
+            List<string> li = new List<string>() { "PostKabel", "PostDrone", "PostSpelcomputer", "PostHorloge", "PostFotocamera", "PostSchoen" };
+
+            ViewBag.listofitems = li.ToList();
+
 
             return View();
         }
 
         public IActionResult Spelcomputer()
         {
-
             return View();
         }
 
         public IActionResult Horloge()
         {
-
             return View();
         }
 
@@ -75,7 +79,6 @@ namespace login2.Controllers
 
         public IActionResult Schoen()
         {
-
             return View();
         }
 
@@ -89,6 +92,7 @@ namespace login2.Controllers
         public async Task<IActionResult> PostKabel(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
+            string error = "";
 
             // full path to file in temp location
             var filePath = Path.GetTempFileName();
@@ -130,57 +134,101 @@ namespace login2.Controllers
                         {
                             System.Console.WriteLine(ex.Message);
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
+                            error = "ERROR";
                         }
                         _context.SaveChanges();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Error");
                     }
                 }
             }
 
+            if (error == "ERROR")
+            {
+
+                return RedirectToAction("Error", "Parser");
+
+
+            }
+
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
-            return Ok(new { count = files.Count, size, filePath });
+            return RedirectToAction("Succes");
+
         }
 
 
 
         [HttpPost("")]
-        public async Task<IActionResult> PostSwitch(List<IFormFile> files, string typeOfUploading)
+        public Task<IActionResult> PostSwitch(List<IFormFile> files, string typeOfUploading)
         {
 
-            switch (typeOfUploading)
-            {
+            // switch (typeOfUploading)
+            // {
 
-                case "PostDrone":
-                    await PostDrone(files);
-                    break;
+            //     case "PostDrone":
+            //         await PostDrone(files);
+            //         break;
 
-                case "PostFotocamera":
-                    await PostFotocamera(files);
-                    break;
+            //     case "PostFotocamera":
+            //         await PostFotocamera(files);
+            //         break;
 
-                case "PostHorloge":
-                    await PostHorloge(files);
-                    break;
+            //     case "PostHorloge":
+            //         await PostHorloge(files);
+            //         break;
 
-                case "PostKabel":
-                    await PostKabel(files);
-                    break;
-
-                case "PostSchoen":
-                    await PostSchoen(files);
-                    break;
-
-                case "PostSpelcomputer":
-                    await PostSpelcomputer(files);
-                    break;
+            //     case "PostKabel":
+            //         await PostKabel(files);
+            //         break;
 
 
-            }
+            //     case "PostSchoen":
+            //         await PostSchoen(files);
+            //         break;
+
+            //     case "PostSpelcomputer":
+            //         await PostSpelcomputer(files);
+            //         break;
+
+
+            // }
 
 
             //return Ok(new { count = files.Count });
+            if (typeOfUploading == "PostKabel")
+            {
+                return PostKabel(files);
+            }
 
-            return RedirectToAction("Index");
+
+            if (typeOfUploading == "PostDrone")
+            {
+                return PostDrone(files);
+            }
+
+            if (typeOfUploading == "PostFotocamera")
+            {
+                return PostFotocamera(files);
+            }
+            if (typeOfUploading == "PostHorloge")
+            {
+                return PostHorloge(files);
+            }
+            if (typeOfUploading == "PostSchoen")
+            {
+                return PostSchoen(files);
+            }
+            if (typeOfUploading == "PostSpelcomputer")
+            {
+                return PostSpelcomputer(files);
+            }
+
+
+
+            return ViewBag();
         }
 
 
@@ -188,6 +236,7 @@ namespace login2.Controllers
         [HttpPost("PostDrone")]
         public async Task<IActionResult> PostDrone(List<IFormFile> files)
         {
+            string error = "";
 
 
             long size = files.Sum(f => f.Length);
@@ -234,18 +283,26 @@ namespace login2.Controllers
                         {
                             System.Console.WriteLine(ex.Message);
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
+                            error = "ERROR";
                         }
 
-
                         _context.SaveChanges();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Error");
                     }
                 }
             }
 
-
+            if (error == "ERROR")
+            {
+                return RedirectToAction("Error");
+            }
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
-            return Ok(new { count = files.Count });
+            return RedirectToAction("Succes");
+
         }
 
 
@@ -254,6 +311,7 @@ namespace login2.Controllers
         public async Task<IActionResult> PostSpelcomputer(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
+            string error = "";
 
             // full path to file in temp location
             var filePath = Path.GetTempFileName();
@@ -298,17 +356,26 @@ namespace login2.Controllers
                         {
                             System.Console.WriteLine(ex.Message);
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
+                            error = "ERROR";
                         }
 
 
                         _context.SaveChanges();
                     }
+                    else
+                    {
+                        return RedirectToAction("Error");
+                    }
                 }
             }
 
+            if (error == "ERROR")
+            {
+                return RedirectToAction("Error");
+            }
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
-            return Ok(new { count = files.Count, size, filePath });
+            return RedirectToAction("Succes");
         }
 
 
@@ -316,6 +383,7 @@ namespace login2.Controllers
         public async Task<IActionResult> PostHorloge(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
+            string error = "";
 
             // full path to file in temp location
             var filePath = Path.GetTempFileName();
@@ -361,16 +429,25 @@ namespace login2.Controllers
                         {
                             System.Console.WriteLine(ex.Message);
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
+                            error = "ERROR";
                         }
 
                         _context.SaveChanges();
                     }
+                    else
+                    {
+                        return RedirectToAction("Error");
+                    }
                 }
             }
 
+            if (error == "ERROR")
+            {
+                return RedirectToAction("Error");
+            }
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
-            return Ok(new { count = files.Count, size, filePath });
+            return RedirectToAction("Succes");
         }
 
 
@@ -378,6 +455,7 @@ namespace login2.Controllers
         public async Task<IActionResult> PostFotocamera(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
+            string error = "";
 
             // full path to file in temp location
             var filePath = Path.GetTempFileName();
@@ -422,16 +500,25 @@ namespace login2.Controllers
                         {
                             System.Console.WriteLine(ex.Message);
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
+                            error = "ERROR";
                         }
 
                         _context.SaveChanges();
                     }
+                    else
+                    {
+                        return RedirectToAction("Error");
+                    }
                 }
             }
 
+            if (error == "ERROR")
+            {
+                return RedirectToAction("Error");
+            }
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
-            return Ok(new { count = files.Count, size, filePath });
+            return RedirectToAction("Succes");
         }
 
 
@@ -443,6 +530,7 @@ namespace login2.Controllers
         public async Task<IActionResult> PostSchoen(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
+            string error = "";
 
             // full path to file in temp location
             var filePath = Path.GetTempFileName();
@@ -482,28 +570,32 @@ namespace login2.Controllers
 
                                 _context.Schoenen.Add(schoen);
                             }
-                        }
+                        }   
 
                         catch (FormatException ex)
                         {
                             System.Console.WriteLine(ex.Message);
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
+                            error = "ERROR";
                         }
 
                         _context.SaveChanges();
                     }
+                    else
+                    {
+                        return RedirectToAction("Error");
+                    }
                 }
             }
 
+            if (error == "ERROR")
+            {
+                return RedirectToAction("Error");
+            }
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
-            return Ok(new { count = files.Count, size, filePath });
+            return RedirectToAction("Succes");
         }
-
-
-
-
-
 
 
     }
