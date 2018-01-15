@@ -72,7 +72,7 @@
     {
     <!-- @Html.ActionLink("Add to shoppingcart","AddToShoppingCart","Home", new { product =  @Model.Id, model = "Drone"}) -->
     <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
-        <p> <input type="number" min="0" max=@Model.Aantal name="aantal" class="form-control" value="1" style="width:75px;">
+        <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
             @Html.TextBox("product", @Model.Id, new {style = "display: none;"})
             @Html.TextBox("model", "Drone", new {style = "display: none;"})
             @Html.TextBox("prijs", @Model.Prijs, new {style = "display: none;"})
@@ -80,7 +80,7 @@
         </p>
     </form>
     <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
-        <p> <input type="number" min="0" max=@Model.Aantal name="aantal" class="form-control" value="1" style="width:75px;">
+        <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
             @Html.TextBox("product", @Model.Id, new {style = "display: none;"})
             @Html.TextBox("model", "Drone", new {style = "display: none;"})
             @Html.TextBox("prijs", @Model.Prijs, new {style = "display: none;"})
