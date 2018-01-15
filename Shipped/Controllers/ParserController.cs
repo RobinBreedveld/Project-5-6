@@ -37,10 +37,6 @@ namespace login2.Controllers
 
             ViewBag.listofitems = li.ToList();
 
-
-
-
-
             return View();
         }
         public IActionResult Error()
@@ -61,26 +57,7 @@ namespace login2.Controllers
             return View();
         }
 
-        public IActionResult Spelcomputer()
-        {
-            return View();
-        }
 
-        public IActionResult Horloge()
-        {
-            return View();
-        }
-
-        public IActionResult Fotocamera()
-        {
-
-            return View();
-        }
-
-        public IActionResult Schoen()
-        {
-            return View();
-        }
 
 
 
