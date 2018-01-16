@@ -421,7 +421,7 @@ namespace login2.Controllers
                 _context.Cart.RemoveRange(getcart);
                 await _emailSender.SendEmailAsync($"{claimsIdentity.Name}", $"Aankoopbevestiging van order: {ordernummer}  ", $"Beste meneer/mevrouw, <br> <br>Uw order met order nummer {ordernummer}  is bevestigd en zal verzonden worden! <br> <br> Besteld product: {product} <br/> Totaal prijs: {totaalprijs} <br> <br> Met vriendelijke groet, <br> Shipped.nl");
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Cart", new { popup = "Uw bestelling is met succes geplaatst! Bekijk uw bestelling in de ordergeschiedenis voor de huidige status." });
+                return RedirectToAction("Cart", new { popup = "Uw bestelling is met succes geplaatst! Bekijk uw mail of de ordergeschiedenis voor meer informatie!" });
             }
             return RedirectToAction("Cart", new { popup = "De voorraad van " + naamproduct + "is " + voorraadproduct + ", koop een kleiner aantal van dit product" });
         }
