@@ -656,9 +656,10 @@ namespace login2.Controllers
                 var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
                 var userName = claimsIdentity.Name;
                 var status = queryorder.First().Status;
+                var userfound = from users in _context.Users where users.Id == user_id select users.NormalizedEmail;
+                var oneuser = userfound.First().ToString();
 
-
-                await _emailSender.SendEmailAsync($"{userName}", "Order status", $"Beste meneer/mevrouw, <br/> Uw status is veranderd naar {status} <br> <br> Met vriendelijke groet, <br> <br> Shipped.nl");
+                await _emailSender.SendEmailAsync($"{oneuser}", "Order status", $"Beste meneer/mevrouw, <br/> Uw status is veranderd naar {status} <br> <br> Met vriendelijke groet, <br> <br> Shipped.nl");
 
                 _context.SaveChanges();
             }
