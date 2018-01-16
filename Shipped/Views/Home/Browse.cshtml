@@ -16,6 +16,7 @@
 @foreach (var spelcomputers in Model.Spelcomputers)
 {
   <a asp-controller="spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><h1>@spelcomputers.Naam</h1></a>
+
 }
 
 @foreach (var horloges in Model.Horloges)
