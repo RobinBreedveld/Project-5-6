@@ -12,7 +12,7 @@
         <div style="margin: 10px;width: 100% ;">
         <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
         <h1><a asp-controller="Drone" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
-        <form  asp-controller="Home" asp-action="Edit" method="POST">
+        <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
                 <input type="number" min="0" max=@item.Aantal name="new_aantal">
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
