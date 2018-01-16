@@ -58,13 +58,6 @@ namespace login2.Controllers
         }
 
 
-
-
-
-
-
-
-
         [HttpPost("UploadFiles")]
         public async Task<IActionResult> PostKabel(List<IFormFile> files)
         {
@@ -113,6 +106,14 @@ namespace login2.Controllers
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
                             error = "ERROR";
                         }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            System.Console.WriteLine(e.Message);
+                            System.Console.WriteLine("ERRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+                            error = "ERROR";
+
+                        }
+
                         _context.SaveChanges();
                     }
                     else
@@ -262,6 +263,13 @@ namespace login2.Controllers
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
                             error = "ERROR";
                         }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            System.Console.WriteLine(e.Message);
+                            System.Console.WriteLine("ERRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+                            error = "ERROR";
+
+                        }
 
                         _context.SaveChanges();
                     }
@@ -334,6 +342,13 @@ namespace login2.Controllers
                             System.Console.WriteLine(ex.Message);
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
                             error = "ERROR";
+                        }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            System.Console.WriteLine(e.Message);
+                            System.Console.WriteLine("ERRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+                            error = "ERROR";
+
                         }
 
 
@@ -408,6 +423,13 @@ namespace login2.Controllers
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
                             error = "ERROR";
                         }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            System.Console.WriteLine(e.Message);
+                            System.Console.WriteLine("ERRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+                            error = "ERROR";
+
+                        }
 
                         _context.SaveChanges();
                     }
@@ -479,6 +501,13 @@ namespace login2.Controllers
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
                             error = "ERROR";
                         }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            System.Console.WriteLine(e.Message);
+                            System.Console.WriteLine("ERRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+                            error = "ERROR";
+
+                        }
 
                         _context.SaveChanges();
                     }
@@ -547,13 +576,20 @@ namespace login2.Controllers
 
                                 _context.Schoenen.Add(schoen);
                             }
-                        }   
+                        }
 
                         catch (FormatException ex)
                         {
                             System.Console.WriteLine(ex.Message);
                             System.Console.WriteLine("CATCHED ERRRRRRROR-------------------------------------");
                             error = "ERROR";
+                        }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            System.Console.WriteLine(e.Message);
+                            System.Console.WriteLine("ERRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+                            error = "ERROR";
+
                         }
 
                         _context.SaveChanges();
