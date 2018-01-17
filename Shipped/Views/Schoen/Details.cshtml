@@ -76,13 +76,12 @@
    
     @if (!this.User.IsInRole("Admin"))
     {
-    <!-- @Html.ActionLink("Add to shoppingcart","AddToShoppingCart","Home", new { product =  @Model.Id, model = "Schoen"}) -->
     <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
         <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
             @Html.TextBox("product", @Model.Id, new {style = "display: none;"})
             @Html.TextBox("model", "Schoen", new {style = "display: none;"})
             @Html.TextBox("prijs", @Model.Prijs, new {style = "display: none;"})
-            <input class="aantal" type="submit" value="Voeg toe aan shoppingcart" onclick="myCart()"/>
+            <input class="aantal" type="submit" value="Voeg toe aan winkelwagen" onclick="myCart()"/>
         </p>
     </form>
     <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
@@ -95,7 +94,7 @@
     </form>
                               <script>
 function myCart() {
-    alert("Toegevoegd aan uw shoppingcart")
+    alert("Toegevoegd aan uw winkelwagen")
 }
 function myWishlist() {
     alert("Toegevoegd aan uw wishlist")

@@ -411,7 +411,7 @@ namespace login2.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Cart", new { popup = "De voorraad van " + naamproduct + "is " + voorraadproduct + ", koop een kleiner aantal van dit product" });
+                    return RedirectToAction("Cart", new { popup = "De voorraad van " + naamproduct + " is helaas " + voorraadproduct + ", bestel een kleiner aantal van dit product!" });
                 }
             }
             if (empty == false)

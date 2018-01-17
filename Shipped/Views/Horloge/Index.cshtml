@@ -205,7 +205,7 @@
                         @Html.TextBox("product", @item.Id, new {style = "display: none;"})
                         @Html.TextBox("model", "Horloge", new {style = "display: none;"})
                         @Html.TextBox("prijs", @item.Prijs, new {style = "display: none;"})
-                        <input class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan cart" onclick="myCart()" />
+                        <input class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan winkelwagen" onclick="myCart()" />
                     </p>
                     </div>
                 </form>
@@ -226,7 +226,7 @@
     }
                 <script>
 function myCart() {
-    alert("Toegevoegd aan uw shoppingcart")
+    alert("Toegevoegd aan uw winkelwagen")
 }
 function myWishlist() {
     alert("Toegevoegd aan uw wishlist")
