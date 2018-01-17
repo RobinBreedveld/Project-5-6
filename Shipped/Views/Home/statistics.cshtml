@@ -11,14 +11,11 @@
     </div>
 
 <h1>Verkochte producten per categorie</h1>
-    <div style="width: 50%;height: auto;float:left; margin-bottom: 30px ;">
-        <canvas id="chart" width="500px" height="500px"></canvas>
-        <p>Staafdiagram dat het aantal verkochte producten per categorie weergeeft.</p>
-    </div>
 
-    <div style="padding: 6%;width: 50%;height:auto; float:left;  margin-bottom: 30px ;">
-        <canvas id="piechart" width="500px" height="500px"></canvas>
-        <p>Cirkeldiagram dat het aantal verkochte producten per categorie weergeeft.</p>  
+
+    <div style="padding: 1%;width: 100%;height:auto; float:left;  margin-bottom: 30px ;">
+        <canvas id="piechart" width="500px" height="200px"></canvas>
+        <p style="text-align: center;">Cirkeldiagram dat het aantal verkochte producten per categorie weergeeft.</p>  
     </div> 
 
 <h1>Voorraad per categorie</h1>
@@ -30,21 +27,11 @@
 <script>
 var repall = @Html.Raw(Json.Serialize(ViewBag.RepAll));
 var repvoorraad =  @Html.Raw(Json.Serialize(ViewBag.RepVoorraad));
-var c = document.getElementById("chart");
 var c2 = document.getElementById("piechart");
 var c3 = document.getElementById("chart2");
 var c4 = document.getElementById("chart3");
 <!-- Alle data -->
-var data = {
-	labels:  ["Kabels","Schoenen","Drones","Spelcomputers","Horloges","Fotocameras"],
-    datasets: [{
-        label: "Verkochte producten",
-    	data: [],
-        backgroundColor: 'rgba(255, 0, 0, 0.7)',
-        hoverBackgroundColor: [],        
-    }
-    ]
-};
+
 var data2 = {
     datasets: [{
         label: "Verkochte producten",
@@ -80,18 +67,7 @@ var data4 = {
 };
 
 <!-- Alle options -->
-var options = {
-    cutoutPercentage: 0,
-    rotation: -0.5 * Math.PI,
-    circumference: 2 * Math.PI,
-    scales : {
-        yAxes : [{
-        ticks : {
-        beginAtZero : true
-        }   
-        }]
-    } 
-};
+
 var options2 = {
     cutoutPercentage: 0,
     rotation: -0.5 * Math.PI,
@@ -123,11 +99,7 @@ var options4 = {
 };
 
 
-var opt = {	
-    type: "bar",
-    data: data,
-    options: options
-};
+
 var opt2 = {	
     type: "pie",
     data: data2,
@@ -144,14 +116,11 @@ var opt4 = {
     options: options4
 };
 
-var barchart = new Chart(c,opt);
 var myPieChart = new Chart(c2,opt2);
 var barchart2 = new Chart(c3,opt3);
 var barchart3 = new Chart(c4,opt4);
 
-for (var i = 0; i < repall.length; i++) {
-        barchart.config.data.datasets[0].data.push(repall[i]);        
-} 
+
 for (var i = 0; i < repall.length; i++) {
         myPieChart.config.data.datasets[0].data.push(repall[i]);        
 }
@@ -166,7 +135,6 @@ for (var i = 0; i < repvoorraad.length; i++) {
 } 
 
 
-barchart.update();
 myPieChart.update();
 barchart2.update();
 barchart3.update();
