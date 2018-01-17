@@ -13,7 +13,7 @@
         <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
         <h1><a asp-controller="Drone" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
-                <input type="number" min="0" max=@item.Aantal name="new_aantal">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
@@ -35,7 +35,7 @@
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
         <h1><a asp-controller="Kabel" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
-                <input type="number" min="0" max=@item.Aantal name="new_aantal">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
@@ -57,7 +57,7 @@
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
         <h1><a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
-                <input type="number" min="0" max=@item.Aantal name="new_aantal">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
@@ -79,7 +79,7 @@
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
         <h1><a asp-controller="Horloge" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
-                <input type="number" min="0" max=@item.Aantal name="new_aantal">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
@@ -101,7 +101,7 @@
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
         <h1><a asp-controller="Schoen" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
-                <input type="number" min="0" max=@item.Aantal name="new_aantal">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
@@ -123,7 +123,7 @@
           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
        <h1><a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
         <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
-                <input type="number" min="0" max=@item.Aantal name="new_aantal">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
                 @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
                 @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
                 @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
