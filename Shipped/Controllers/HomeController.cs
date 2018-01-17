@@ -416,11 +416,21 @@ namespace login2.Controllers
             }
             if (empty == false)
             {
-                var ordernummer = _context.OrderHistory.Count().ToString();
-
+                var ordernummer = _context.OrderHistory.Count().ToString();                
                 _context.Cart.RemoveRange(getcart);
-                await _emailSender.SendEmailAsync($"{claimsIdentity.Name}", $"Aankoopbevestiging van order: {ordernummer}  ", $"Beste meneer/mevrouw, <br> <br>Uw order met order nummer {ordernummer}  is bevestigd en zal verzonden worden! <br> <br> Besteld product: {product} <br/> Totaal prijs: {totaalprijs} <br> <br> Met vriendelijke groet, <br> Shipped.nl");
                 await _context.SaveChangesAsync();
+                var totaal = from item in _context.OrderHistory
+                         where item.User_Id == gotuserId && item.Order_nummer == ordernummer
+                         group item by item.User_Id into items
+                         select new
+                         {
+                             Totaal = items.Sum(x => x.Prijs * x.Aantal)
+                         };
+                var realtotaal = 0;
+                foreach(var item in totaal) {
+                    realtotaal = item.Totaal;
+                }
+                await _emailSender.SendEmailAsync($"{claimsIdentity.Name}", $"Aankoopbevestiging van order: {ordernummer}  ", $"Beste meneer/mevrouw, <br> <br>Uw order met order nummer {ordernummer}  is bevestigd en zal verzonden worden! <br> <br> Besteld product: {product} <br/> Totaal prijs: {realtotaal} <br> <br> Met vriendelijke groet, <br> Shipped.nl");                
                 return RedirectToAction("Cart", new { popup = "Uw bestelling is met succes geplaatst! Bekijk uw mail of de ordergeschiedenis voor meer informatie!" });
             }
             return RedirectToAction("Cart", new { popup = "De voorraad van " + naamproduct + "is " + voorraadproduct + ", koop een kleiner aantal van dit product" });
