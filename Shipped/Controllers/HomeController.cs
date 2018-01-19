@@ -55,31 +55,54 @@ namespace login2.Controllers
 
 
         //public async Task<IActionResult> Index()
-        public IActionResult Index(string added)
+        public async Task<IActionResult> Index(string added)
         {
-            //meestgekochtekabel         
+            //meestgekochtekabel       
+            var countkabel = _context.Kabels.Count();
+            var getkabel = await _context.Kabels.ToListAsync();  
+            if (countkabel > 0){
             var meestgekochtekabel = _context.Kabels.Max(p => p.Aantal_gekocht);
-            var getkabel = _context.Kabels.Where(p => p.Aantal_gekocht == meestgekochtekabel);
+            getkabel = await _context.Kabels.Where(p => p.Aantal_gekocht == meestgekochtekabel).ToListAsync();
+            }
 
             //meestgekochtedrone
+            var countdrone = _context.Drones.Count();
+            var getdrone = await _context.Drones.ToListAsync();  
+            if (countdrone > 0){
             var meestgekochtedrone = _context.Drones.Max(p => p.Aantal_gekocht);
-            var getdrone = _context.Drones.Where(p => p.Aantal_gekocht == meestgekochtedrone);
-
+            getdrone =  await _context.Drones.Where(p => p.Aantal_gekocht == meestgekochtedrone).ToListAsync();
+            }
             //meestgekochtefotocamera
+            var countfotocamera = _context.Fotocameras.Count();
+            var getfotocamera = await _context.Fotocameras.ToListAsync();  
+            if (countfotocamera > 0){
             var meestgekochtefotocamera = _context.Fotocameras.Max(p => p.Aantal_gekocht);
-            var getfotocamera = _context.Fotocameras.Where(p => p.Aantal_gekocht == meestgekochtefotocamera);
+            getfotocamera = await _context.Fotocameras.Where(p => p.Aantal_gekocht == meestgekochtefotocamera).ToListAsync();
+            }
 
             //meestgekochtehorloge
+            var counthorloge = _context.Horloges.Count();
+            var gethorloge = await _context.Horloges.ToListAsync();  
+            if (counthorloge> 0){
             var meestgekochtehorloge = _context.Horloges.Max(p => p.Aantal_gekocht);
-            var gethorloge = _context.Horloges.Where(p => p.Aantal_gekocht == meestgekochtehorloge);
+            gethorloge = await _context.Horloges.Where(p => p.Aantal_gekocht == meestgekochtehorloge).ToListAsync();
+            }
 
             //meestgekochteschoen
+            var countschoen = _context.Schoenen.Count();
+            var getschoen = await _context.Schoenen.ToListAsync();  
+            if (countschoen> 0){
             var meestgekochteschoen = _context.Schoenen.Max(p => p.Aantal_gekocht);
-            var getschoen = _context.Schoenen.Where(p => p.Aantal_gekocht == meestgekochteschoen);
+            getschoen = await _context.Schoenen.Where(p => p.Aantal_gekocht == meestgekochteschoen).ToListAsync(); 
+            }
 
             //meestgekochtespelcomputer
+            var countspelcomputer = _context.Spelcomputers.Count();
+            var getspelcomputer = await _context.Spelcomputers.ToListAsync();  
+            if (countspelcomputer> 0){
             var meestgekochtespelcomputer = _context.Spelcomputers.Max(p => p.Aantal_gekocht);
-            var getspelcomputer = _context.Spelcomputers.Where(p => p.Aantal_gekocht == meestgekochtespelcomputer);
+            getspelcomputer = await _context.Spelcomputers.Where(p => p.Aantal_gekocht == meestgekochtespelcomputer).ToListAsync();
+            }
 
             var wrapper = new Categorie();
 
