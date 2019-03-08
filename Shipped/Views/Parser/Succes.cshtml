@@ -1,0 +1,30 @@
+<h2>Parser</h2>
+<hr/>
+
+<div class="alert alert-success">
+  <strong>Success!</strong> Het bestand is succesvol geüpload.
+</div>
+
+<div>
+<form method="post" enctype="multipart/form-data" asp-controller="Parser" asp-action="PostSwitch" asp-route-id="@ViewBag.listofitems" >
+        <div class="col-md-10">
+            <h2>Upload hier één of meerdere bestanden</h2>
+           <select name="typeOfUploading" asp-items="@(new SelectList(@ViewBag.listofitems ))"></select> 
+                 </select> 
+            <input type="file" name="files" multiple />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <br/>
+            <input type="submit" value="Upload" onclick="myFunction()"/>
+        </div>
+    </div>
+</form>
+</div>
+
+<script>
+function myFunction() {
+    alert("Weet u zeker dat u dit bestand wilt uploaden? Klik op 'Ok' om verder te gaan.")
+}
+</script>

@@ -1,15 +1,340 @@
-@model IEnumerable<login2.Models.Cart>
+@model login2.Models.Categorie
 
- @foreach (var item in Model) {
-        <h1>Aantal:@item.Aantal, Product: @item.Product_Id,Model: @item.Model_naam</h1>
-        <form  asp-controller="Home" asp-action="Edit" method="POST">
-                @Html.TextBox("new_aantal")
-                @Html.TextBox("old_aantal",@item.Aantal, new {style = "display: none;"} )
-                @Html.TextBox("id",@item.Id, new {style = "display: none;"} )
-                @Html.TextBox("model",@item.Model_naam, new {style = "display: none;"} )
-                <input class="Aantal" type="submit" value="Aantal" />
-        </form>
-        @Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @item.Product_Id, model = @item.Model_naam})
- }
- 
- 
+@{
+    ViewData["Title"] = "Winkelwagen"; 
+}
+<h1>Uw winkelwagen</h1>
+@if ( ViewBag.Popup == null) {
+
+}else {
+  <div class="alert alert-info" role="alert">@ViewBag.Popup</div>
+}
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+	<table id="cart" class="table table-hover table-condensed">
+    				<thead>
+						<tr>
+							<th style="width:50%">Product</th>
+							<th style="width:10%">Prijs</th>
+							<th style="width:8%">Aantal</th>
+							<th style="width:22%" class="text-center">Subtotaal</th>
+							<th style="width:10%"></th>
+						</tr>
+					</thead>
+          @foreach (var items in Model.Carts) 
+          {
+
+            @foreach (var item in Model.Drones) 
+              {
+          					
+					<tbody>
+          <div>
+            <tr>
+                @if (item.Id == items.Product_Id && items.Model_naam == "Drone") 
+                 {
+							  <td data-th="Product">
+                <a asp-controller="Drone" asp-action="Details" asp-route-id="@item.Id" >
+								  <div class="row">
+
+                  <div class="col-sm-2 hidden-xs" class="img-responsive">
+                    <img src="@item.Afbeelding" width="100" height="50">
+                  </div>
+                        
+									<div class="col-sm-10">
+										<h4 class="nomargin">@item.Naam</h4>
+									</div>
+
+								</div>
+                </a>
+							</td>
+							<td data-th="Price">€@item.Prijs</td>
+							<td data-th="Quantity">
+
+                <form  asp-controller="Home" asp-action="Edit" method="POST">
+                <input value="@items.Aantal"type="number" min="1" max=@item.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;" })
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;" })
+                <input class="form-control text-center" type="submit" value="Update aantal" />
+              </form>
+                
+							</td>
+							<td data-th="Subtotal" class="text-center">€@(@items.Prijs * @items.Aantal)</td>
+							<td class="actions" data-th="">
+              <form>
+                <button class="btn btn-light" type="button" style="margin-top: 4px; width:100px ">@Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+                </form>
+							</td>
+              }
+						</tr>
+            </div>
+            
+					</tbody>
+          }
+@foreach (var itemm in Model.Kabels) 
+              {
+          					
+					<tbody>
+          <div>
+            <tr>
+                @if (itemm.Id == items.Product_Id && items.Model_naam == "Kabel") 
+                 {
+							<td data-th="Product">
+              <a asp-controller="Kabel" asp-action="Details" asp-route-id="@itemm.Id" >
+								<div class="row">
+
+                  <div class="col-sm-2 hidden-xs" class="img-responsive">
+                    <img src="@itemm.Afbeelding" width="100" height="50">
+                  </div>
+                        
+									<div class="col-sm-10">
+										<h4 class="nomargin">@itemm.Naam</h4>
+									</div>
+
+								</div>
+              </a>
+							</td>
+
+							<td data-th="Price">€@itemm.Prijs</td>
+							<td data-th="Quantity">
+
+                <form  asp-controller="Home" asp-action="Edit" method="POST">
+                <input value="@items.Aantal" type="number" min="1" max=@itemm.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;" })
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;" })
+                <input class="form-control text-center" type="submit" value="Update aantal" />
+              </form>
+                
+							</td>
+							<td data-th="Subtotal" class="text-center">€@(@items.Prijs * @items.Aantal)</td>
+							<td class="actions" data-th="">
+              <form>
+                <button class="btn btn-light" type="button" style="margin-top: 4px; width:100px ">@Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+                </form>
+							</td>
+              }
+						</tr>
+            </div>
+            </tbody>
+                         
+              }
+@foreach (var fotocamera in Model.Fotocameras) 
+              {
+          <tbody>
+          <div>
+            <tr>
+                @if (fotocamera.Id == items.Product_Id && items.Model_naam == "Fotocamera") 
+                 {
+							<td data-th="Product">
+              <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocamera.Id">
+								<div class="row">
+
+                  <div class="col-sm-2 hidden-xs" class="img-responsive">
+                    <img src="@fotocamera.Afbeelding" width="100" height="50">
+                  </div>
+                        
+									<div class="col-sm-10">
+										<h4 class="nomargin">@fotocamera.Naam</h4>
+									</div>
+
+								</div>
+                </a>
+							</td>
+              
+							<td data-th="Price">€@fotocamera.Prijs</td>
+							<td data-th="Quantity">
+
+                <form  asp-controller="Home" asp-action="Edit" method="POST">
+                <input value="@items.Aantal" type="number" min="1" max=@fotocamera.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;" })
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;" })
+                <input class="form-control text-center" type="submit" value="Update aantal" />
+              </form>
+                
+							</td>
+							<td data-th="Subtotal" class="text-center">€@(@items.Prijs * @items.Aantal)</td>
+							<td class="actions" data-th="">
+              <form>
+                <button class="btn btn-light" type="button" style="margin-top: 4px; width:100px ">@Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+                </form>
+							</td>
+              }
+						</tr>
+            
+            </div>
+            
+            </tbody>
+              
+                         
+              }
+
+@foreach (var horloge in Model.Horloges) 
+              {
+          					
+					<tbody>
+          <div>
+            <tr>
+                @if (horloge.Id == items.Product_Id && items.Model_naam == "Horloge") 
+                 {
+							<td data-th="Product">
+              <a asp-controller="Horloge" asp-action="Details" asp-route-id="@horloge.Id" >
+								<div class="row">
+
+                        <div class="col-sm-2 hidden-xs" class="img-responsive">
+                          <img src="@horloge.Afbeelding" width="100" height="50">
+                        </div>
+                        
+									<div class="col-sm-10">
+										<h4 class="nomargin">@horloge.Naam</h4>
+									</div>
+
+								</div>
+                </a>
+							</td>
+							<td data-th="Price">€@horloge.Prijs</td>
+							<td data-th="Quantity">
+
+                <form  asp-controller="Home" asp-action="Edit" method="POST">
+                <input value="@items.Aantal" type="number" min="1" max=@horloge.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;" })
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;" })
+                <input class="form-control text-center" type="submit" value="Update aantal" />
+              </form>
+                
+							</td>
+							<td data-th="Subtotal" class="text-center">€@(@items.Prijs * @items.Aantal)</td>
+							<td class="actions" data-th="">
+              <form>
+                <button class="btn btn-light" type="button" style="margin-top: 4px; width:100px ">@Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+                </form>
+							</td>
+              }
+						</tr>
+            </div>
+            </tbody>
+                         
+              }
+
+@foreach (var schoen in Model.Schoenen) 
+              {
+          					
+					<tbody>
+          <div>
+            <tr>
+                @if (schoen.Id == items.Product_Id && items.Model_naam == "Schoen") 
+                 {
+							<td data-th="Product">
+              <a asp-controller="Schoen" asp-action="Details" asp-route-id="@schoen.Id" >
+								<div class="row">
+
+                  <div class="col-sm-2 hidden-xs" class="img-responsive">
+                    <img src="@schoen.Afbeelding" width="100" height="50">
+                  </div>
+                        
+									<div class="col-sm-10">
+										<h4 class="nomargin">@schoen.Naam</h4>
+									</div>
+
+								</div>
+                </a>
+							</td>
+							<td data-th="Price">€@schoen.Prijs</td>
+							<td data-th="Quantity">
+
+                <form  asp-controller="Home" asp-action="Edit" method="POST">
+                <input value="@items.Aantal" type="number" min="1" max=@schoen.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;" })
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;" })
+                <input class="form-control text-center" type="submit" value="Update aantal" />
+              </form>
+                
+							</td>
+							<td data-th="Subtotal" class="text-center">€@(@items.Prijs * @items.Aantal)</td>
+							<td class="actions" data-th="">
+              <form>
+                <button class="btn btn-light" type="button" style="margin-top: 4px; width:100px ">@Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+                </form>
+							</td>
+              }
+						</tr>
+            </div>
+            </tbody>
+                         
+              }
+         
+          @foreach (var spelcomputer in Model.Spelcomputers) 
+              {
+          					
+					<tbody>
+          <div>
+            <tr>
+                @if (spelcomputer.Id == items.Product_Id && items.Model_naam == "Spelcomputer") 
+                 {
+							<td data-th="Product">
+              <a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputer.Id" >
+								<div class="row">
+
+                  <div class="col-sm-2 hidden-xs" class="img-responsive">
+                    <img src="@spelcomputer.Afbeelding" width="100" height="50">
+                  </div>
+                        
+									<div class="col-sm-10">
+										<h4 class="nomargin">@spelcomputer.Naam</h4>
+									</div>
+
+								</div>
+                </a>
+							</td>
+							<td data-th="Price">€@spelcomputer.Prijs</td>
+							<td data-th="Quantity">
+
+                <form  asp-controller="Home" asp-action="Edit" method="POST">
+                <input value="@items.Aantal" type="number" min="1" max=@spelcomputer.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;" })
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;" })
+                <input class="form-control text-center" type="submit" value="Update aantal" />
+              </form>
+                
+							</td>
+							<td data-th="Subtotal" class="text-center">€@(@items.Prijs * @items.Aantal)</td>
+							<td class="actions" data-th="">
+              <form>
+                <button class="btn btn-light" type="button" style="margin-top: 4px; width:100px ">@Html.ActionLink("Delete","DeleteFromShoppingCart","Home", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+                </form>
+							</td>
+              }
+						</tr>
+            </div>
+            </tbody>
+                         
+              }
+
+
+          }
+					<tfoot>
+						<tr class="visible-xs">
+							<td class="text-center"><strong>Totaal:</strong></td>
+						</tr>
+						<tr>
+
+							<td><a asp-controller="home" asp-action="Index" class="btn btn-warning"><i class="fa fa-angle-left"></i> Verder met winkelen</a></td>
+							<td colspan="2" class="hidden-xs"></td>
+							<td class="hidden-xs text-center"><strong>Totaal €@ViewBag.Totaal </strong></td>
+              @if(Model.Carts.Count() != 0){
+							<td><a href="/Home/Buy" class="btn btn-success btn-block">Afrekenen <i class="fa fa-angle-right"></i></a></td>
+              }
+						</tr>
+					</tfoot>
+				</table>
+                  
+</div>
+           
+
+<hr/>
+

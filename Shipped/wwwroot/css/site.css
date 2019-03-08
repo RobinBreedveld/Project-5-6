@@ -1,226 +1,89 @@
-﻿/* #filter {
-	float: left;
-	background: #f1f1f1;
-    width: 13%;
-    height: 500px ;
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
 }
-p {
-    font-family: Arial, Helvetica, sans-serif;
+div.card {
+    padding: 5% ;
+    float:left;
+     margin:40px; 
+     border:1px solid black;
+     border-radius: 5px ;
 }
-a {
-    font-family: Arial, Helvetica, sans-serif;
-    text-decoration: underline ;
-    color: black ;
+
+.contactForm input[type=text], select, textarea {
+ 
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */ 
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 5px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
 }
-img.logo {
-    width: 100px ;
-    height: 100px ;
-    text-align: left ;
-    }
-    img.like {
-        width: 50px ;
-        height: 50px ;
-        margin-right: 30px ;
-    }
-    #header {
-        background-color: #27AFF2;
-        display: flex ;
-        width: 100% ;
-        justify-content: center;
-        align-items: center; 
-        text-align: center ;
-    }
-    form {
-        width: 80%;
-        margin:0 auto;
-        display: inline-block;
-        
-    }
-    input {
-        width: 50%;
-    }
-    input.search {
-        width: 20%;
-    }
-    ul {
-        font-family: Arial, Helvetica, sans-serif;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #27AFF2;
-        color: black ;
-    }
+
+
+
+
+.dropdown {
+    float: left;
+}
+
+.dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+
+
+.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+.fancySearch input[type=text] {
+    width: 65px;
+    height: 35px;
+    box-sizing: border-box;
+    border: 2px solid rgba(204, 204, 204, 0);
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url("/images/searchicon3.png");
+    background-position: 0px -4px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
     
-    li {
-        font-family: Arial, Helvetica, sans-serif;
-        color: black ;
-        float: left;
-    }
-    
-    li a {
-        font-family: Arial, Helvetica, sans-serif;
-        color: black ;
-        display: block;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-    }
-    
-    li a:hover {
-        color: white ;
-        background-color: black;
-    }
-    #banner {
-        text-align:  center ;
-        width: 100% ;
-        background-color: #f1f1f1;
-        padding: 0;
-        margin: 0;
-    }
-    div.body-content {
-        padding: 1% ;
-        margin: 0;
-        background-color: white;
-    }
-    a.home {
-        text-decoration: none ;
-        padding: 5px ;
-        border-radius: 2px ;
-    }
-    h1 {
-        font-family: Arial, Helvetica, sans-serif;
-        width: 200px ;
-        border-radius: 5px ;
-        background-color: rgba(0, 0, 0, 0.2);
-    }
-    a.browse {
-        width: 100% ;
-        text-decoration: none ;
-        background-color: grey ;
-    }
-    #wrapitem {
-        padding: 1% ;
-        background-color: grey ;
-        width: 80% ;
-        margin-bottom: 10px ;
-        overflow: hidden;
-    }
-    img {
-        background-color: none ;
-    }
-    .banner {
-        text-align: center ;
-        width: 100% ;
-        height: 200px ;
-        display: block;
-        background-color: blue ;
-    }
-    .banner img {
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-        min-width: 100%;
-        max-width:100%;
-        max-height:100%;
-        
-    }
-    h2 {
-        background-color: #27AFF2;
-        width: 100% ;
-        border-radius: 5px ;
-        padding: 5px ;
-        color: white ;
-        text-decoration: none ;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-    img.test {
-        display: inline ;
-        margin-right: 20px ;
-    }
-    table.table td{
-        padding: 20px 0px;
-    }
-    table.table th {
-        background-color: grey ;
-        padding: 0px 100px 0px 0px;
-    }
-    table.table thead {
-        background-color: grey ;
-       
-    }
-    .form-group {
-        margin: 10px ;
-        
-    }
-    label {
-        display: inline-block;
-        width: 140px;
-        text-align: right;
-    }
-    a {
-        text-decoration: none ;
-    }
-    #banner_categorie {
-        background-image: url("/images/Gadgets-banner.jpg");
-        width: 50% ;
-        height: 200px ;
-        border-radius: 5px ;
-        text-align: center ;
-        display: flex;
-        align-items: center;
-        float: left ;
-        margin: 10px ;
-        justify-content: center;
-    }
-    #banner_cables {
-        background-image: url("/images/Cables-banner.jpg");
-        height: 200px ;
-        border-radius: 5px ;
-        text-align: center ;
-        display: flex;
-        align-items: center;
-        margin: 10px ;
-        justify-content: center;
-    }
-    h5 {
-        font-size: 300% ;
-        color: white ;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-    body {
-        padding-top: 50px;
-        padding-bottom: 20px;
-    } */
-    
-    /* Wrapping element */
-    /* Set some basic padding to keep content from hitting the edges */
-    .body-content {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-    
-    /* Carousel */
-    .carousel-caption p {
-        font-size: 20px;
-        line-height: 1.4;
-    }
-    
-    /* Make .svg files in the carousel display properly in older browsers */
-    .carousel-inner .item img[src$=".svg"] {
-        width: 100%;
-    }
-    
-    /* QR code generator */
-    #qrCode {
-        margin: 15px;
-    }
-    
-    /* Hide/rearrange for smaller screens */
-    @media screen and (max-width: 767px) {
-        /* Hide captions */
-        .carousel-caption {
-            display: none;
-        }
-    }
-    
+}
+
+.fancySearch input[type=text]:focus {
+    width: 200px;
+}

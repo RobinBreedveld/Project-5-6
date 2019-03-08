@@ -1,0 +1,152 @@
+@model login2.Models.Categorie
+
+@{
+    ViewData["Title"] = "Wishlist"; 
+}
+<h1>Uw wishlist</h1>
+<hr/>
+
+ @foreach (var items in Model.Wishlists) {
+      @foreach (var item in Model.Drones) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Drone") {
+        <div style="margin: 10px;width: 100% ;">
+        <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Drone" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
+        <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="Aantal" type="submit" value="Update aantal" />
+        </form>
+        <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
+        <hr>
+        </div>
+        }
+      }
+      @foreach (var item in Model.Kabels) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Kabel") {
+            <div style="margin: 10px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Kabel" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
+        <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="Aantal" type="submit" value="Update aantal" />
+        </form>
+        <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
+        <hr/>
+        </div>
+        }
+      }
+      @foreach (var item in Model.Fotocameras) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Fotocamera") {
+            <div style="margin: 10px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
+        <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="Aantal" type="submit" value="Update aantal" />
+        </form>
+        <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
+        <hr/>
+        </div>
+        }
+      }
+      @foreach (var item in Model.Horloges) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Horloge") {
+            <div style="margin: 10px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Horloge" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
+        <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="Aantal" type="submit" value="Update aantal" />
+        </form>
+        <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
+        <hr/>
+        </div>
+        }
+      }
+      @foreach (var item in Model.Schoenen) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Schoen") {
+             <div style="margin: 10px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Schoen" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
+        <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="Aantal" type="submit" value="Update aantal" />
+        </form>
+        <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
+        <hr/>
+        </div>
+        }
+      }
+      @foreach (var item in Model.Spelcomputers) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Spelcomputer") {
+            <div style="margin: 10px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+       <h1><a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal)</a></h1>
+        <form  asp-controller="Wishlist" asp-action="Edit" method="POST">
+                <input type="number" min="1" max=@item.Aantal name="new_aantal">
+                @Html.TextBox("old_aantal",@items.Aantal, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="Aantal" type="submit" value="Update aantal" />
+        </form>
+        <button type="button">@Html.ActionLink("Delete","DeleteFromWishlist","Wishlist", new { product =  @items.Product_Id, model = @items.Model_naam})</button>
+        <form  asp-controller="Wishlist" asp-action="AddSingleToCart" method="POST">
+                @Html.TextBox("product",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                <input class="winkelwagen" type="submit" value="Voeg toe aan winkelwagen" />
+        </form>
+        <hr/>
+        </div>
+        }
+      }
+}
+
+@if(Model.Wishlists.Count() != 0) {
+  
+<ul class="nav nav-pills" role="tablist">
+  <li role="presentation" class="active"><a href="/Wishlist/AddToCart">Voeg wishlist aan winkelwagen toe<span aria-hidden="true">&rarr;</span></a></li>
+</ul>
+}
+else {
+<div class="alert alert-info" role="alert">Voeg producten toe aan uw wishlist. Producten kunt u vinden op de Home of Categoriepagina.</div>
+}

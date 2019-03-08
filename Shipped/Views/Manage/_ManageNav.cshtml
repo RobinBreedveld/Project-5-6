@@ -5,12 +5,19 @@
 }
 
 <ul class="nav nav-pills nav-stacked">
-    <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Profile</a></li>
-    <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><a asp-action="ChangePassword">Password</a></li>
-    @if (hasExternalLogins)
+    <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Profiel</a></li>
+    <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><a asp-action="ChangePassword">Wachtwoord</a></li>
+    @if (!this.User.IsInRole("Admin"))
     {
-        <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a asp-action="ExternalLogins">External logins</a></li>
+    <li style="float:left;"><a asp-area="" asp-controller="Home" asp-action="OrderHistory" class="navbar-brand"><h5>Bestelgeschiedenis</h5></a></li>
+    }  
+    @if (this.User.IsInRole("Admin")) 
+    {
+        <li style="float:left; clear:both;"><a asp-area="" asp-controller="Parser" asp-action="Index" class="navbar-brand"><h5>Upload bestanden</h5></a></li>
+        <li style="float:left; clear:both;"><a asp-area="" asp-controller="User" asp-action="Index" class="navbar-brand"><h5>Gebruikersmanagement</h5></a></li>
+        <li style="float:left; clear:both;"><a asp-area="" asp-controller="Home" asp-action="statistics" class="navbar-brand"><h5>Statistieken</h5></a></li>
+        <li style="float:left; clear:both;"><a asp-area="" asp-controller="Home" asp-action="orders" class="navbar-brand"><h5>Bestellingen</h5></a></li>
     }
-    <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a asp-action="TwoFactorAuthentication">Two-factor authentication</a></li>
+    
 </ul>
 

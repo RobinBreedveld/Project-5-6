@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace login2.Migrations
 {
-    public partial class dsoriwnooewrhfoksjdfoiwjerpsjdf : Migration
+    public partial class InitialCreateLoginDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -167,32 +167,30 @@ namespace login2.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Consoles",
+                name: "Cart",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int4", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Aantal = table.Column<int>(type: "int4", nullable: false),
-                    Aantal_gekocht = table.Column<int>(type: "int4", nullable: false),
-                    Afbeelding = table.Column<string>(type: "text", nullable: true),
-                    CategorieId = table.Column<int>(type: "int4", nullable: false),
-                    Kleur = table.Column<string>(type: "text", nullable: true),
+                    Beschrijving = table.Column<string>(type: "text", nullable: true),
+                    CategorieId = table.Column<int>(type: "int4", nullable: true),
                     Merk = table.Column<string>(type: "text", nullable: true),
-                    Naam = table.Column<string>(type: "text", nullable: true),
-                    Opties = table.Column<string>(type: "text", nullable: true),
+                    Model_naam = table.Column<string>(type: "text", nullable: true),
+                    Order_nummer = table.Column<int>(type: "int4", nullable: false),
                     Prijs = table.Column<int>(type: "int4", nullable: false),
-                    Type = table.Column<string>(type: "text", nullable: true),
-                    Opslagcapaciteit = table.Column<int>(type: "int4", nullable: false)
+                    Product_Id = table.Column<int>(type: "int4", nullable: false),
+                    User_Id = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Consoles", x => x.Id);
+                    table.PrimaryKey("PK_Cart", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Consoles_Categories_CategorieId",
+                        name: "FK_Cart_Categories_CategorieId",
                         column: x => x.CategorieId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,10 +201,8 @@ namespace login2.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Aantal = table.Column<int>(type: "int4", nullable: false),
                     Aantal_gekocht = table.Column<int>(type: "int4", nullable: false),
-                    Aantal_rotors = table.Column<int>(type: "int4", nullable: false),
                     Afbeelding = table.Column<string>(type: "text", nullable: true),
                     CategorieId = table.Column<int>(type: "int4", nullable: false),
-                    Grootte = table.Column<int>(type: "int4", nullable: false),
                     Kleur = table.Column<string>(type: "text", nullable: true),
                     Merk = table.Column<string>(type: "text", nullable: true),
                     Naam = table.Column<string>(type: "text", nullable: true),
@@ -234,12 +230,8 @@ namespace login2.Migrations
                     Aantal_gekocht = table.Column<int>(type: "int4", nullable: false),
                     Afbeelding = table.Column<string>(type: "text", nullable: true),
                     CategorieId = table.Column<int>(type: "int4", nullable: false),
-                    Flits = table.Column<string>(type: "text", nullable: true),
-                    Kleur = table.Column<string>(type: "text", nullable: true),
-                    Max_Bereik = table.Column<int>(type: "int4", nullable: false),
-                    MegaPixels = table.Column<int>(type: "int4", nullable: false),
+                    Megapixels = table.Column<string>(type: "text", nullable: true),
                     Merk = table.Column<string>(type: "text", nullable: true),
-                    Min_Bereik = table.Column<int>(type: "int4", nullable: false),
                     Naam = table.Column<string>(type: "text", nullable: true),
                     Prijs = table.Column<int>(type: "int4", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: true)
@@ -265,10 +257,7 @@ namespace login2.Migrations
                     Aantal_gekocht = table.Column<int>(type: "int4", nullable: false),
                     Afbeelding = table.Column<string>(type: "text", nullable: true),
                     CategorieId = table.Column<int>(type: "int4", nullable: false),
-                    Geslacht = table.Column<string>(type: "text", nullable: true),
-                    Grootte = table.Column<int>(type: "int4", nullable: false),
                     Kleur = table.Column<string>(type: "text", nullable: true),
-                    Materiaal = table.Column<string>(type: "text", nullable: true),
                     Merk = table.Column<string>(type: "text", nullable: true),
                     Naam = table.Column<string>(type: "text", nullable: true),
                     Prijs = table.Column<int>(type: "int4", nullable: false),
@@ -295,7 +284,6 @@ namespace login2.Migrations
                     Aantal_gekocht = table.Column<int>(type: "int4", nullable: false),
                     Afbeelding = table.Column<string>(type: "text", nullable: true),
                     CategorieId = table.Column<int>(type: "int4", nullable: false),
-                    Kleur = table.Column<string>(type: "text", nullable: true),
                     Lengte = table.Column<int>(type: "int4", nullable: false),
                     Merk = table.Column<string>(type: "text", nullable: true),
                     Naam = table.Column<string>(type: "text", nullable: true),
@@ -314,6 +302,34 @@ namespace login2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Aantal = table.Column<int>(type: "int4", nullable: false),
+                    Beschrijving = table.Column<string>(type: "text", nullable: true),
+                    CategorieId = table.Column<int>(type: "int4", nullable: true),
+                    Merk = table.Column<string>(type: "text", nullable: true),
+                    Model_naam = table.Column<string>(type: "text", nullable: true),
+                    Order_nummer = table.Column<string>(type: "text", nullable: true),
+                    Prijs = table.Column<int>(type: "int4", nullable: false),
+                    Product_Id = table.Column<int>(type: "int4", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: true),
+                    User_Id = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderHistory_Categories_CategorieId",
+                        column: x => x.CategorieId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Schoenen",
                 columns: table => new
                 {
@@ -323,10 +339,8 @@ namespace login2.Migrations
                     Aantal_gekocht = table.Column<int>(type: "int4", nullable: false),
                     Afbeelding = table.Column<string>(type: "text", nullable: true),
                     CategorieId = table.Column<int>(type: "int4", nullable: false),
-                    Geslacht = table.Column<string>(type: "text", nullable: true),
                     Kleur = table.Column<string>(type: "text", nullable: true),
                     Maat = table.Column<int>(type: "int4", nullable: false),
-                    Materiaal = table.Column<string>(type: "text", nullable: true),
                     Merk = table.Column<string>(type: "text", nullable: true),
                     Naam = table.Column<string>(type: "text", nullable: true),
                     Prijs = table.Column<int>(type: "int4", nullable: false),
@@ -341,6 +355,60 @@ namespace login2.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Spelcomputers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Aantal = table.Column<int>(type: "int4", nullable: false),
+                    Aantal_gekocht = table.Column<int>(type: "int4", nullable: false),
+                    Afbeelding = table.Column<string>(type: "text", nullable: true),
+                    CategorieId = table.Column<int>(type: "int4", nullable: false),
+                    Geheugen = table.Column<int>(type: "int4", nullable: false),
+                    Merk = table.Column<string>(type: "text", nullable: true),
+                    Naam = table.Column<string>(type: "text", nullable: true),
+                    Prijs = table.Column<int>(type: "int4", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Spelcomputers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Spelcomputers_Categories_CategorieId",
+                        column: x => x.CategorieId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Wishlist",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Aantal = table.Column<int>(type: "int4", nullable: false),
+                    Beschrijving = table.Column<string>(type: "text", nullable: true),
+                    CategorieId = table.Column<int>(type: "int4", nullable: true),
+                    Merk = table.Column<string>(type: "text", nullable: true),
+                    Model_naam = table.Column<string>(type: "text", nullable: true),
+                    Order_nummer = table.Column<int>(type: "int4", nullable: false),
+                    Prijs = table.Column<int>(type: "int4", nullable: false),
+                    Product_Id = table.Column<int>(type: "int4", nullable: false),
+                    User_Id = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wishlist", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Wishlist_Categories_CategorieId",
+                        column: x => x.CategorieId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -381,8 +449,8 @@ namespace login2.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Consoles_CategorieId",
-                table: "Consoles",
+                name: "IX_Cart_CategorieId",
+                table: "Cart",
                 column: "CategorieId");
 
             migrationBuilder.CreateIndex(
@@ -406,8 +474,23 @@ namespace login2.Migrations
                 column: "CategorieId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderHistory_CategorieId",
+                table: "OrderHistory",
+                column: "CategorieId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Schoenen_CategorieId",
                 table: "Schoenen",
+                column: "CategorieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Spelcomputers_CategorieId",
+                table: "Spelcomputers",
+                column: "CategorieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wishlist_CategorieId",
+                table: "Wishlist",
                 column: "CategorieId");
         }
 
@@ -429,7 +512,7 @@ namespace login2.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Consoles");
+                name: "Cart");
 
             migrationBuilder.DropTable(
                 name: "Drones");
@@ -444,7 +527,16 @@ namespace login2.Migrations
                 name: "Kabels");
 
             migrationBuilder.DropTable(
+                name: "OrderHistory");
+
+            migrationBuilder.DropTable(
                 name: "Schoenen");
+
+            migrationBuilder.DropTable(
+                name: "Spelcomputers");
+
+            migrationBuilder.DropTable(
+                name: "Wishlist");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

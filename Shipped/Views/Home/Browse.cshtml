@@ -2,27 +2,51 @@
 
 
 <h2>Het zoekresultaat:</h2>
+
 @foreach (var kabels in Model.Kabels)
 {
-  <h1>@kabels.Naam</h1>
+  <div style="float:left; margin: 10px;width: 100% ;">
+  <img  src="@Url.Content(kabels.Afbeelding)" width="200px" height= "100px" style=" float: left; padding: 5px;">
+  <a asp-controller="kabel" asp-action="Details" asp-route-id="@kabels.Id"><h1>@kabels.Naam | Type: @kabels.Type | Prijs: @kabels.Prijs</h1></a>
+  </div>
 }
+
 @foreach (var drones in Model.Drones)
 {
-  <h1>@drones.Naam</h1>
+  <div style="float:left;margin: 10px;width: 100% ;">
+  <img src="@Url.Content(drones.Afbeelding)" width="200px" height= "100px" style=" float: left; padding: 5px;">
+  <a asp-controller="drone" asp-action="Details" asp-route-id="@drones.Id"><h1>@drones.Naam | Type: @drones.Type | Prijs: @drones.Prijs</h1></a>
+  </div>
 }
+
 @foreach (var spelcomputers in Model.Spelcomputers)
 {
-  <h1>@spelcomputers.Naam</h1>
+  <div style="float:left;margin: 10px;width: 100% ;">
+  <img src="@Url.Content(spelcomputers.Afbeelding)" width="200px" height= "100px" style=" float: left; padding: 5px;">
+  <a asp-controller="spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><h1>@spelcomputers.Naam | Type: @spelcomputers.Type | Prijs: @spelcomputers.Prijs</h1></a>
+  </div>
 }
+
 @foreach (var horloges in Model.Horloges)
 {
-  <h1>@horloges.Naam</h1>
+  <div style="float:left;margin: 10px;width: 100% ;">
+  <img src="@Url.Content(horloges.Afbeelding)" width="200px" height= "100px" style=" float: left; padding: 5px;">
+  <a asp-controller="horloge" asp-action="Details" asp-route-id="@horloges.Id"><h1>@horloges.Naam | Type: @horloges.Type | Prijs: @horloges.Prijs</h1></a>
+  </div>
 }
+
 @foreach (var fotocameras in Model.Fotocameras)
 {
-  <h1>@fotocameras.Naam</h1>
+  <div style="float:left;margin: 10px;width: 100% ;">
+  <img src="@Url.Content(fotocameras.Afbeelding)" width="200px" height= "100px" style=" float: left; padding: 5px;">
+  <a asp-controller="fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id"><h1>@fotocameras.Naam | Type: @fotocameras.Type | Prijs: @fotocameras.Prijs</h1></a>
+  </div>
 }
+
 @foreach (var schoenen in Model.Schoenen)
 {
-  <h1>@schoenen.Naam</h1>
+  <div style="float:left;margin: 10px;width: 100% ;">
+  <img src="@Url.Content(schoenen.Afbeelding)" width="200px" height= "100px" style=" float: left; padding: 5px;">
+  <a asp-controller="schoen" asp-action="Details" asp-route-id="@schoenen.Id"><h1>@schoenen.Naam | Type: @schoenen.Type | Prijs: @schoenen.Prijs</h1></a>
+  </div>
 }

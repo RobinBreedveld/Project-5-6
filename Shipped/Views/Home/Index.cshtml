@@ -1,4 +1,327 @@
-﻿@model IEnumerable<login2.Models.Categorie>
+﻿@model login2.Models.Categorie
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
+<br>
+<div class="jumbotron jumbotron-fluid" style="background-color: skyblue;">
+  <div class="container" >
+    <h1 class="display-4">Shipped.nl <span class="badge badge-light"> We shipped it!</span></h1> 
+    <p class="lead">Alle gadgets uit China, lage prijzen en binnen 3 werkdagen bezorgd!</p>
+  </div>
+</div>
+
+@if (!User.IsInRole("Admin")) {
+<h3>Populaire producten:</h3>
+<hr/>
+}
+</ul>
+<div class="products" style="float:left;width:100%;height: auto;">
+@foreach (var kabels in Model.Kabels)
+{
+@if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
+            <a asp-controller="Kabel" asp-action="Details" asp-route-id="@kabels.Id"><img class="card-img-top" src="@Url.Content(kabels.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@kabels.Naam</h4>              
+            </div></a>  
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">Prijs: @kabels.Prijs</h4>               
+            </div>
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @kabels.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @kabels.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan winkelwagen" onclick="myKabelsCart()"/>
+                    </p>
+                    </div>
+                </form>
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @kabels.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Kabel", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @kabels.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myKabelsWishlist()" />
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
+<script>
+function myKabelsCart() {
+    alert("@kabels.Naam" + " is toegevoegd aan uw winkelwagen")
+}
+function myKabelsWishlist() {
+    alert("@kabels.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
+}
+
+
+
+@foreach (var drones in Model.Drones)
+{
+@if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
+            <a asp-controller="Drone" asp-action="Details" asp-route-id="@drones.Id"><img class="card-img-top" src="@Url.Content(drones.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+               <h4 class="card-title" style="text-align:center; vertical-align:middle;">@drones.Naam</h4>             
+            </div>    </a>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">Prijs: @drones.Prijs</h4>               
+            </div>
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @drones.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Drone", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @drones.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan winkelwagen" onclick="myDronesCart()"/>
+                    </p>
+                    </div>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @drones.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Drone", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @drones.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myDronesWishlist()" />
+                    </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
+    <script>
+function myDronesCart() {
+    alert("@drones.Naam" + " is toegevoegd aan uw winkelwagen")
+}
+function myDronesWishlist() {
+    alert("@drones.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
+}
+
+
+@foreach (var spelcomputers in Model.Spelcomputers)
+{
+  @if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
+            <a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@spelcomputers.Id"><img class="card-img-top" src="@Url.Content(spelcomputers.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@spelcomputers.Naam</h4>        
+            </div></a>  
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">Prijs: @spelcomputers.Prijs</h4>               
+            </div>
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @spelcomputers.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Spelcomputer", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @spelcomputers.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan winkelwagen" onclick="mySpelcomputersCart()"/>
+                    </p>
+                    </div>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @spelcomputers.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Spelcomputer", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @spelcomputers.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="mySpelcomputersWishlist()" />
+                    </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
+    <script>
+function mySpelcomputersCart() {
+    alert("@spelcomputers.Naam" + " is toegevoegd aan uw winkelwagen")
+}
+function mySpelcomputersWishlist() {
+    alert("@spelcomputers.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
+}
+
+
+@foreach (var horloges in Model.Horloges)
+{
+  @if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
+            <a asp-controller="Horloge" asp-action="Details" asp-route-id="@horloges.Id"><img class="card-img-top" src="@Url.Content(horloges.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@horloges.Naam</h4>               
+            </div></a>  
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">Prijs: @horloges.Prijs</h4>               
+            </div>
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @horloges.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Horloge", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @horloges.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan winkelwagen" onclick="myHorlogesCart()"/>
+                    </p>
+                    </div>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @horloges.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Horloge", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @horloges.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="myHorlogesWishlist()" />
+                    </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
+    <script>
+function myHorlogesCart() {
+    alert("@horloges.Naam" + " is toegevoegd aan uw winkelwagen")
+}
+function myHorlogesWishlist() {
+    alert("@horloges.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
+}
+
+
+@foreach (var fotocameras in Model.Fotocameras)
+{
+  @if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
+            <a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@fotocameras.Id"><img class="card-img-top" src="@Url.Content(fotocameras.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@fotocameras.Naam</h4>                
+            </div></a>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">Prijs: @fotocameras.Prijs</h4>               
+            </div>
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @fotocameras.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @fotocameras.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan winkelwagen" onclick="myFotocamerasCart()"/>
+                    </p>
+                    </div>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @fotocameras.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Fotocamera", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @fotocameras.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default"  class="aantal" type="submit" value="Voeg toe aan wishlist"  onclick="myFotocamerasWishlist()"/>
+                    </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
+    <script>
+function myFotocamerasCart() {
+    alert("@fotocameras.Naam" + " is toegevoegd aan uw winkelwagen")
+}
+function myFotocamerasWishlist() {
+    alert("@fotocameras.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
+}
+
+
+@foreach (var schoenen in Model.Schoenen)
+{
+  @if (!this.User.IsInRole("Admin"))
+    {
+    <div class="products" style="float:left;">
+        <div class="card" style="padding: 5% ;float:left; margin:40px; border:1px solid grey;border-radius: 5px ;">
+            <a asp-controller="Schoen" asp-action="Details" asp-route-id="@schoenen.Id"><img class="card-img-top" src="@Url.Content(schoenen.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">@schoenen.Naam</h4>            
+            </div>    </a> 
+            <div class="card-block">
+                <h4 class="card-title" style="text-align:center; vertical-align:middle;">Prijs: @schoenen.Prijs</h4>               
+            </div>
+            <div>
+                <form  asp-controller="Home" asp-action="AddToShoppingCart" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @schoenen.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Schoen", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @schoenen.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan winkelwagen" onclick="mySchoenenCart()"/>
+                    </p>
+                    </div>
+                </form>
+
+                <form  asp-controller="Wishlist" asp-action="AddToWishlist" method="GET">
+                    <div class="form-group">
+                    <p> @Html.TextBox("aantal", 1, new {style="display:none;"})
+                        @Html.TextBox("product", @schoenen.Id, new {style = "display: none;"})
+                        @Html.TextBox("model", "Schoen", new {style = "display: none;"})
+                        @Html.TextBox("prijs", @schoenen.Prijs, new {style = "display: none;"})
+                        <input  class="btn btn-default" class="aantal" type="submit" value="Voeg toe aan wishlist" onclick="mySchoenenWishlist()" />
+                    </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
+    <script>
+function mySchoenenCart() {
+    alert("@schoenen.Naam" + " is toegevoegd aan uw winkelwagen")
+}
+function mySchoenenWishlist() {
+    alert("@schoenen.Naam" + " is toegevoegd aan uw wishlist")
+}
+</script>
+}
+
+
+    @if (this.User.IsInRole("Admin")) 
+    {
+        <h3>Dit zijn de snelfuncties voor de admin. U kunt deze ook vinden onder het kopje 'mijn account'.</h3>
+        <hr/>
+        <li style="float:left; clear:both;"><a asp-area="" asp-controller="Parser" asp-action="Index"><button><h5>Upload bestanden</h5></button></a></li>
+        <li style="float:left; clear:both; margin-top:8px;"><a asp-area="" asp-controller="User" asp-action="Index"><button><h5>Gebruikersmanagement</h5></button></a></li>
+        <li style="float:left; clear:both; margin-top:8px;"><a asp-area="" asp-controller="Home" asp-action="statistics"><button><h5>Statistieken</h5></button></a></li>
+        <li style="float:left; clear:both; margin: 8px 0px 8px 0px;"><a asp-area="" asp-controller="Home" asp-action="orders"><button><h5>Bestellingen</h5></button></a></li>
+    }
+    
+</div>

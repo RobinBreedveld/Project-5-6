@@ -34,9 +34,9 @@
                 <span asp-validation-for="Merk" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Kleur" class="control-label"></label>
-                <input asp-for="Kleur" class="form-control" />
-                <span asp-validation-for="Kleur" class="text-danger"></span>
+                <label asp-for="Megapixels" class="control-label"></label>
+                <input asp-for="Megapixels" class="form-control" />
+                <span asp-validation-for="Megapixels" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Aantal" class="control-label"></label>
@@ -59,26 +59,6 @@
                 <span asp-validation-for="CategorieId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MegaPixels" class="control-label"></label>
-                <input asp-for="MegaPixels" class="form-control" />
-                <span asp-validation-for="MegaPixels" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Flits" class="control-label"></label>
-                <input asp-for="Flits" class="form-control" />
-                <span asp-validation-for="Flits" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Min_Bereik" class="control-label"></label>
-                <input asp-for="Min_Bereik" class="form-control" />
-                <span asp-validation-for="Min_Bereik" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Max_Bereik" class="control-label"></label>
-                <input asp-for="Max_Bereik" class="form-control" />
-                <span asp-validation-for="Max_Bereik" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
@@ -86,7 +66,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index"><button>Terug naar de lijst</button></a>
 </div>
 
 @section Scripts {

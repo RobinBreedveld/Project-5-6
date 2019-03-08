@@ -20,15 +20,19 @@ namespace login2.Controllers
 {
     public class HorlogeController : Controller
     {
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _manager;
         private readonly ApplicationDbContext _context;
 
-        public HorlogeController(ApplicationDbContext context)
+        public HorlogeController(ApplicationDbContext context, IEmailSender emailSender, UserManager<ApplicationUser> manager)
         {
             _context = context;
-        }
+            _manager = manager;
+            _emailSender = emailSender;
 
+        }
         // GET: Horloge
-        public async Task<IActionResult> Index(string searchString, string sortOrder)
+        public async Task<IActionResult> Index(string searchString, string sortOrder, string merk, int min_prijs, int? max_prijs, string kleur, string type)
         {
             ViewBag.NaamSortParm = String.IsNullOrEmpty(sortOrder) ? "naam" : "";
             ViewBag.TypeSortParm = sortOrder == "type" ? "type_desc" : "type";
@@ -37,12 +41,176 @@ namespace login2.Controllers
             ViewBag.KleurSortParm = sortOrder == "kleur" ? "kleur_desc" : "kleur";
             ViewBag.AantalSortParm = sortOrder == "aantal" ? "aantal_desc" : "aantal";
             ViewBag.Aantal_gekochtSortParm = sortOrder == "aantal_gekocht" ? "aantal_gekocht_desc" : "aantal_gekocht";
-            ViewBag.GrootteSortParm = sortOrder == "grootte" ? "grootte_desc" : "grootte";
-            ViewBag.MateriaalSortParm = sortOrder == "materiaal" ? "materiaal_desc" : "materiaal";
-            ViewBag.GeslachtSortParm = sortOrder == "geslacht" ? "geslacht_desc" : "geslacht";
-            
+            ViewBag.AllesTypes = _context.Horloges.GroupBy(p => new { p.Type })
+                            .Select(g => g.First())
+                            .ToList();
+            ViewBag.AllesMerken = _context.Horloges.GroupBy(p => new { p.Merk })
+                            .Select(g => g.First())
+                            .ToList();
+            ViewBag.AllesKleuren = _context.Horloges.GroupBy(p => new { p.Kleur })
+                           .Select(g => g.First())
+                           .ToList();
             var horloges = from a in _context.Horloges.Include(d => d.Categorie) select a;
-            
+            //Als alles leeg is
+            if (merk == null && min_prijs == 0 && max_prijs == null && kleur == null && type == null)
+            {
+                horloges = from a in _context.Horloges.Include(d => d.Categorie) select a;
+            }
+            //Als alles niet leeg is
+            if (merk != null && min_prijs > 0 && max_prijs != null && kleur != null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
+            }
+
+            //Cases merk
+            //Als merk en kleur niet leeg zijn
+            if (merk != null && min_prijs == 0 && max_prijs == null && kleur != null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Kleur == kleur);
+            }
+            if (merk != null && min_prijs == 0 && max_prijs == null && kleur != null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Kleur == kleur && p.Type == type);
+            }
+            // Als merk niet leeg is
+            if (merk != null && min_prijs == 0 && max_prijs == null && kleur == null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk);
+            }
+
+            if (merk != null && min_prijs == 0 && max_prijs == null && kleur == null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Type == type);
+            }
+
+            //Als merk en min_prijs niet leeg zijn
+            if (merk != null && min_prijs > 0 && max_prijs == null && kleur == null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs >= min_prijs);
+            }
+
+            if (merk != null && min_prijs > 0 && max_prijs == null && kleur == null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Type == type);
+            }
+
+            //Als merk en min_prijs en kleur niet leeg zijn
+            if (merk != null && min_prijs > 0 && max_prijs == null && kleur != null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Kleur == kleur);
+            }
+
+            if (merk != null && min_prijs > 0 && max_prijs == null && kleur != null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Kleur == kleur && p.Type == type);
+            }
+
+            //Als merk en max_prijs niet leeg zijn
+            if (merk != null && min_prijs == 0 && max_prijs != null && kleur == null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs <= max_prijs);
+            }
+
+            if (merk != null && min_prijs == 0 && max_prijs != null && kleur == null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Type == type);
+            }
+
+            //Als merk en max_prijs en kleur niet leeg zijn
+            if (merk != null && min_prijs == 0 && max_prijs != null && kleur != null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Kleur == kleur);
+            }
+            if (merk != null && min_prijs == 0 && max_prijs != null && kleur != null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
+            }
+
+            //Als merk en min_prijs en max_prijs niet leeg zijn
+            if (merk != null && min_prijs > 0 && max_prijs != null && kleur == null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs);
+            }
+            if (merk != null && min_prijs > 0 && max_prijs != null && kleur == null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Merk == merk && p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
+            }
+
+            //Cases min_prijs & max_prijs
+            //Als min_prijs niet leeg is
+            if (merk == null && min_prijs > 0 && max_prijs == null && kleur == null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs >= min_prijs);
+            }
+            if (merk == null && min_prijs > 0 && max_prijs == null && kleur == null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs >= min_prijs && p.Type == type);
+            }
+
+            //Als min_prijs en kleur niet leeg zijn
+            if (merk == null && min_prijs > 0 && max_prijs == null && kleur != null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs >= min_prijs && p.Kleur == kleur);
+            }
+            if (merk == null && min_prijs > 0 && max_prijs == null && kleur != null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs >= min_prijs && p.Kleur == kleur && p.Type == type);
+            }
+
+            //Als max_prijs niet leeg is
+            if (merk == null && min_prijs == 0 && max_prijs != null && kleur == null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs <= max_prijs);
+            }
+            if (merk == null && min_prijs == 0 && max_prijs != null && kleur == null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs <= max_prijs && p.Type == type);
+            }
+
+            //Als max_prijs en kleur niet leeg zijn
+            if (merk == null && min_prijs == 0 && max_prijs != null && kleur != null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs <= max_prijs && p.Kleur == kleur);
+            }
+            if (merk == null && min_prijs == 0 && max_prijs != null && kleur != null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
+            }
+
+            //Als min_prijs en max_prijs niet leeg zijn
+            if (merk == null && min_prijs > 0 && max_prijs != null && kleur == null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs);
+            }
+            if (merk == null && min_prijs > 0 && max_prijs != null && kleur == null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Type == type);
+            }
+            //Als min_prijs en max_prijs en kleur niet leeg zijn
+            if (merk == null && min_prijs > 0 && max_prijs != null && kleur != null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur == kleur);
+            }
+            if (merk == null && min_prijs > 0 && max_prijs != null && kleur != null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Prijs >= min_prijs && p.Prijs <= max_prijs && p.Kleur == kleur && p.Type == type);
+            }
+
+            //Cases kleur
+            //Als kleur niet leeg is
+            if (merk == null && min_prijs == 0 && max_prijs == null && kleur != null && type == null)
+            {
+                horloges = _context.Horloges.Where(p => p.Kleur == kleur);
+            }
+            if (merk == null && min_prijs == 0 && max_prijs == null && kleur != null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Kleur == kleur && p.Type == type);
+            }
+            if (merk == null && min_prijs == 0 && max_prijs == null && kleur == null && type != null)
+            {
+                horloges = _context.Horloges.Where(p => p.Type == type);
+            }
+
             switch (sortOrder)
             {
                 case "naam":
@@ -59,7 +227,7 @@ namespace login2.Controllers
                     break;
                 case "prijs_desc":
                     horloges = horloges.OrderByDescending(s => s.Prijs);
-                    break;   
+                    break;
                 case "merk":
                     horloges = horloges.OrderBy(s => s.Merk);
                     break;
@@ -74,39 +242,21 @@ namespace login2.Controllers
                     break;
                 case "aantal":
                     horloges = horloges.OrderBy(s => s.Aantal);
-                    break; 
+                    break;
                 case "aantal_desc":
                     horloges = horloges.OrderByDescending(s => s.Aantal);
                     break;
                 case "aantal_gekocht":
                     horloges = horloges.OrderBy(s => s.Aantal_gekocht);
-                    break; 
+                    break;
                 case "aantal_gekocht_desc":
                     horloges = horloges.OrderByDescending(s => s.Aantal_gekocht);
                     break;
-                case "grootte":
-                    horloges = horloges.OrderBy(s => s.Grootte);
-                    break; 
-                case "grootte_desc":
-                    horloges = horloges.OrderByDescending(s => s.Grootte);
-                    break; 
-                case "materiaal":
-                    horloges = horloges.OrderBy(s => s.Materiaal);
-                    break; 
-                case "materiaal_desc":
-                    horloges = horloges.OrderByDescending(s => s.Materiaal);
-                    break;
-                case "geslacht":
-                    horloges = horloges.OrderBy(s => s.Geslacht);
-                    break;
-                case "geslacht_desc":
-                    horloges = horloges.OrderByDescending(s => s.Geslacht);
-                    break;         
                 default:
-                     horloges = horloges.OrderBy(s => s.Naam);
+                    horloges = horloges.OrderBy(s => s.Naam);
                     break;
             }
-        
+
             return View(await horloges.ToListAsync());
         }
 
@@ -129,7 +279,7 @@ namespace login2.Controllers
 
             return View(horloge);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Horloge/Create
         public IActionResult Create()
         {
@@ -142,8 +292,8 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
-        public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Grootte,Materiaal,Geslacht")] Horloge horloge)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId")] Horloge horloge)
         {
             if (ModelState.IsValid)
             {
@@ -154,7 +304,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", horloge.CategorieId);
             return View(horloge);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Horloge/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -177,8 +327,8 @@ namespace login2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId,Grootte,Materiaal,Geslacht")] Horloge horloge)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Naam,Prijs,Merk,Kleur,Aantal,Afbeelding,Aantal_gekocht,CategorieId")] Horloge horloge)
         {
             if (id != horloge.Id)
             {
@@ -208,7 +358,7 @@ namespace login2.Controllers
             ViewData["CategorieId"] = new SelectList(_context.Categories, "Id", "Id", horloge.CategorieId);
             return View(horloge);
         }
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Horloge/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -231,19 +381,19 @@ namespace login2.Controllers
         // POST: Horloge/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var horloge = await _context.Horloges.SingleOrDefaultAsync(m => m.Id == id);
+            var horloge = await _context.Horloges.FirstOrDefaultAsync(m => m.Id == id);
             _context.Horloges.Remove(horloge);
-            await _context.SaveChangesAsync();
-            //deletes cartitem with same id as deleted item
+            HomeController controller = new HomeController(_context, _emailSender, _manager);
 
-            var delete = await _context.Cart.SingleOrDefaultAsync(m => m.Product_Id == id && m.Model_naam == "Horloge");
-            if (delete != null){
-            _context.Cart.Remove(delete);
+
+            await controller.DeleteAllFromShoppingCart(id, "Horloge");
+            WishlistController wishlistcontroller = new WishlistController(_context);
+
+            await wishlistcontroller.DeleteAllFromWishlist(id, "Horloge");
             await _context.SaveChangesAsync();
-            }
             return RedirectToAction(nameof(Index));
         }
 

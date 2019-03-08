@@ -1,0 +1,125 @@
+@model login2.Models.Categorie
+
+<h2>Pas hier de orderstatus aan</h2>
+<hr/>
+
+<ul class="list-inline">
+<li class="list-inline-item"><h1>Ordernummer:</h1></li>
+
+<li class="list-inline-item"><h1>@Model.OrderHistory.First().Order_nummer</h1></li>
+</ul>
+<ul class="list-inline">
+<li class="list-inline-item"><h1>User_Id:</h1></li>
+
+<li class="list-inline-item"><h1>@Model.OrderHistory.First().User_Id</h1></li>
+</ul>
+
+<h1>Producten:</h1>
+<hr/>
+@foreach (var items in Model.OrderHistory) {     
+     @foreach (var item in Model.Drones) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Drone") {
+          <div style="height: 100px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Drone" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal) | Status: @items.Status</a></h1>
+          </div>
+          <form  asp-controller="Home" asp-action="EditOrder" method="POST">
+                @Html.TextBox("new_status")
+                @Html.TextBox("old_status",@items.Status, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
+                <input class="Status" type="submit" value="Update status" />
+            </form>
+            <hr/>
+          }
+     }
+     @foreach (var item in Model.Kabels) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Kabel") {
+          <div style="height: 100px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Kabel" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal) | Status: @items.Status</a></h1>
+          </div>
+          <form  asp-controller="Home" asp-action="EditOrder" method="POST">
+                @Html.TextBox("new_status")
+                @Html.TextBox("old_status",@items.Status, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
+                <input class="Status" type="submit" value="Update status" />
+            </form>
+            <hr/>
+          }
+     }
+     @foreach (var item in Model.Fotocameras) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Fotocamera") {
+          <div style="height: 100px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Fotocamera" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal) | Status: @items.Status</a></h1>
+          </div>
+          <form  asp-controller="Home" asp-action="EditOrder" method="POST">
+                @Html.TextBox("new_status")
+                @Html.TextBox("old_status",@items.Status, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
+                <input class="Status" type="submit" value="Update status" />
+            </form>
+            <hr/>
+          }
+     }
+     @foreach (var item in Model.Horloges) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Horloge") {
+          <div style="height: 100px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Horloge" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal) | Status: @items.Status</a></h1>
+          </div>
+          <form  asp-controller="Home" asp-action="EditOrder" method="POST">
+                @Html.TextBox("new_status")
+                @Html.TextBox("old_status",@items.Status, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
+                <input class="Status" type="submit" value="Update status" />
+            </form>
+            <hr/>
+          }
+     }
+     @foreach (var item in Model.Spelcomputers) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Spelcomputer") {
+          <div style="height: 100px;width: 100% ;">
+          <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Spelcomputer" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal) | Status: @items.Status</a></h1>
+          </div>
+          <form  asp-controller="Home" asp-action="EditOrder" method="POST">
+                @Html.TextBox("new_status")
+                @Html.TextBox("old_status",@items.Status, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
+                <input class="Status" type="submit" value="Update status" />
+            </form>
+            <hr/>
+          }
+     }
+     @foreach (var item in Model.Schoenen) {
+        @if (item.Id == items.Product_Id && items.Model_naam == "Schoen") {
+          <div style="height: 100px;width: 100% ;">
+           <img class="card-img-top" src="@Url.Content(item.Afbeelding)" alt="Card image cap" width="200px" height= "100px" style="float:left; padding: 5px;";>
+        <h1><a asp-controller="Schoen" asp-action="Details" asp-route-id="@item.Id">@item.Naam | Aantal: @items.Aantal | Prijs: @(@items.Prijs * @items.Aantal) | Status: @items.Status</a></h1>
+          </div>
+          <form  asp-controller="Home" asp-action="EditOrder" method="POST">
+                @Html.TextBox("new_status")
+                @Html.TextBox("old_status",@items.Status, new {style = "display: none;"} )
+                @Html.TextBox("id",@items.Id, new {style = "display: none;"} )
+                @Html.TextBox("model",@items.Model_naam, new {style = "display: none;"} )
+                @Html.TextBox("user_id",@items.User_Id, new {style = "display: none;"} )
+                <input class="Status" type="submit" value="Update status" />
+            </form>
+            <hr/>
+          }
+     }
+}
+<div>
+    <a asp-action="Orders"><button style="margin-top:8px;">Terug naar de lijst</button></a>
+</div>

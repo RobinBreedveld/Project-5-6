@@ -36,10 +36,10 @@
             @Html.DisplayFor(model => model.Merk)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Kleur)
+            @Html.DisplayNameFor(model => model.Lengte)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Kleur)
+            @Html.DisplayFor(model => model.Lengte)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Aantal)
@@ -60,12 +60,6 @@
             @Html.DisplayFor(model => model.Aantal_gekocht)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Lengte)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Lengte)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Categorie)
         </dt>
         <dd>
@@ -75,7 +69,9 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-default" />
     </form>
+    <br>
+    <a asp-action="Index"><button>Terug naar de lijst</button></a>
+    
 </div>

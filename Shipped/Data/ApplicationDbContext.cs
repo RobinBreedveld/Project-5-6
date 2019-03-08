@@ -19,11 +19,9 @@ namespace login2.Data
         public DbSet<Fotocamera> Fotocameras { get; set; }
         public DbSet<Schoen> Schoenen { get; set; }
         public DbSet<Cart> Cart { get; set; }
-
+        public DbSet<OrderHistory> OrderHistory { get; set; }
+        public DbSet<Wishlist> Wishlist { get; set; }
         public DbSet<login2.Models.ApplicationUser> ApplicationUser { get; set; }
-
-
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

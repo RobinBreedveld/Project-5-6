@@ -33,9 +33,9 @@
                 <span asp-validation-for="Merk" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Kleur" class="control-label"></label>
-                <input asp-for="Kleur" class="form-control" />
-                <span asp-validation-for="Kleur" class="text-danger"></span>
+                <label asp-for="Lengte" class="control-label"></label>
+                <input asp-for="Lengte" class="form-control" />
+                <span asp-validation-for="Lengte" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Aantal" class="control-label"></label>
@@ -57,11 +57,6 @@
                 <select asp-for="CategorieId" class ="form-control" asp-items="ViewBag.CategorieId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Lengte" class="control-label"></label>
-                <input asp-for="Lengte" class="form-control" />
-                <span asp-validation-for="Lengte" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>
@@ -69,7 +64,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index"><button>Terug naar de lijst</button></a>
 </div>
 
 @section Scripts {

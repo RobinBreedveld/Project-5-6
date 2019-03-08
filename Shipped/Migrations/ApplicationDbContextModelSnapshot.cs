@@ -79,6 +79,8 @@ namespace login2.Migrations
 
                     b.Property<string>("Beschrijving");
 
+                    b.Property<int?>("CategorieId");
+
                     b.Property<string>("Merk");
 
                     b.Property<string>("Model_naam");
@@ -92,6 +94,8 @@ namespace login2.Migrations
                     b.Property<string>("User_Id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
 
                     b.ToTable("Cart");
                 });
@@ -115,13 +119,9 @@ namespace login2.Migrations
 
                     b.Property<int>("Aantal_gekocht");
 
-                    b.Property<int>("Aantal_rotors");
-
                     b.Property<string>("Afbeelding");
 
                     b.Property<int>("CategorieId");
-
-                    b.Property<int>("Grootte");
 
                     b.Property<string>("Kleur");
 
@@ -153,17 +153,9 @@ namespace login2.Migrations
 
                     b.Property<int>("CategorieId");
 
-                    b.Property<string>("Flits");
-
-                    b.Property<string>("Kleur");
-
-                    b.Property<int>("Max_Bereik");
-
-                    b.Property<int>("MegaPixels");
+                    b.Property<string>("Megapixels");
 
                     b.Property<string>("Merk");
-
-                    b.Property<int>("Min_Bereik");
 
                     b.Property<string>("Naam");
 
@@ -191,13 +183,7 @@ namespace login2.Migrations
 
                     b.Property<int>("CategorieId");
 
-                    b.Property<string>("Geslacht");
-
-                    b.Property<int>("Grootte");
-
                     b.Property<string>("Kleur");
-
-                    b.Property<string>("Materiaal");
 
                     b.Property<string>("Merk");
 
@@ -227,8 +213,6 @@ namespace login2.Migrations
 
                     b.Property<int>("CategorieId");
 
-                    b.Property<string>("Kleur");
-
                     b.Property<int>("Lengte");
 
                     b.Property<string>("Merk");
@@ -246,6 +230,38 @@ namespace login2.Migrations
                     b.ToTable("Kabels");
                 });
 
+            modelBuilder.Entity("login2.Models.OrderHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<string>("Beschrijving");
+
+                    b.Property<int?>("CategorieId");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Model_naam");
+
+                    b.Property<string>("Order_nummer");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<int>("Product_Id");
+
+                    b.Property<string>("Status");
+
+                    b.Property<string>("User_Id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.ToTable("OrderHistory");
+                });
+
             modelBuilder.Entity("login2.Models.Schoen", b =>
                 {
                     b.Property<int>("Id")
@@ -259,13 +275,9 @@ namespace login2.Migrations
 
                     b.Property<int>("CategorieId");
 
-                    b.Property<string>("Geslacht");
-
                     b.Property<string>("Kleur");
 
                     b.Property<int>("Maat");
-
-                    b.Property<string>("Materiaal");
 
                     b.Property<string>("Merk");
 
@@ -295,15 +307,11 @@ namespace login2.Migrations
 
                     b.Property<int>("CategorieId");
 
-                    b.Property<string>("Kleur");
+                    b.Property<int>("Geheugen");
 
                     b.Property<string>("Merk");
 
                     b.Property<string>("Naam");
-
-                    b.Property<int>("Opslagcapaciteit");
-
-                    b.Property<string>("Opties");
 
                     b.Property<int>("Prijs");
 
@@ -314,6 +322,36 @@ namespace login2.Migrations
                     b.HasIndex("CategorieId");
 
                     b.ToTable("Spelcomputers");
+                });
+
+            modelBuilder.Entity("login2.Models.Wishlist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Aantal");
+
+                    b.Property<string>("Beschrijving");
+
+                    b.Property<int?>("CategorieId");
+
+                    b.Property<string>("Merk");
+
+                    b.Property<string>("Model_naam");
+
+                    b.Property<int>("Order_nummer");
+
+                    b.Property<int>("Prijs");
+
+                    b.Property<int>("Product_Id");
+
+                    b.Property<string>("User_Id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.ToTable("Wishlist");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -423,6 +461,13 @@ namespace login2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("login2.Models.Cart", b =>
+                {
+                    b.HasOne("login2.Models.Categorie")
+                        .WithMany("Carts")
+                        .HasForeignKey("CategorieId");
+                });
+
             modelBuilder.Entity("login2.Models.Drone", b =>
                 {
                     b.HasOne("login2.Models.Categorie", "Categorie")
@@ -455,6 +500,13 @@ namespace login2.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("login2.Models.OrderHistory", b =>
+                {
+                    b.HasOne("login2.Models.Categorie")
+                        .WithMany("OrderHistory")
+                        .HasForeignKey("CategorieId");
+                });
+
             modelBuilder.Entity("login2.Models.Schoen", b =>
                 {
                     b.HasOne("login2.Models.Categorie", "Categorie")
@@ -469,6 +521,13 @@ namespace login2.Migrations
                         .WithMany("Spelcomputers")
                         .HasForeignKey("CategorieId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("login2.Models.Wishlist", b =>
+                {
+                    b.HasOne("login2.Models.Categorie")
+                        .WithMany("Wishlists")
+                        .HasForeignKey("CategorieId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
